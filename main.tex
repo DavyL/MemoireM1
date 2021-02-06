@@ -1,0 +1,89 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+
+\usepackage[backend = bibtex]{biblatex}
+\addbibresource{bibliography.bib}
+
+\theoremstyle{Definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{Preuve}
+\newtheorem{preuve}{Preuve}[]
+
+\theoremstyle{Proposition}
+\newtheorem{proposition}{Proposition}[section]
+
+\theoremstyle{Exemple}
+\newtheorem{exemple}{Exemple}[section]
+
+\theoremstyle{Theoreme}
+\newtheorem{theoreme}{Theoreme}[section]
+
+\theoremstyle{Remarque}
+\newtheorem{remarque}{Remarque}[section]
+
+
+\newcommand{\notimplies}{
+	\mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+%\title{Different approaches to random graphs: Erd\H{o}s-R\'enyi and Branching Processes}
+
+%\author{Leo \textsc{Davy} }
+%\date{2019\\ March-May}
+\usepackage{hyperref}
+\begin{document}
+\begin{titlepage}
+	\begin{center}
+		\vspace*{1cm}
+		\huge
+		\textbf{Reconstruction parcimonieuse de signal\\}
+		\vspace*{0.5cm}
+	        \LARGE
+		Introduction à la reconstruction de signal et au compressed sensing\\ 
+		\vspace{1.5cm}
+		\textbf{Leo Davy}
+		\vfill				      
+	        supervisé par\par
+		\textbf{Jean-François \textsc{Crouzet}}
+							    
+		\vspace{0.8cm}
+		%\begin{wrapfigure}{r}{0.1\textwidth}
+		%	\centering
+		%	\includegraphics[width=0.4\textwidth]{logo_uob}
+		%\end{wrapfigure}
+		
+		\Large					  
+		Institut de Mathématiques Alexander Grothendieck\\
+		Université de Montpellier\\
+	        Faculté des sciences\\
+	        Février-Mai
+				      
+	\end{center}
+\end{titlepage}
+
+%\maketitle
+
+\tableofcontents{}
+
+\chapter{Cadre du problème}
+\input{Chapters/Introduction.tex}
+
+\chapter{Approche parcimonieuse}
+\input{Chapters/Parcimonie.tex}
+
+\chapter{Compressed sensing et approche aléatoire}
+\input{Chapters/Compressed.tex}
+
+%\chapter{Generalised models}
+%\input{Chapters/ConfigurationModel.tex}
+
+\appendix
+
+\chapter{Annexe}
+\input{Chapters/Appendix.tex}
+
+%\nocite{*}
+\printbibliography
+
+\end{document}

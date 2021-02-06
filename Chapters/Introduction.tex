@@ -1,0 +1,190 @@
+\section{Problématique de la reconstruction de signal}
+La reconstruction du signal est un problème que l'on considère dans le cadre du traitement du signal, c'est à dire que l'on considère qu'à un signal, on peut appliquer une transformation, et de cette transformation on obtient un nouveau signal qui aura certaines caractéristiques permettant de mieux comprendre ce signal.
+D'un point de vue plus formel, on considère une famille de signaux $\mathcal{F}$, chaque élément de cette famille étant une application $f : X \longrightarrow Y$, et on considère un opérateur $A : \mathcal{F} \longrightarrow \mathcal{G}$, où $\mathcal{G}$ est une autre famille de signaux.
+Donnons ici quelques exemples de familles de fonctions que l'on rencontrera dans ce mémoire. Commencons avec les fonctions à temps continu (c'est à dire avec $X = \mathbb{R}^d$ pour un certain $d>0$).
+%%TODO : remplacer d par N pour être cohérent avec la suite
+\begin{exemple}
+	Signaux à énergie finie :
+	\begin{enumerate}
+		\item $\mathcal{F} = L^2(\mathbb{R}^d) := \{f : \mathbb{R}^d \longrightarrow \mathbb{R} | \int_\mathbb{R}^d |f(t)|^2dt < \infty\}$.
+		\item $\mathcal{F} = L^p(\mathbb{R}^d) := \{f : \mathbb{R}^d \longrightarrow \mathbb{R} | \int_\mathbb{R}^d |f(t)|^pdt < \infty\}$, pour $0 < p \leq 1$.
+		\item $\mathcal{F} = L^\infty(\mathbb{R}^d) := \{f : \mathbb{R}^d \longrightarrow \mathbb{R} | \sup_{t\in \mathbb{R}^d} |f(t)| < \infty\}$.
+	\end{enumerate}
+	Signaux avec une régularité :
+	\begin{enumerate}
+		\item $\mathcal{F} = \mathcal{C}^0(\mathbb{R}^d) =\{f : \mathbb{R}^d \longrightarrow \mathbb{R} \text{avec } f \text{ continue}\}$.
+		\item $\mathcal{F} = \mathcal{C}^r(\mathbb{R}^d) =\{f : \mathbb{R}^d \longrightarrow \mathbb{R} \text{avec } \forall t \in \mathbb{R}^d \sup_{0\leq k \leq r} | f^{(k)}(t)| < \infty$.
+	\end{enumerate}
+\end{exemple}
+on pourra aussi considérer pour chacun des espaces ci-dessus, leur version à support compact, notée avec l'indice $_\text{loc}$ (par exemple $L^p_\text{loc}$ ou $\mathcal{C}^p_\text{loc}$ ) pour indiquer que pour tout $f\in \mathcal{F}_\text{loc}$, il existe un $C \geq 0$ tel que $\lvert t \rvert \geq C \implies f(t) = 0$. On considérera également des càs où $X$ est un ouvert ou un fermé de $\mathbb{R}^d$
+Un autre espace qui sera peut être utilisé est l'espace de Sobolev $W^{r, p}$ qui représente des signaux à énergie finie pour $||\cdot|| _p$, mais dont chaque dérivéé (définie faiblement) d'ordre inférieur ou égal à $r$ est elle aussi à énergie finie.
+\newline
+Une autre classe d'intérêt de signaux majeur est celle des signaux à temps discret (c'est à dire avec $X = \mathbb{N}^d$).
+\begin{exemple}
+	Signaux à énergie finie :
+	\begin{enumerate}
+		\item $\mathcal{F} = l^2(\mathbb{N}^d) := \{f : \mathbb{N}^d \longrightarrow \mathbb{R} | \sum_\mathbb{N}^d |f(t)|^2 < \infty\}$.
+		\item $\mathcal{F} = l^p(\mathbb{N}^d) := \{f : \mathbb{N}^d \longrightarrow \mathbb{R} | \sum_\mathbb{N}^d |f(t)|^p < \infty\}$, pour $0 < p \leq 1$.
+		\item $\mathcal{F} = l^\infty(\mathbb{N}^d) := \{f : \mathbb{N}^d \longrightarrow \mathbb{R} | \sup_{t\in \mathbb{N}^d} |f(t)| < \infty\}$.
+	\end{enumerate}
+\end{exemple}
+On verra plus loin que l'on peut également définir une notion de régularité intéressante pour les signaux à temps discret.
+\begin{remarque}
+	Dans les exemples ci-dessus les signaux sont à valeur dans $Y = \mathbb{R}$, cependant toutes ces exemples peuvent être considérées avec $\mathbb{C}$ comme espace d'arrivée. 
+\end{remarque}
+
+\subsection{Exemples de signaux étudiés (image, sons, tomographie, ...) et formalisation mathématique de leur description}
+Considérons maintenant de façon plus concrète des exemples de signaux étudiés afin d'introduire l'opérateur $A$.
+\newline
+TODO : Pour chacun des exemples ci-dessous, formaliser le problème et poser sa solution comme un problème de minimisation "$argmin$"
+
+\begin{exemple} L'exemple le plus simple pour introduire le sujet est celui d'un signal à une dimension, on pourra par exemple penser à un signal décrivant un son ou bien un signal electrique, d'une durée finie, et à chaque instant on peut associer une amplitude. D'un point de vue formel on pourra ainsi considérer que ce signal est $f:[0, 1] \longrightarrow \mathbb{R}^+$. On pourra cherche à faire différentes opérations sur ce signal :
+	\begin{itemize}
+		\item \it{Echantillonage}
+		\item \it{Seuil}
+		\item \it{Décomposition harmonique (Fourier)}
+		\item \it{Filtrage}
+	\end{itemize}
+\end{exemple}
+\begin{exemple}
+	Après avoir considéré le signal à une dimension, un autre type de signal est celui des signaux en deux ou trois dimensions  dimensions dont l'exemple type est celui des vidéos ou des images :
+	\begin{itemize}
+		\item \it{Débruitage}
+		\item \it{Super-résolution}
+		\item \it{Compression}
+		\item \it{Détection / Reconnaissance}
+	\end{itemize}
+\end{exemple}
+\begin{exemple}
+	Une autre problématique essentielle que l'on considérera en profondeur dans ce mémoire est celui des problèmes inverses dans lesquels à partir d'un signal mesuré, on cherchera à reconstruire ce qui a émis ce signal.
+	\begin{itemize}
+		\item \it{Tomographie (transformée de Radon)} 
+		\item \it{Géologie/IRM}
+	\end{itemize}  
+\end{exemple}
+\begin{exemple}
+	Récemment, des problèmes avec des signaux en grande dimension sont aussi apparus, notamment dans des problématiques de type big-data.
+\end{exemple}
+
+Cependant sur ces problèmes il y a une ambiguité sur la définition de la dimension qui est considérée comme la dimension de l'espace de départ du signal considéré, mais cependant, chaque signal appartient à un espace qui n'a à priori aucune raison d'être fini. 
+De plus, chacun de ces problèmes commence par une mesure qui est toujours un processus discret et le reste du traitement est réalisé sur un ordinateur qui est lui aussi un processus discret.
+Ainsi chacun de ces problèmes est discretisé et alors la dimension\footnote{On considère ici la "dimension" comme étant le nombre de degré de libertés du signal étudié.} du signal augmente de façon considérable, ainsi, une image photographie a typiquement une dimension $d >> 10^6$.
+
+\section{Exactitude, échantillonage et bruit}
+\subsection{Lien entre l'exactitude et l'échantillonage}
+Ainsi il est nécessaire d'adapter la stratégie d'échantillonage, un échantillonage insuffisant ou inaproprié ne permettra pas avec certitude de pouvoir récupérer l'information sous-jacente au signal.
+Un échantillonage qui prendrait trop de mesures pose aussi des problèmes, premièrement car si la taille de ces mesures est trop importante, il sera difficile de faire des opérations dessus et cela compliquera la résolution du problème. 
+Mais aussi, car augmenter le nombre de mesures risque de ne pas apporter davantage d'informations pour la résolution du problème \footnote{On peut ici penser aux problématiques d'\it{overfitting} du Machine Learning dans lesquels un système qui est trop entrainé sur un ensemble de données devient inefficace dès qu'il est testé sur des données sur lesquelles il n'a pas été entrainé}
+, et dans certains cas, ces mesures superflues risquent seulement de mesurer du bruit et donc de diminuer l'efficacité de la résolution.
+Il est donc nécessaire pour une famille de signaux donnée d'avoir des conditions nécessaires sur l'échantillonage, pour veiller à être certain d'étudier au moins le signal, mais aussi des conditions suffisantes pour ne pas étudier trop au delà du signal.
+\subsection{L'importance du bruit dans les problèmes}
+Ainsi il est nécessaire de prendre en compte le fait qu'il y ait des sources de bruit dans les problèmes considérés et on cherchera donc à vérifier que les constructions qui viendront seront stables face au bruit.
+Une remarque importante à faire est que le bruit est généralement constitué de modifications très locales (que l'on considérera ainsi comme "hautes-fréquences").
+
+\section{Bases orthonormales et frames}
+\subsection{Intérêt des bases orthonormales et description des outils mathématiques disponibles}
+Une approche classique et pratique pour l'analyse de signaux est l'utilisation d'une base orthonormale pour représenter un signal. 
+En effet l'intérêt est multiple, si l'on connait une base orthonormale de décomposition d'un signal, alors il y aura une unique façon d'écrire ce signal dans cette base, mais surtout, l'espace est alors naturellement d'un produit scalaire qui permettra d'utiliser tout l'outillage des espaces de Hilbert pour résoudre le problème.
+
+\subsection{Lien entre frames et base orthonormale}
+Rappelons tout d'abord les définitions et propriétés de base d'une base orthonormale. On considère ici un espace $H$ qui est engendré par la famille libre $\{e_i\}_I$, avec $I$ un ensemble.
+Donc, pour tout $h \in H$, il existe une unique suite $(\lambda_i)_{i \in I}$ scalaires tous nuls sauf un nombre fini, tels que $ h = \sum_{i \in I} \lambda_i e_i$.
+On peut alors définir un produit scalaire : 
+\begin{align}
+	\langle \cdot, \cdot \rangle :  H \times H &\to \mathbb{R} \\
+		(h_1= (\lambda_i)_I, h_2 = (\mu_i)_I) &\mapsto \langle h_1, h_2 \rangle = \sum_I \lambda_i \mu_i^*
+\end{align}
+On a alors le théorème suivant qui nous donne une condition nécessaire et suffisante pour que l'espace engendré par une famille $\{f_i\}$ soit dense dans H:
+\begin{theoreme}
+	Soit $\{f_i\}_I$ une suite d'éléments orthonormaux dans $H$ muni d'un produit scalaire.
+	Alors $\overline{\text{Vect}(\{f_i\}_I)} = H$ si et seulement si 
+	\begin{equation*}
+		\sum_I |\langle f, f_i \rangle |^2 = ||f||_2 ^2 \quad, \forall f \in H.
+	\end{equation*}
+\end{theoreme}
+Cependant, comme on le verra dans la suite, il y a des situations dans lesquelles chercher à avoir une base orthonormale est trop restrictif, on cherchera donc à relacher les conditions sur la définition d'une base.
+\newline
+Remarquons tout d'abord quelques résultats,
+\begin{theoreme}
+	Soit $\{f_i\}_I$ une famille d'éléments orthogonale de $H$.
+	Alors,
+	\begin{equation*}
+		\sum_I |\langle f, f_i \rangle|^2 \leq ||f||_2 ^2, \forall f \in H
+	\end{equation*}
+\end{theoreme}
+et on a les définitions suivantes
+\begin{definition}
+	Pour une famille d'éléments $\{f_i\}_I$ de $H$, alors on dit que c'est 
+	\begin{enumerate}
+		\item Une suite de \it{Bessel} si il existe une constante $M>0$ telle que
+			\begin{equation*}
+				\sum_I |\langle f, f_i \rangle|^2 \leq B||f||^2, \forall f \in H.
+			\end{equation*}
+		\item Un \it{frame} si il existe des constantes $M, m>0$ telles que
+			\begin{equation*}
+				A||f||^2 \leq \sum_I |\langle f, f_i \rangle|^2 \leq B||f||^2, \forall f \in H.
+			\end{equation*}
+		\item Une \it{base de Riesz} si il existe des constantes $M, m>0$ telles que
+			\begin{equation*}
+				A\sum |c_k|^2 \leq ||\sum c_k f_k||^2 \leq B\sum |c_k|^2
+			\end{equation*}
+		pour n'importe quelle suite finie $\{c_k\}$.
+	\end{enumerate}
+\end{definition}
+\begin{remarque}
+	\begin{itemize}
+		\item Toute base orthonormale est une base de Riesz.
+		\item Toute base de Riesz est un frame.
+	\end{itemize}
+\end{remarque}
+Lorsque l'on dispose d'une suite $E = \{e_i\}_I$ on peut définir les opérateurs d'analyse
+\begin{equation*}
+	\theta_E (f) = \{\langle f, e_i \rangle\}_I 
+\end{equation*}
+et de synthèse
+\begin{equation*}
+	\theta^*_E( \{c_i\}_I) = \sum_I c_i e_i  
+\end{equation*}
+
+\subsection{Exemples de frames (Fourier, ondelettes)}
+On s'interesse maintenant à une famille de signaux $\mathcal{F} \subset \mathbb{R}^N$.
+On a vu que les familles orthonormales forment des frames, on a donc la proposition :
+\begin{proposition}
+	\begin{enumerate}
+		\item La transformée de Fourier discrète est un frame pour $\mathcal{F}$.
+		\item Les ondelettes forment un frame pour $\mathcal{F}$.
+	\end{enumerate}
+\end{proposition}
+\begin{preuve}
+	\begin{enumerate}
+		\item On utilisera la transformée de Fourier discrète écrite sous forme de matrice unitaire, qui est une matrice unitaire de Vandermonde avec les racines de l'unité en coefficients. Avec de l'algèbre on montre l'orthonormalité des colonnes.
+		\item Application du théorème suivant.
+	\end{enumerate}
+\end{preuve}
+
+\begin{theoreme}
+	Soit $\mathcal{Q} \subset \mathcal{R}^d$ un ensemble de mesure finie, $h \in L^2(\mathbb{R}^d)$
+	et $\mathcal{A} =\{A_j \in GL_d(R)\}_J$ une famille de matrices inversibles.
+	\newline
+	Pour tout $j \in J$, on pose $B_j =(A_j^T)^{-1}, S_j = A_j^TQ, h_j = h(B_j \cdot)$
+	et soit $\mathcal{S} = \{S_j\}_J$.
+	\newline
+	On suppose que $\mathcal{S}$ est un recouvrement de $\mathbb{R}^d$, $\mathcal{H}$ est une partition de Riesz de l'unité avec des bornes $p$ et $P$ et que $Supp(h) \subset Q$.
+	\newline
+	Soit $X = \{x_{j,k} \in \mathbb{R}^d : j\in J, k \in K\}$ tel que quelque soit $j \in J$, 
+	l'ensemble $\{e_{x_{j,k}}\chi_Q\}_K$ forme un frame pour $\mathcal{K}_Q$ avec des bornes $m_j$ et $M_j$. 
+	\newline
+	Si $m := \inf_J m_j > 0$ et $M= \sup_J M_j < \infty$, alors la collection
+	\begin{equation*}
+		\{|\det A_j|^{1/2} \psi(A_j x - x_{j,k})\}_{J, K}
+	\end{equation*}
+	forme un frame d'ondelettes de $L^2(\mathbb{R}^d)$ avec des bornes $mp$ et $MP$, 
+	engendré par une seule fonction $\psi$ où $\psi$ est la transformée de Fourier inverse de $h$.
+\end{theoreme}
+\begin{preuve}
+	Voir \cite{IrregWav} pour la preuve et les définitions, je les ajouterais ici et au dessus plus tard %%TODO 
+\end{preuve}
+\section{Le théorème de Shannon-Nyquist}
+\subsection{L'échantillonage selon Shannon d'un signal à support compact en fréquence}
+\subsection{L'échantillonage selon Shannon d'un signal k-sparse}
+

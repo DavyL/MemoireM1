@@ -1,0 +1,169 @@
+\section{Axiomatisation, \textbf{UUP} et \textbf{RIP}}
+Dans ce chapitre on considère $\mathcal{F} \subset \mathbb{R}^N$ un classe de signaux.
+On cherche à pouvoir reconstruire chaque élément $f\in \mathcal{F}$ avec une précision $\varepsilon$ en utilisant une famille de vecteurs $(\psi_k)_{k \in \Omega}$.
+\newline
+C'est à dire, on considère une application d'analyse,
+\begin{align}
+	\theta : 	&\mathcal{F} \longrightarrow \mathbb{R}^{|\Omega|}\\
+	(f_k)_{k = 0, \cdots, N} = &f \longmapsto (y_k = \langle f, \psi_k \rangle )_{k\in \Omega} = \theta(f)
+\end{align}
+et une application de synthèse associée
+\begin{align}
+	\mathbb{R}^{|\Omega|} &\longrightarrow \mathcal{F}^\# \subset \mathbb{R}^N \\
+	(y_k)_\Omega &\longmapsto (y_k)^\# = (f_k ^\#)_{k = 0, \cdots, N}
+\end{align}
+et on cherche à obtenir une $\varepsilon$-reconstruction :
+\begin{equation}
+	|| f- \theta(f)^\#||_2 \leq \varepsilon \quad, \forall f \in \mathcal{F}. 
+\end{equation}
+Le problème est donc de choisir une famille $(\psi_k)_{k \in \Omega}$ pour qu'il soit possible d'obtenir la dernière inégalité.
+\newline
+On remarque aussi que $||\theta(f)||_0 \leq |\Omega|$, ainsi on cherchera à avoir un $K(\varepsilon) = K = |\Omega|$ dans la suite.
+\newline
+On considèrera $F_\Omega$ une matrice aléatoire avec $|\Omega|$ lignes et $N$ colonnes dont les coefficients suivent une distribution de probabilités.
+On considère aussi que $|\Omega|$ est aussi une variable aléatoire à valeurs dans $\{0, \cdot, N\}$ et on notera $K = \mathbb{E}(|\Omega|)$.
+On note
+\begin{align}
+	R_\Omega : \ell^2([0, N]) &\longrightarrow \ell^2(\Omega) \\
+		(g_k)_{0\leq k\leq N} &\longmapsto (g_k)_{k\in \Omega}
+\end{align}
+et l'inclusion prolongée par des zéros
+\begin{align}
+	R_T^* : \ell^2(T) &\longrightarrow \ell^2([0,N])\\
+		(g_k)_{k \in T} &\longmapsto (g_k)_{k\in T} \oplus (0)_{k\in T^c}.
+\end{align}
+On considèrera aussi par la suite la matrice aléatoire $F_{\Omega T}$ en conservant que les $|T|$ colonnes indexées par $T$ de la matrice $F_{\Omega}$, c'est à dire :
+\begin{align}
+	F_{\Omega T} = F_{\Omega} R_T^* : \ell^2(T) &\longrightarrow \ell^2(\Omega)\\
+		(g_k)_T &\longmapsto F_{\Omega}( (g_k)_T \oplus (0)_T^c ).
+\end{align}
+On remarque aussi que $F_{\Omega T}^* F_{\Omega T} : \ell^2(T) \rightarrow \ell^2(T)$ est symétrique et que l'on peut la diagonaliser sous la forme $U \Lambda U^*$ où $\Lambda = (\lambda_1 \geq \cdots \geq \lambda_{|T|})$ sont les valeurs propres de $F_{\Omega T}^* F_{\Omega T}$.
+\subsection{Définition de \textbf{UUP}} 
+On peut alors définir le principe uniforme d'incertitude (Uniform Uncertainty Principle), 
+\begin{definition}
+	On dit que $F_\Omega$ vérifie $\lambda$-\textbf{UUP} si il existe $\rho$ tel que avec probabilité $1 - \mathcal{O}(N^{-\rho / \alpha})$ on ait:
+	\newline
+	$\forall f \subset \mathbb{R}^N$ signal tel que 
+	\begin{equation}\label{eq:UUP1}
+		|supp(f)| \leq \alpha K /\lambda
+	\end{equation}
+	on ait l'inégalité
+	\begin{equation}\label{eq:UUP2}
+		\frac{1}{2}\frac{K}{N} ||f||_2^2\leq ||F_\Omega f||_2^2 \leq \frac{3}{2} \frac{K}{N} ||f||_2^2.
+	\end{equation}
+\end{definition}
+On aurait aussi pu définir le principe uniforme d'incertitude à l'aide des valeurs propres :
+\begin{proposition}
+	$F_\Omega$ vérifie $\lambda$-\textbf{UUP} si et seulement si 
+	\newline
+	avec probabilité au moins $1-\mathcal{O}(N^{-\rho / \alpha})$ on a
+	$\forall T \subset [0, N]$ qui vérifie $|T| \leq \alpha \frac{K}{\lambda}$ alors les valeurs propres de $F_{\Omega T}$ vérifient
+	\begin{equation*}
+		\frac{1}{2} \frac{K}{N} \leq \lambda_{min}(\Lambda) \leq \lambda_{max}(\Lambda) \leq \frac{3}{2}\frac{K}{N}.
+	\end{equation*}
+\end{proposition}
+\begin{preuve}
+A recopier.
+\end{preuve}
+\begin{remarque}
+	Pour expliciter le fait que cela définit bien un principe d'incertitude, considérons $F_\Omega$ comme étant la transformée de fourier discrète partielle, et un signal concentré en temps ($|supp(f)| \leq \alpha \frac{K}{\lambda}$), alors on a 
+	\begin{equation}
+		||F_\Omega f||_{\ell^2} = ||\hat{f}||_{\ell^2(\Omega)} \leq \sqrt{\frac{3 K}{2N}}||f||_{\ell^2}
+	\end{equation}
+	en appliquant le principe d'incertitude.
+	On déduit donc que 
+	\begin{equation}
+		\frac{ ||\hat{f}||_{\ell^2(\Omega)}}{||\hat{f}||_{\ell^2}} \longrightarrow 0
+	\end{equation}
+	si $K=o(N)$, c'est à dire que si $f$ est à support compact, il est nécessaire d'avoir un nombre de mesures $K$ qui est au moins de l'ordre de $f$.
+	Donc $f$ ne peut pas être localisé à la fois en temps et en fréquence, ce qui justifie l'appélation "principe d'incertitude". 
+\end{remarque}
+\begin{remarque}
+Justifions maintenant le fait que c'est un principe uniforme. 
+	Une version non uniforme (et donc plus faible) serait que pour chaque $f$ vérifiant \ref{eq:UUP1}, alors avec probabilité au moins $1 -\mathcal{O}(N^{-\rho / \alpha})$  \ref{eq:UUP2} est vérifié. Mais il y a beaucoup de choix possibles de $f$ vérifiant \ref{eq:UUP1}, et parmi ceux-ci il peut y avoir un grand nombre de $f$ ayant la propriété rare de ne pas vérifier $\ref{eq:UUP2}$, et alors l'union de ces événements n'a pas nécessairement une faible probabilité de se produire.
+	\newline
+	Ainsi, le principe est uniforme car la propriété \textbf{UUP} est telle que l'on a une probabilité au moins $1- \mathcal{O}(N^{-\rho / \alpha})$ que \ref{eq:UUP2} soit vrai pour tous les $f$ possibles vérifiant \ref{eq:UUP1}. Ce qui justifie l'appélation uniforme.
+\end{remarque}
+\begin{remarque}\footnote{A vérifier}
+	Remarquons que l'on peut réécrire \ref{eq:UUP2} peut se réécrire
+	\begin{equation*}
+		(1-\delta_K)||f||_2^2 \leq ||F_\Omega f||_2^2 \leq ||f||_2^2(1 + \delta_K)
+	\end{equation*}
+	avec $\delta = 1 - \frac{K}{2N}$ ce qui rappelle la définition d'un frame avec des bornes $m = M = \frac{1}{2}$ dans le meilleur des cas.
+	Cela justifie que certaines fois le principe uniforme d'incertitude est aussi appelé propriété d'isométrie restreinte (\textbf{RIP}) (Restricted Isometry Property).
+\end{remarque}
+\subsection{Exemple de familles vérifiant \textbf{UUP}}
+\begin{proposition}\footnote{Pour certains résultats concernant ERP et UUP : \url{https://www.math.ucla.edu/~tao/preprints/sparse.html}}
+	\newline 
+	\begin{itemize}
+		\item Les ensembles Gaussiens et binaires vérifient $\log N-UUP$
+		\item L'ensemble de Fourier vérifie $(\log N)^6-UUP$.
+	\end{itemize}
+\end{proposition}
+\subsection{Définition de \textbf{ERP}}
+Un autre principe que l'on va utiliser qui nous permettra de nous assurer que l'approximation $f^\#$ obtenue est proche de $f$ pour la norme $\ell^1$ est le principe de reconstruction exacte (\textbf{ERP} - Exact Reconstruction Principle).
+\begin{definition}
+	$F_\Omega$ vérifie \textbf{ERP} si
+	\begin{itemize}
+		\item $\forall T \subset [0, N]$
+		\item $\forall \sigma \in \{\pm 1\}^T$
+	\end{itemize}
+	il existe avec probabilité prépondérante, un vecteur $P\in \mathbb{R}^N$ tel que
+	\begin{enumerate}
+		\item $P(t) = \sigma(t), \forall t \in T$
+		\item $P$ est une combinaison linéaire des lignes de $F_\Omega$ \footnote{ C'est équivalent à $P$ appartient au \textit{rowspace} de $F_\Omega$, ce qui est équivalent à : $\exists Q$ tel que $P = F_\Omega ^* Q$.}
+		\item $P(t) < \frac{1}{2}, \forall t \in T^c$\footnote{Le $\frac{1}{2}$ n'a pas vraiment d'importance, n'importe quelle constante $0 < \beta < 1$ permet d'obtenir les mêmes résultats} 
+	\end{enumerate}
+\end{definition}
+\subsection{Exemples de familles vérifiant \textbf{ERP}}
+\begin{proposition} 
+	\begin{itemize}
+		\item Les ensembles Gaussiens et binaires vérifient $\log N$-\textbf{ERP}
+		\item L'ensemble de Fourier vérifie $\log N$-\textbf{ERP}.
+	\end{itemize}
+\end{proposition}
+
+\subsection{Lien entre \textbf{RIP} et \textbf{ERP}}
+
+\section{Théorème de Candes-Tao}
+\subsection{Enoncé du théorème}
+\begin{theoreme}
+	Soit $F_\Omega$ qui vérifie $\lambda_1$-\textbf{ERP} et $\lambda_2$-\textbf{UUP}.
+	On pose $\lambda = \max(\lambda_1, \lambda_2)$, soit $K\geq \lambda$.
+	\newline
+	Soit $f$ un signal dans $\mathbb{R}^N$ tel que ses coefficients dans une base de référence décroissent comme\footnote{les coefficient $(|\theta_{(n)}|)$sont triés par ordre décroissant} :
+	\begin{equation}
+		|\theta_{(n)}| \leq C n^{-\frac{1}{p}}
+	\end{equation}
+	pour un certain $C >0$ et $0 < p \leq 1$. 
+	\newline
+	On pose $r = \frac{1}{p} - \frac{1}{2}$, alors n'importe quel minimiseur de (P1) vérifie :
+	\begin{equation}
+		||f - f^\#||_2 \leq C_r (\frac{K}{\lambda})^-r
+	\end{equation}
+	avec probabilité au moins $1 - \mathcal{O}(n^{-\frac{\rho}{\alpha}})$, pour certains $\rho$ et $\alpha$.
+\end{theoreme}
+\subsection{Preuve du théorème}
+
+\section{Exemple de $F_\Omega$}
+\subsection{Ensemble de Fourier}
+\subsection{Gaussien}
+
+\section{Conséquences du théorème}
+\subsection{Influence des paramètres}
+\subsection{Quelques résultats numériques}
+
+\section{Sur la propriété RIP}
+\subsection{Difficulté pour un ensemble de vérifier RIP}
+\subsection{Lien entre \textbf{RIP} et \textbf{WERP}}
+
+\section{Extensions du théorème}
+\subsection{Conditions suffisantes sur $\delta_K$}
+\subsection{Conditions nécessaires sur $\delta_K$}
+\subsection{Sur l'optimalité du résultat}
+
+\section{Algorithmes}
+\subsection{Orthogonal Matching Pursuit}
+\subsection{Robust Orthogonal Matching Pursuit}
+\subsection{Quelques exemples numériques}
+
