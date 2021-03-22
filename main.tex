@@ -1,27 +1,25 @@
 \documentclass{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{mathabx}
 
 \usepackage[backend = bibtex]{biblatex}
 \addbibresource{bibliography.bib}
+\newgeometry{vmargin={30mm}, hmargin={20mm,20mm}}
 
-\theoremstyle{Definition}
-\newtheorem{definition}{Definition}[section]
-
-\theoremstyle{Preuve}
-\newtheorem{preuve}{Preuve}[]
-
-\theoremstyle{Proposition}
-\newtheorem{proposition}{Proposition}[section]
-
-\theoremstyle{Exemple}
-\newtheorem{exemple}{Exemple}[section]
-
-\theoremstyle{Theoreme}
+\theoremstyle{plain}
 \newtheorem{theoreme}{Theoreme}[section]
+\newtheorem{proposition}[theoreme]{Proposition}
 
-\theoremstyle{Remarque}
-\newtheorem{remarque}{Remarque}[section]
+\theoremstyle{remark}
+\newtheorem{remarque}[theoreme]{Remarque}
+\newtheorem{exemple}[theoreme]{Exemple}
+\newtheorem{preuve}[theoreme]{Preuve}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theoreme]{Definition}
+
 
 
 \newcommand{\notimplies}{

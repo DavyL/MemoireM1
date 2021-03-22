@@ -84,70 +84,179 @@ Une remarque importante à faire est que le bruit est généralement constitué 
 \section{Bases orthonormales et frames}
 \subsection{Intérêt des bases orthonormales et description des outils mathématiques disponibles}
 Une approche classique et pratique pour l'analyse de signaux est l'utilisation d'une base orthonormale pour représenter un signal. 
-En effet l'intérêt est multiple, si l'on connait une base orthonormale de décomposition d'un signal, alors il y aura une unique façon d'écrire ce signal dans cette base, mais surtout, l'espace est alors naturellement d'un produit scalaire qui permettra d'utiliser tout l'outillage des espaces de Hilbert pour résoudre le problème.
-
+En effet l'intérêt est multiple, si l'on connait une base orthonormale de décomposition d'un signal, alors il y aura une unique façon d'écrire ce signal dans cette base, mais surtout, l'espace est alors naturellement muni d'un produit scalaire qui permettra d'utiliser tout l'outillage des espaces de Hilbert pour résoudre le problème.
+\newline
+On verra ainsi dans cette section tout d'abord des définitions et propriétés classiques des espaces de Hilbert. 
+Ensuite on verra progressivement comment relacher certaines des définitions initiales afin de pouvoir conserver une formule de reconstruction.
+Afin d'expliciter l'intérêt de ces définitions on verra deux exemples de frames.
+Tout d'abord le frame de Fourier, dont la compréhension sera utile pour le troisième chapitre.
+Finalement, nous introduirons les ondelettes par l'analyse multi-résolution, les formules que nous obtiendrons seront utilisées dans le chapitre suivant.
 \subsection{Lien entre frames et base orthonormale}
-Rappelons tout d'abord les définitions et propriétés de base d'une base orthonormale. On considère ici un espace $H$ qui est engendré par la famille libre $\{e_i\}_I$, avec $I$ un ensemble.
-Donc, pour tout $h \in H$, il existe une unique suite $(\lambda_i)_{i \in I}$ scalaires tous nuls sauf un nombre fini, tels que $ h = \sum_{i \in I} \lambda_i e_i$.
-On peut alors définir un produit scalaire : 
+Rappelons tout d'abord les définitions et propriétés d'une base orthonormale. On considère ici un espace $H$ muni d'un produit scalaire et une famille $\{e_i\}_I$, avec $I$ un ensemble.
+\begin{definition}
+	On dira qu'une famille $\{e_i\}_I$ est :
+	\begin{itemize}
+		\item \it{libre} si pour n'importe quelle suite finie de coefficients $(\lambda_i)_I$ telle que $\sum_I \lambda_i e_i = 0$, on a $\lambda_i = 0$ pour n'importe quel $i \in I$.
+		\item \it{orthogonale}\footnote{Dans un espace vectoriel muni d'un produit scalaire et d'une base, une famille est libre si et seulement si elle est orthogonale (cela découle des propriétés du produit scalaire, notamment qu'il est défini).} si pour n'importe quels $i$ et $j$ différents on a $\langle e_i, e_j \rangle = 0$
+		\item \it{génératrice} si quel que soit $f \in H$ tel que pour tout $i\in I$ on a $\langle f, e_i \rangle = 0$, alors $f =0$.
+		\item une \it{base} si la famille est libre et génératrice.
+	\end{itemize}
+\end{definition}
+Donc, pour tout $h \in H$, si la famille $\{e_i\}_I$ est libre et génératrice, il existe une unique suite $(\lambda_i)_{i \in I}$ de scalaires, telle que $ h = \sum_{i \in I} \lambda_i e_i$.
+On peut alors définir un nouveau produit scalaire sur $H$: 
 \begin{align}
-	\langle \cdot, \cdot \rangle :  H \times H &\to \mathbb{R} \\
-		(h_1= (\lambda_i)_I, h_2 = (\mu_i)_I) &\mapsto \langle h_1, h_2 \rangle = \sum_I \lambda_i \mu_i^*
+	\langle \cdot, \cdot \rangle :  H \times H &\longrightarrow \mathbb{R} \\
+		(h_1= (\lambda_i)_I, h_2 = (\mu_i)_I) &\longmapsto \langle h_1, h_2 \rangle = \sum_I \lambda_i \mu_i^*.
 \end{align}
+On peut remarquer que ce produit scalaire est défini de façon unique par rapport à la base $\{e_i\}_I$, cependant, si la base est normalisée ($\langle e_i, e_i \rangle =1$), alors ce produit scalaire devient identique au produit scalaire initial de $H$. 
+Ainsi, la valuation du produit scalaire est indépendante du choix de la base (tant qu'elle est normalisée)\footnote{Dans $L^2(\mathbb{R})$, on peut ainsi retrouver les égalités de Parseval ou de Plancherel en exprimant une fonction $f\in L^2(\mathbb{R})$ soit dans la base canonique de $L^2(\mathbb{R})$ par rapport à $f$ donnée par le vecteur $\frac{f}{||f||}$et une base de son orthogonal, soit en exprimant la fonction dans la base de Fourier.}.
 On a alors le théorème suivant qui nous donne une condition nécessaire et suffisante pour que l'espace engendré par une famille $\{f_i\}$ soit dense dans H:
 \begin{theoreme}
 	Soit $\{f_i\}_I$ une suite d'éléments orthonormaux dans $H$ muni d'un produit scalaire.
 	Alors $\overline{\text{Vect}(\{f_i\}_I)} = H$ si et seulement si 
 	\begin{equation*}
-		\sum_I |\langle f, f_i \rangle |^2 = ||f||_2 ^2 \quad, \forall f \in H.
+		\sum_I |\langle f, f_i\rangle|^2 = ||f||_2 ^2 \quad, \forall f \in H.
 	\end{equation*}
 \end{theoreme}
 Cependant, comme on le verra dans la suite, il y a des situations dans lesquelles chercher à avoir une base orthonormale est trop restrictif, on cherchera donc à relacher les conditions sur la définition d'une base.
 \newline
-Remarquons tout d'abord quelques résultats,
+Tout d'abord, si la famille est orthogonale, mais elle n'est pas génératrice on a 
 \begin{theoreme}
-	Soit $\{f_i\}_I$ une famille d'éléments orthogonale de $H$.
+	Soit $\{f_i\}_I$ une famille orthonormale de $H$.
 	Alors,
 	\begin{equation*}
 		\sum_I |\langle f, f_i \rangle|^2 \leq ||f||_2 ^2, \forall f \in H
-	\end{equation*}
+	\end{equation*}.
 \end{theoreme}
-et on a les définitions suivantes
+On peut exprimer ce théorème en disant que l'analyse par une famille orthogonale n'ajoute pas d'énergie au vecteur analysé.
+et si la famille est génératrice,
+\begin{theoreme}
+	Soit $\{f_i\}_I$ une famille génératrice normalisée.
+	Alors,
+	\begin{equation*}
+		||f||^2 \leq \sum_I |\langle f, f_i \rangle|^2, \forall f \in H
+	\end{equation*}.
+\end{theoreme}
+On peut exprimer ce théorème en disant que l'analyse par une famille génératrice capture au moins l'énergie du vecteur analysé.
+Au vu de ces résultats, on est amenés à considérer les définitions suivantes qui correspondent à une relaxation de la condition de normalisation ou de la condition d'orthogonalité.
 \begin{definition}
 	Pour une famille d'éléments $\{f_i\}_I$ de $H$, alors on dit que c'est 
 	\begin{enumerate}
 		\item Une suite de \it{Bessel} si il existe une constante $M>0$ telle que
 			\begin{equation*}
-				\sum_I |\langle f, f_i \rangle|^2 \leq B||f||^2, \forall f \in H.
+				\sum_I |\langle f, f_i \rangle|^2 \leq M||f||^2, \forall f \in H.
 			\end{equation*}
 		\item Un \it{frame} si il existe des constantes $M, m>0$ telles que
+			\begin{equation}\label{eq:defFrame}
+				m||f||^2 \leq \sum_I |\langle f, f_i\rangle|^2 \leq M||f||^2, \forall f \in H.
+			\end{equation}
+		\item Une \it{base de Riesz} (ou base \it{inconditionnelle}) si il existe des constantes $M, m>0$ telles que
 			\begin{equation*}
-				A||f||^2 \leq \sum_I |\langle f, f_i \rangle|^2 \leq B||f||^2, \forall f \in H.
-			\end{equation*}
-		\item Une \it{base de Riesz} si il existe des constantes $M, m>0$ telles que
-			\begin{equation*}
-				A\sum |c_k|^2 \leq ||\sum c_k f_k||^2 \leq B\sum |c_k|^2
+				m\sum |c_k|^2 \leq ||\sum c_k f_k||^2 \leq M\sum |c_k|^2
 			\end{equation*}
 		pour n'importe quelle suite finie $\{c_k\}$.
 	\end{enumerate}
 \end{definition}
 \begin{remarque}
 	\begin{itemize}
-		\item Toute base orthonormale est une base de Riesz.
-		\item Toute base de Riesz est un frame.
+		\item Une base orthonormale est une base de Riesz avec $m = M = 1$.
+		\item Une base de Riesz est un frame dont les éléments sont linéairement indépendents.
+		\item Un frame est une suite de Bessel dont les éléments sont générateurs.
 	\end{itemize}
 \end{remarque}
-Lorsque l'on dispose d'une suite $E = \{e_i\}_I$ on peut définir les opérateurs d'analyse
+Ainsi, lorsque l'on dispose d'une suite $F = \{f_i\}_I$ on peut définir l'opérateur d'analyse
 \begin{equation*}
-	\theta_E (f) = \{\langle f, e_i \rangle\}_I 
+	\theta_F (f) = \{\langle f, f_i \rangle\}_I 
 \end{equation*}
 et de synthèse
 \begin{equation*}
-	\theta^*_E( \{c_i\}_I) = \sum_I c_i e_i  
+	\theta^*_F( \{c_i\}_I) = \sum_I c_i f_i.  
 \end{equation*}
-
+Ainsi la composée des deux opérateurs nous donne un opérateur de projection dans l'espace vectoriel engendré par $F$ :
+\begin{equation}\label{eq:thetaF}
+	\theta^*_F \circ \theta_F (f) = \sum_I \langle f, f_i\rangle f_i. 
+\end{equation}
+Tout d'abord on peut remarquer que, si $F$ est une famille orthogonale, alors l'application précédente correspond presque à une projection orthogonale dans l'espace engendré par $F$\footnote{La propriété qui n'est pas vérifiée est $(\theta^*_F \circ \theta_F)^2 = Id_{Vect(F)}$}.
+On va maintenant voir que si $F$ est un frame \textit{équilibré} (c'est à dire avec des constantes $m, M$ égales), alors on dispose d'une formule analogue à \ref{eq:thetaF} qui nous donne une projection orthogonale.
+L'intérêt de cela étant que, si $F$ est génératrice de l'espace entier $H$, alors la projection orthogonale correspond à une formule de reconstruction.
+\newline
+Supposons ainsi que l'on ait $m =M$, on a d'après \ref{eq:defFrame}, 
+\begin{equation*}
+	\sum_I |\langle f_j, f_i \rangle |^2 = M||f_j||^2.
+\end{equation*}
+Posons $\pi = \frac{1}{M}\theta^*_F \circ \theta$ et vérifions que c'est une projection orthogonale, soit $f\in Vect(F)$, alors
+$f = \sum_J \lambda_j f_j$ avec $J\subset I$, d'où,
+\begin{equation*}
+	\langle f, f_k \rangle = \sum_J \lambda_j \langle f_j, f_k \rangle = \lambda_k \langle f_k, f_k \rangle + \sum_{j \in J-\{k\}} \lambda_j \langle f_j, f_k \rangle  
+\end{equation*}
+\begin{equation*}
+	\pi(f) = \frac{1}{M}\sum_I \langle f, f_i \rangle f_i 
+	= \frac{1}{M}\sum_J \lambda_j \sum_I \langle f_j, f_i \rangle f_i  
+\end{equation*}
+et pour conclure, on projète $\pi(f)$, sur chaque composante $f_k$ et on obtient
+\begin{align*}
+	\langle \pi(f), f_k \rangle &= \frac{1}{M} \sum_J \lambda_j \sum_I \langle f_j, f_i \rangle \langle f_i, f_k \rangle 
+	= \frac{1}{M}  \lambda_k \sum_I |\langle f_k, f_i\rangle|^2 + \frac{1}{M} \sum_{j \in J-\{k\}}\lambda_j \sum_I  \langle f_j, f_i \rangle \langle f_i, f_k \rangle \\
+	&= \frac{1}{M} \lambda_k M \langle f_k, f_k \rangle + \frac{1}{M} \sum_{j \in J-\{k\}} \lambda_j M\langle f_j, f_k \rangle \\
+	&= \langle f, f_k \rangle.
+\end{align*}
+On a donc, si $f$ est dans l'espace engendré par F, alors la projection ne change pas les coordonées de $f$, sinon, si $f$ est dans l'orthogonal de $F$, alors chacune de ses composantes est orthogonale à tous les $f_i$, donc $f$ est dans le noyau de $\pi$.
+Ainsi, $\pi$ est bien une projection orthogonale dans $F$.
 \subsection{Exemples de frames (Fourier, ondelettes)}
-On s'interesse maintenant à une famille de signaux $\mathcal{F} \subset \mathbb{R}^N$.
+Introduisons maintenant la décomposition d'une fonction en ondelettes.
+\begin{definition}
+	On dit que $\psi:\mathbb{R} \to \mathbb{R}$ est une ondelette génératrice si 
+	\begin{equation}
+		\{\psi_{j,k} := 2^{j/2}\psi(2^j\cdot - k)\}_{j,k \in \mathbb{Z}}
+	\end{equation}
+	est une famille génératrice de $L^2(\mathbb{R})$.
+	On appelera\footnote{On considérera par la suite des frames d'ondelettes ou bien des bases de Riesz d'ondelettes} une base engendrée par une telle fonction $\psi$ une base d'ondelettes.
+\end{definition}
+\begin{remarque}
+	Dans la définition des ondelettes $\psi_{j,k}$ engendrées par $\psi$, le coefficient $j$ correspond au facteur d'échelle\footnote{Du point de vue des notations, on considère que $j$ tend vers l'infini, signifie que $\psi_j$ analyse les hautes fréquences, ce choix de notation n'est pas uniforme dans la littérature, par exemple (TODO :ajouter ref) Mallat et Daubechies, utilisent $-j$ par rapport à nos notations. Par contre les notations utilisées correspondent à celles de Jaffard et Meyer. Mais cependant tous les résultats sont bien entendu équivalents.},
+	en raison du facteur $2^j$ devant la variable, au fur et à mesure que $j$ augmente, l'ondelette est parcourue de plus en plus vite. Ainsi, augmenter $j$ revient à augmenter la fréquence de $\psi$, c'est à dire d'éloigner le support de $\hat{\psi}$ de l'origine\footnote{En effet, de façon plus précise et formelle, on a $\hat{\psi_{j,0}}(\omega) = 2^{-\frac{j}{2}}\hat{\psi}(\frac{\omega}{2^j})$.}.
+	Le coefficient $k$ correspond à une translation de l'ondelette $\psi_j$, en ce sens, l'analyse par ondelette, permet une analyse à la fois en temps (par rapport à $k$) et en fréquence (par rapport à $j$).
+\end{remarque}
+Donc étant donnée une famille d'ondelettes $\{\psi_{j,k}\}_{j,k \in \mathbb{Z}}$, on peut associer à une fonction $f\in L^2(\mathbb{R})$, ses coefficients d'ondelettes
+\begin{equation}
+	Wf = (\langle f, \psi_{j,k} \rangle )_{j,k \in \mathbb{Z}}
+\end{equation}
+et on se demande alors si à partir de ces coefficients on peut reconstruire $f$.
+Cela revient ainsi à déterminer si la famille d'ondelettes est un frame d'ondelette. 
+Ici on ne cherchera pas a énumérer et a vérifier des frames d'ondelettes, un très grand nombre de frames d'ondelettes existent (ajouter ref.), on admet ainsi pour l'instant l'existence des frames d'ondelettes.
+Un peu plus bas nous verrons et démontrerons un théorème qui permet de construire de nombreux frames d'ondelettes, ce théorème fournira également une extension des ondelettes à $L^2(\mathbb{R}^d)$ et avec une version qui montre que la présence de puissances de 2 dans la définition des ondelettes revient à un choix d'échantillonage. 
+\newline
+Supposons ainsi que l'on dispose d'un frame d'ondelettes et que ce frame est équilibré (c'est à dire que les bornes de frame $m$ et $M$ sont égales), alors on dispose d'une formule de reconstruction (d'après Daubechies 3.2.2)
+\begin{equation}
+	f = \frac{1}{M} \sum_{j,k} \langle f, \psi_{j,k}\rangle \psi_{j,k}.
+\end{equation}
+Cependant bien que la formule précédente permette une reconstruction elle suppose de parcourir des indices sur $\mathbb{Z}$ ce qui pourrait créer des complications concernant la convergence (d'un point de vue théorique ou pratique).
+On va ici très rapidement introduire la notion d'analyse multi-échelle qui permet de simplifier la formule de reconstruction.
+Construisons ici une analyse multi-échelle (ici de $L^2(\mathbb{R})$), considérons tout d'abord une suite d'espaces emboités satisfaisant 
+\begin{equation*}
+	\lim_{j\to -\infty} \bigcap_{j}^{+\infty} V_i \subset \cdots \subset V_{-1} \subset V_0 \subset \cdots V_i \subset V_{i+1} \subset \cdots \subset \lim_{j\to \infty} \bigcup_{-\infty}^{j} V_i = L^2(\mathbb{R}).  
+\end{equation*}
+L'intérêt d'avoir une telle suite d'espaces emmboités est que étant donnée une fonction $f\in L^2(\mathbb{R})$, on peut considérer sa projection orthogonale dans un $V_i$, on a alors une approximation $f_i$ de $f$ dans $V_i$, si on souhaite améliorer l'approximation de $f$ il suffit alors de remonter dans ces espaces emboités pour avoir une reconstruction avec une précision arbitraire.
+Introduisons maintenant la propriété qui va permettre de voir cette suite d'espaces comme une analyse multi-échelle
+\begin{equation}
+	f(\cdot) \in V_j \iff f(\frac{\cdot}{2^j}) \in V_0,
+\end{equation}
+c'est à dire que les fonctions d'un espace $V_j$ sont des versions dilatées d'un facteur $2^{-j}$ des fonctions de l'espace $W_0$.
+Ajoutons maintenant la condition que $V_0$ contient toutes les translations entières de ses éléments, c'est à dire
+\begin{equation}
+	f \in V_0 \iff f(\cdot - n) \in V_0 \forall n \in \mathbb{Z}.
+\end{equation}
+Ainsi, une fonction qui appartient à $V_j$ s'écrit comme une combinaison linéaire de versions translatées et dilatées de fonctions appartenant à $V_0$.
+De plus, quelque soit $j$ on peut prendre $W_j$ le complémentaire orthogonal de $V_j$ dans $V_{j+1}$, 
+\begin{equation}
+	f = \pi_{V_0}(f) +\sum_{i>0} \pi_{W_j}(f) 
+\end{equation}
+donc afin d'avoir une formule de reconstruction, il suffit de connaitre un frame de $V_0$ et de même pour chaque $W_j$. 
+On peut maintenant revenir aux ondelettes, on considère que l'on connait une base $(\varphi_{0,k})_{k\in \mathbb{Z}}$ de $V_0$ et $(\psi_{j,k})_{j\in \mathbb{N}^*, k \in \mathbb{Z}}$ un frame de l'orthogonal de $V_0$ dans $L^2(\mathbb{R})$, on pose alors $W_j = W_{j-1} \bigoplus Vect(\{\psi_{j,k}\}_{k\in \mathbb{Z}})$ et on obtient ainsi que l'analyse multi-échelle ainsi construite fournit une formule de reconstruction\footnote{Dans la formule de reconstruction les deux sommes sur $\mathbb{Z}$ ne sont pas problématiques car les fonctions considérées sont dans $L^2(\mathbb{R})$ donc avec une décroissance suffisament rapide, donc seulement un nombre fini de $\langle f, \varphi_{0,k} \rangle$ sont différents de 0 si $\varphi_0$ a une décroissance suffisament rapide (et de même pour chaque $\psi_j$).}
+\begin{equation}
+	f = \sum_{k\in \mathbb{Z}} \langle f, \varphi_{0,k} \rangle \tilde{\varphi}_{0,k} + \sum_{j = 1}^{+\infty} \sum_{k\in \mathbb{Z}} \langle f, \psi_{j,k} \rangle \tilde{\psi_{j,k}}.
+\end{equation}
+On appelle l'application $\varphi_0$ ondelette d'échelle.
 On a vu que les familles orthonormales forment des frames, on a donc la proposition :
 \begin{proposition}
 	\begin{enumerate}
