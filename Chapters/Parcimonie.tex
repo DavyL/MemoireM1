@@ -241,12 +241,285 @@ On peut combiner le théorème de Jaffard avec une analyse multi-échelle d'onde
 	ce qui prouve la proposition.\qedhere
 \end{preuve}
 \section{Résolution de (P0)}
-\subsection{Définition de (PO)}
+Dans ce qui précède, nous nous sommes intéressés aux propriétés qui font qu'une famille de vecteurs permet de reconstruire une famillle de signaux.
+Nous avons vu différentes bases (Fourier et ondelettes) et nous avons vu que ces bases permettent de reconstruire des signaux présentant un certain type de régularité avec des coefficients qui suivent une décroissance assez rapide.
+\newline
+On a par exemple vu que l'on pouvait reconstruire les fonctions Lipschitziennes avec une bonne précision en utilisant une base d'ondelettes orthonormale avec un certain nombre de moments nuls.
+De plus, on a remarqué que si la fonction se comporte comme un polynôme d'un degré inférieur au nombre de moments nuls au voisinage d'un point, alors les coefficients d'ondelettes dans ce voisinage seront nuls.
+De même, les seuls coefficients d'ondelette qui seront grands seront ceux au voisinage d'un point où aucune approximation par un polynôme de petit degré n'est efficace\footnote{Une analyse du théorème de Jaffard \ref{th:Jaffard} montre que les coefficients affectés par une discontinuité forment un cône dans les coefficients d'ondelette autour du point de discontinuité. Ce cône se visualise dans la représentation temps-fréquence des coefficients d'ondelette, il part du point de discontinuité et s'élargit en diminuant le coefficient d'échelle $j$. La largeur de ce cône dépend de la régularité $\alpha$ de la fonction.}.
+Ainsi, la représentation avec ces ondelettes d'une fonction ne possédant que quelques points où elle est irrégulière sera approximée avec peu de coefficients.
+Afin d'insister, l'intérêt de cela est que de façon naive, afin de déterminer une fonction, il faut connaitre sa valeur en chaque point, ainsi, si l'on souhaite faire un traitement par ordinateur de cette fonction, il faut stocker chacun des points de la fonction.
+Avec ce que l'on a fait, on sait qu'en fait on peut reconstruire la fonction avec un plus petit nombre de coefficients que la fonction n'a de points.
+En ce sens, la représentation en ondelettes d'une fonction Hölderienne est parcimonieuse (peu de coefficients non nuls), alors que la représentation par la valuation d'une fonction Hölderienne n'est pas parcimonieuse.
+\newline
+Nous allons maintenant nous intéresser à l'autre direction de ce problème, c'est à dire que nous allons supposer que l'on dispose d'une famille de vecteurs et que la fonction que l'on cherche à reconstruire est une somme parcimonieuse de vecteurs de cette famille.
+Cependant on connait seulement la valuation de cette fonction et pas les vecteurs sous-jacents qui permettent de représenter la fonction de façon parcimonieuse.
+Aussi, on n'a pas supposé que cette famille est libre donc il n'y a pas une unique façon d'obtenir cette solution, en fait il y a une infinité de solutions dès que la famille n'est pas libre.
+On va voir cependant que l'hypothèse de parcimonie est cruciale et qu'elle nous permettra de récupérer exactement les coefficients qui permettent l'écriture parcimonieuse de cette fonction.
+\subsection{Définition de (P0)}
+Formalisons maintenant ce que nous avons dit ci-dessus. 
+On considère $\mathcal{F}$ un espace vectoriel et utilisons un dictionnaire $\Phi = \Phi_1 \cup \cdots \cup \Phi_D$ de bases, où chaque $\Phi_d$ est une base de $\mathcal{F}$. 
+Ainsi $\Phi$ est une concaténation de bases\footnote{Ainsi $\Phi$ est un frame équilibré d'après la première partie (TODO : ajouter ref)} et on s'intéresse aux façon d'écrire un signal $f\in \mathcal{F}$ dans $\Phi$, c'est à dire aux façon d'écrire
+\begin{equation}\label{eq:defSSum}
+	f = \sum_\gamma c_\gamma \phi_\gamma
+\end{equation}
+où l'indice $\gamma = (d, i)$ indique le dictionnaire $\Phi_d$ correspondant ainsi que le vecteur $\phi_{d, i} \in \Phi_d$.
+On peut aussi écrire \ref{eq:defSSum} sous forme matricielle en posant $F_\Phi$ la matrice ayant pour lignes les vecteurs $\phi_\gamma$ et en posant $x = (c_\gamma)_\gamma$ la notation sous forme de vecteur de $x$, on utilisera aussi la notation $x = (x_d)_{d=1, \cdots, D}$
+On s'intéresse ainsi aux solutions de 
+\begin{equation}
+	f = F_\Phi x.
+\end{equation}
+Comme discuté précedemment, le choix des coefficients $c_\gamma$ n'est pas unique dès que $D>1$, cependant notre objectif n'est pas simplement de reconstruire $f$ (car n'importe quelle base $\Phi_i$ permet déjà cela), mais de trouver l'écriture de $f$ avec le minimum de coefficients non nuls.
+Ainsi, le problème que l'on cherche à résoudre est 
+\begin{equation}\label{P0}\tag{P0}
+	\min ||x||_0\quad \text{tel que } f = F_\Phi x,
+\end{equation}
+où $||x||_0 = \#\{\gamma : c_\gamma \neq 0\}$ est le nombre de coefficients non nuls de $x$.
+Cependant, la résolution en toute généralité de ce problème n'est pas faisable, en effet résoudre ce problème nécessite de résoudre (P0) pour chaque combinaison de vecteurs du dictionnaire si $x$ est dans l'image.
+Ainsi, le nombre de combinaisons possibles parmi tous les vecteurs croit bien trop vite pour être calculable en pratique, nous verrons donc comment résoudre ce problème en utilisant une autre méthode.
+\newline
+Il est important de noter qu'à ce stade il n'y a aucune raison de supposer que chercher une unique solution à (P0) a un sens.
+En effet, quand on a choisi le dictionnaire $\Phi$ rien ne nous interdisait de prendre à chaque fois la même base et on aurait ainsi $D$ solutions identiques, ayant chacune la même parcimonie.
+On a ainsi $D$ solutions, et si on prend une paire de solutions $x_1, x_2$, alors $F_\Phi(x_1 - x_2) = 0$, d'où on obtient qu'à n'importe laquelle des $D$ solutions, on peut ajouter, par exemple $x_1 - x_2$, et on obtient une nouvelle solution. 
+Cependant, cette solution ne sera jamais moins parcimonieuse que l'une des $D$ solutions initiales.
+Il est donc clair qu'il est nécessaire d'imposer des conditions sur les bases qui constituent le dictionnaire si l'on souhaite obtenir une solution unique.
+Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$ a un sens.
+\begin{exemple}
+	On étudie les signaux dans $\mathbb{R}^N$ et on choisi un dictionnaire constitué de la concaténation de la base de Fourier $ W = \{e_k(t) = \frac{1}{\sqrt{N}} e^{\frac{i 2\pi k t}{N}}\}_{0 \leq k \leq N -1}$ et de la base canonique de Diracs\footnote{Chaque vecteur de cette base vérifie $\delta_{k,i} = 1$ si $i = k$ et 0 sinon.} $T = \{\delta_k\}_{0 \leq k \leq N-1}$.
+	Ainsi, avec ce choix $F_W$ est la matrice de Fourier discrète et $F_T$ est la matrice identité de taille $N$.
+	Avec le théorème suivant, on va obtenir un principe d'incertitude, qui nous garantira qu'un signal ne peut pas être parcimonieux à la fois dans la base de Dirac, et dans la base de Fourier.
+	\begin{theoreme}\label{th:Incert1}
+		Soit un signal $f\in \mathbb{R^N}$ non nul, alors
+		\begin{equation}
+			||F_W f||_0 ||F_T f||_0 \geq N 	
+		\end{equation}
+		et ainsi
+		\begin{equation}
+			||F_W f||_0 + ||F_T f||_0 \geq 2 \sqrt{N}. 	
+		\end{equation}
+	\end{theoreme}
+	\begin{preuve}
+	TODO :Ajouter Ref Tao uncertainty principle for cyclic....
+		Soit $0 \leq \omega \leq N-1$ un entier, alors 
+		\begin{align}
+			|F_W(\omega)| &= |\hat{f}(\omega)| = \frac{1}{\sqrt{N}}|\sum_t f(t)e_\omega(t)| \\
+				&\leq \frac{1}{\sqrt{N}}\sum_t |f(t)|,
+		\end{align}
+		d'où $\sup_\omega |F_W(\omega)| \leq \frac{1}{\sqrt{N}} \sum_t |f(t)|$.
+		On pose maintenant $sign(f) = (\frac{f(t)}{|f(t)|})_t$ pour tous les $t$ tels que $f(t) \neq 0$ et 0 si $f(t) = 0$ et on a ainsi $\langle sign(f), sign(f) \rangle = ||F_T f||_0$, on va ainsi pouvoir montrer le théorème en utilisant successivement l'inégalité de Cauchy-Schwarz puis l'égalité de Parseval,
+		\begin{align}
+			\sup_\omega|F_W(\omega)| &\leq \frac{1}{\sqrt{N}}\sum_t |F_Tf (t)| = \frac{1}{\sqrt{N}}\langle sign(f), |f| \rangle \\
+			&\leq  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |f|, |f| \rangle ^{\frac{1}{2}} =  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |F_W f|, |F_Wf| \rangle ^{\frac{1}{2}} \\
+			&\leq   \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |f|, |f| \rangle ^{\frac{1}{2}} =  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \left( \sum_\omega|\hat{f}(\omega)|^2 \right)^{\frac{1}{2}} \leq \frac{1}{\sqrt{N}}||F_T||_0^{\frac{1}{2}} ||F_W f||_0^{\frac{1}{2}} \sup_\omega |F_W(\omega)|.
+		\end{align}
+		On a ainsi montré la première partie du théorème, la deuxième partie provient directement de l'inégalité entre la moyenne arithmétique et la moyenne géométrique.
+		En effet, on a 
+		\begin{equation}
+			\sqrt{||F_T f||_0 ||F_W f||_0} \leq \frac{||F_T f||_0 + ||F_W f||_0}{2}
+		\end{equation}
+	et on a déjà montré que le terme de gauche est supérieur ou égal à $\sqrt{N}$.
+	\end{preuve}
+	Observons que sans restrictions sur $N$, l'inégalité obtenue ne peut pas être améliorée, comme observé dans (Donoho-Stark 89 /Donoho-Huo TODO: ajouter ref), si $N$ est un carré, alors, la fonction avec des 1 seulement aux coefficients multiples de $\sqrt{N}$ et 0 ailleurs est sa propre transformée de Fourier et ainsi elle a $2\sqrt{N}$ coefficients dans le dictionnaire $(T,W)$ et ainsi l'inégalité est atteinte.
+	Une conséquence de cela est qu'une condition sur la parcimonie de la forme $||F_T f||_0 + ||F_W||_0 < K$ avec $K>\sqrt{N}$ ne pourra pas garantir l'unicité de la solution de (P0).
+	Montrons que si $K = \sqrt{N}$ alors on a l'unicité de la solution de (P0).
+	\begin{theoreme}\label{th:Incert2}
+		Soit $N$ un entier positif et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et 
+		\begin{equation}\label{eq:Incert1}
+			||F_W x_W||_0 + ||F_T x_T||_0 < \sqrt{N}
+		\end{equation}
+		est l'unique solution de (P0).
+	\end{theoreme}
+	Supposons que pour $f$ donné non nul et supposons que l'on ait deux solutions de (P0), $x_1$ et $x_2$, ainsi $f = F_\Phi x_1, f = F_\Phi x_2$ et on a aussi $||x_1||_0 < \sqrt{N}, ||x_2||_0 < \sqrt{N}$.
+	On a par linéarité de l'opérateur $F_\Phi$, 
+	\begin{equation}
+		F_\Phi( x_1 - x_2) = 0.
+	\end{equation}
+	Etudions ainsi les éléments du noyau de $F_\Phi$, posons $\mathcal{N} = \{\delta : F_\Phi \delta = 0\}$, et pour tout $\delta \in \mathcal{N}$, écrivons $\delta = (\delta_T, \delta_W)$, on a
+	\begin{equation}
+		F_T \delta_T + F_W \delta_W = 0
+	\end{equation}
+	ainsi, en utlilisant que les colonnes de $F_W$ forment une base, donc $F_W$ est une matrice orthogonale, on a 
+	\begin{equation}\label{eq:structN}
+		\delta_W = -F_W^t F_T \delta_T .
+	\end{equation}
+	On a donc montré que les éléments de $\mathcal{N}$ sont de la forme $\delta = (\delta_T, -F_W^t F_T \delta_T)$ et d'après le théorème \ref{th:Incert1}, on a que $\delta$ a au moins $2\sqrt{N}$ coefficients non nuls si $\delta$ est non nul. 
+	En revenant a la situation initiale $\delta = x_1 - x_2$, on a une contradiction car à la fois $x_1$ et $x_2$ ont chacun moins de $\sqrt{N}$ coefficients, donc $\delta = 0$.
+	Ainsi, si une solution existe avec moins de $\sqrt{N}$ coefficients, alors c'est la solution de (P0) et elle est unique.
+	\newline
+	Cependant, en choisissant $N = p$, où $p$ est un nombre premier\footnote{L'hypothèse $p$ premier est essentielle, la preuve reposant sur la non-existence de sous-groupes propres du groupe cyclique $\mathbb{Z}/p\mathbb{Z}$}, Tao 2005 (TODO: ajouter ref) a montré que l'on obtient l'inégalité
+	\begin{equation}
+		||F_T f||_0 + ||F_W f||_0 \geq p + 1
+	\end{equation}
+	et que l'inégalité est atteinte\footnote{L'inégalité est atteinte en ce sens que si $A\subset T$ et $B\subset W$ tels que $|A| + |B| \geq p+1$ alors il existe une fonction $f$ telle que $Supp F_T f = A$ et $Supp F_W f = B$}.
+	Grâce à ce principe d'incertitude plus fort que \ref{th:Incert1}, on obtient avec le même type de preuve\footnote{Voir Candes-Romberg-Tao pour les détails, un lemme sur l'injectivité d'un opérateur similaire $F_W$ est tout de même nécessaire pour conclure la preuve.} le résultat suivant
+	\begin{theoreme}
+		Soit $N$ un nombre premier et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et
+		\begin{equation}\label{eq:Incert2}
+		||F_T x_T||_0 \leq \frac{N}{2}
+		\end{equation}
+		est l'unique solution de (P0).
+	\end{theoreme}
+	On a ainsi vu qu'avec un dictionnaire constitué de Fourier et de Dirac la solution de (P0) est unique, on a également vu brièvement, qu'en renforçant le principe d'incertitude sur les deux familles, alors on peut certifier qu'on a bien obtenu \it{la} solution de (P0) pour des signaux avec un support plus grand.
+\end{exemple}
 \subsection{Solution optimale combinatoire}
 \subsection{Résolution dans un dictionnaire pics/Fourier}
 \subsection{Principe d'incertitude}
 
 \section{Résolution de (P1)}
+On a ainsi vu dans la section précedente que le problème (P0) de minimisation de la solution par rapport à la parcimonie admet une solution unique dès qu'une solution existe et que cette solution vérifie une condition de la forme \ref{eq:Incert1} ou \ref{eq:Incert2}.
+Cependant, on a aussi vu au début de la section précédente que le problème (P0) est un problème de nature combinatoire et le nombre de combinaisons possibles augmentant très vite par rapport à $N$, sa résolution n'est pas faisable et ainsi il est nécessaire d'avoir une autre approche à ce problème.
+\newline
+La découverte qui a permis de rendre la résolution faisable, et par là permis par exemples les avancées du compressed sensing qui ont eu de nombreuses applications et dont la théorie sera étudiée dans le prochain chapitre, est que l'on peut résoudre un autre problème pour lequel des méthodes de résolution efficaces existaient déjà.
+En effet nous allons voir que résoudre le problème \ref{P1},
+\begin{equation}\label{P1}\tag{P1}
+	min_x ||x||_1 \text{tel que } f = Fx 
+\end{equation}
+permet sous certaines conditions de résoudre \ref{P0}.
+L'intéret de \ref{P1} est que c'est un problème de programmation linéaire et de nombreuses méthodes permettent de le résoudre. (TODO ajouter refs et détails).
+Précisons donc ce que nous avons affirmé, dans le même cadre que précedemment, c'est à dire dans le cas d'un dictionnaire $\Phi = (T,W)$ temps fréquence composé de la base de Fourier et de Diracdans $\mathbb{R}^N$.
+\begin{theoreme}\label{th:DiracFourier}
+	Soit $N$ un entier positif, $\Phi = (T, W)$ est la concaténation des bases de Dirac et de Fourier et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$ vérifiant $f = F_T x_T + F_W x_W$ et
+	\begin{equation}\label{eq:cond1}
+		||x_T||_0 + ||x_W||_0 < \frac{1}{2}\sqrt{N}
+	\end{equation}
+	est l'unique solution de (P1), et c'est la solution de (P0).
+\end{theoreme}
+\begin{preuve}
+	Tout d'abord, remarquons que si $x$ vérifie \ref{eq:cond1}, alors $x$ vérifie \ref{eq:Incert1} et donc d'après le théorème \ref{th:Incert2} $x$ est donc l'unique condition de \ref{P0}.
+	Il nous faut donc vérifier que cette solution est bien la solution de (P1).
+	Supposons que $x$ vérifie les conditions du théorème, on doit donc montrer que si $x$ est l'unique solution de (P1), alors pour tout $x_1$ différent de $x$ qui vérifie $f = F x_1$ alors $||x_1||_1 > ||x||_1$.
+	Donc de façon équivalente, pour tout $\delta \in \mathcal{N} = \{\delta : F_\Phi \delta = 0\}$ non nul, on doit vérifier que
+	\begin{equation}
+		||x + \delta||_1 - ||x|| > 0.
+	\end{equation}
+	Notons $\Gamma = \{\gamma : c_\gamma \neq 0\} = \Gamma_T \cup \Gamma_W \subset [0, 2N-1]$ l'ensemble des indices non nuls de $x = (c_\gamma)_\gamma$, 
+	on peut donc décomposer la somme
+	\begin{equation}
+		||x + \delta||_1 - ||x||_1 = \sum_{\gamma \in \Gamma^c} |\delta_\gamma| + \sum_{\gamma \in \Gamma} |c_\gamma + \delta_\gamma| - |c_\gamma|.
+	\end{equation}
+	Par l'inégalité triangulaire on a $|c_\gamma| \leq |c_\gamma + \delta_\gamma| + |\delta_\gamma|$ quel que soit $\gamma$.
+	On a ainsi 
+	\begin{equation}
+		|c_\gamma + \delta_\gamma| - |c_\gamma| \geq -|\delta_\gamma|
+	\end{equation}
+	et en insérant cette inégalité dans la somme on obtient
+	\begin{equation}
+		||x + \delta||_1 - ||x||_1 \geq \sum_{\gamma \in \Gamma^c} |\delta_\gamma| - \sum_{\gamma \in \Gamma} |\delta_\gamma|,
+	\end{equation}
+	ainsi une condition suffisante pour obtenir l'unicité est que pour $\delta \in \mathcal{N}$ non nul on ait
+	\begin{equation}\label{eq:ineqdelta}
+		\sum_{\gamma \in \Gamma} |\delta_\gamma| < \sum_{\gamma \in \Gamma^c} |\delta_\gamma|. 
+	\end{equation}
+	Avec des mots cela revient à dire que si $\delta$ est dans $\mathcal{N}$ et non nul, alors $\delta$ a plus de poids hors du support de $x$ que sur le support de $x$.
+	En ajoutant le terme de gauche de l'inégalité précédente des deux côtés on obtient
+	\begin{equation}
+		\sum_{\gamma \in \Gamma} |\delta_\gamma| < \frac{1}{2} \left(\sum_{t \in T} |\delta_{T, t}| + \sum_{\omega \in W} |\delta_{W, \omega}|\right) = \frac{||\delta_T||_1 + ||\delta_W||_1}{2}
+	\end{equation}
+	On avait vu avec \ref{eq:structN} que les éléments $\delta$ de $\mathcal{N}$ sont de la forme $(\delta_T, -F_W^t F_T \delta_T) = (\delta_T, -\widehat{\delta_T})$, donc \ref{eq:ineqdelta} devient
+	\begin{equation}
+		\sum_{t\in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega|
+		< \frac{||\delta_T||_1 + ||\widehat{\delta_T}||_1}{2}
+	\end{equation}
+	On peut ainsi définir la quantité
+	\begin{equation}
+		\mu(\Gamma_T, \Gamma_W) = \sup_x \frac{	\sum_{t\in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}
+	\end{equation}
+	et ainsi la condition suffisante pour que la solution de \ref{P1} soit unique devient
+	\begin{equation}
+		\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}.
+	\end{equation}
+	Avant de démontrer que cette inégalité est bien vérifiée énonçons ce que nous avons démontré qui est une généralisation du théorème \ref{th:DiracFourier} :
+	\begin{theoreme}\label{th:muP1}
+		Soit $N$ un entier positif et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$, où $\Gamma_T$ est le support de $x_T$ et $\Gamma_W$ est le support de $x_W$, 	vérifiant $f = F_T x_T + F_W x_W$ et
+		\begin{equation}
+			\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}
+		\end{equation}
+		est l'unique solution de \ref{P1}.
+	\end{theoreme}
+	Montrons donc que dans le dictionnaire Fourier-Dirac cette condition est bien vérifiée,
+	Tout d'abord minorons le dénominateur avec 
+	\begin{equation}
+		||\delta_T||_1 \geq ||\delta_T||_{\infty} \quad \text{ et } \quad ||\widehat{\delta_T}||_1 \geq \sqrt{N}||\delta_T||_\infty,
+	\end{equation}
+	on a ainsi
+	\begin{equation}\label{eq:ineqmu}
+		\mu(\Gamma_T, \Gamma_W) \leq \frac{\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_{T}}_\omega|}{||\delta||_{\infty}(\sqrt{N} + 1)}. 
+	\end{equation}
+	(Je crois que ce qui suit, jusqu'à l'énoncé du prochain théorème,  est faux, je donne une preuve alternative qui me semble correcte après avoir énoncé le théorème).
+	Maintenant majorons le numérateur avec 
+	\begin{equation}\label{eq:ineqnum}
+		\sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| = ||R_{\Gamma_W} F_W^t F_T \delta_T||_1 \leq ||R_{\Gamma_W} F_W^t F_T ||_\infty ||\delta_T||_\infty 
+	\end{equation}
+	où $||A||_\infty = \sup_i ||c_i||_1$ avec $c_i$ les colonnes de la matrice, et $R_{\Gamma_W}$ est la matrice de projection dans l'espace engendré par les vecteurs indexés par $\Gamma_W$.
+	Donc $R_{\Gamma_W} F_W^t F_T$ est une matrice à $|\Gamma_W|$ lignes et $N$ colonnes, la norme $\ell_1$ de chaque colonne est égale à $\frac{|\Gamma_W|}{\sqrt{N}}$, ainsi, on a\footnote{C'est ici que le choix de la paire de bases a une importance, la matrice $F_W^t F_T$ contient tous les produits scalaires des vecteurs de $W$ et de $T$, dans le dictionnaire de Fourier-Dirac, chacun des coefficients vaut $1/\sqrt{N}$}
+	\begin{equation}\label{eq:ineqdelta1}
+		||R_{\Gamma_W} F_W^t F_T||_\infty = \frac{|\Gamma_W|}{\sqrt{N}}.
+	\end{equation}
+	On peut maintenant en combinant \ref{eq:ineqdelta1} avec \ref{eq:ineqnum} et en utilisant $\sum_{t\in \Gamma_T} |\delta_{T, t}| \leq |\Gamma_T|||\delta_{T,t}||_\infty$ écrire la majoration du numérateur de \ref{eq:ineqmu} :
+	\begin{equation}
+		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+		\leq ||\delta_{T}||_\infty (|\Gamma_T| + \frac{|\Gamma_W|}{\sqrt{N}}). 
+	\end{equation}
+	Il nous reste maintenant à appliquer la majoration que l'on vient de trouver à \ref{eq:ineqmu} et on obtient
+	\begin{equation}
+		\mu(\Gamma_T, \Gamma_W) \leq \frac{|\Gamma_T| + \frac{|T_W|}{\sqrt{N}}}{ \sqrt{N}+1}.
+	\end{equation}
+	On utilise maintenant l'hypothèse (affaiblie) du théorème $|\Gamma_T| < \frac{\sqrt{N}}{2}$ et $|\Gamma_W| < \frac{\sqrt{N}}{2}$ et on obtient
+	\begin{equation}
+		\mu(\Gamma_T, \Gamma_W) < \frac{\frac{\sqrt{N}}{2} + \frac{1}{2}}{\sqrt{N} + 1} =\frac{1}{2}\frac{\sqrt{N} + 1}{\sqrt{N} + 1} = \frac{1}{2}.
+	\end{equation}
+	On vient ainsi de montrer en utilisant le théorème \ref{th:muP1} que si une solution existe vérifiant $||x_T||_0 < \sqrt{N}/2$ et $||x_W||_0 < \sqrt{N}/2$ alors c'est l'unique solution de \ref{P1}.
+	Ce qui conclut la preuve du théorème.
+	En fait on a même montré le théorème suivant 
+	\begin{theoreme}
+	Soit $N$ un entier positif, $\Phi = (T, W)$ est la concaténation des bases de Dirac et de Fourier et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$ vérifiant $f = F_T x_T + F_W x_W$ et
+	\begin{equation}\label{eq:cond1}
+		||x_T||_0 < \frac{1}{2}\sqrt{N} \quad \text{ et } \quad ||x_W||_0 < \frac{1}{2}\sqrt{N}
+	\end{equation}
+	est l'unique solution de (P1), et c'est la solution de (P0).
+
+	\end{theoreme}
+	\begin{preuve}
+		Réécrivons une preuve correcte :
+	\begin{equation}\label{eq:ineqmu}
+		\mu(\Gamma_T, \Gamma_W) \leq \frac{\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_{T}}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}. 
+	\end{equation}
+	Maintenant majorons le numérateur avec 
+	\begin{equation}\label{eq:ineqnum}
+		\sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| = ||R_{\Gamma_W} F_W^t F_T \delta_T||_1 \leq ||R_{\Gamma_W} F_W^t F_T ||_1 ||\delta_T||_1 
+	\end{equation}
+	où $||A||_1 = \sup_i ||c_i||_1$ avec $c_i$ les colonnes de la matrice, et $R_{\Gamma_W}$ est la matrice de projection dans l'espace engendré par les vecteurs indexés par $\Gamma_W$.
+	Donc $R_{\Gamma_W} F_W^t F_T$ est une matrice à $|\Gamma_W|$ lignes et $N$ colonnes, la norme $\ell_1$ de chaque colonne est égale à $\frac{|\Gamma_W|}{\sqrt{N}}$, ainsi, on a\footnote{C'est ici que le choix de la paire de bases a une importance, la matrice $F_W^t F_T$ contient tous les produits scalaires des vecteurs de $W$ et de $T$, dans le dictionnaire de Fourier-Dirac, chacun des coefficients vaut $1/\sqrt{N}$} :
+	\begin{equation}\label{eq:ineqdelta1}
+		||R_{\Gamma_W} F_W^t F_T||_1 = \frac{|\Gamma_W|}{\sqrt{N}}.
+	\end{equation}	
+		Maintenant appliquons la même chose à $\delta_T = -R_{\Gamma_T}F_T^tF_W \delta_W$:
+		\begin{equation}
+			\sum_{t \in \Gamma_T} |\delta_{T,t}| = ||R_{\Gamma_T} F_T^t F_W \delta_W||_1 \leq ||R_{\Gamma_T} F_T^t F_W ||_1 ||\delta_T||_1 
+		\end{equation}
+	ainsi que
+	\begin{equation}
+		||R_{\Gamma_T} F_T^t F_W||_1 = \frac{|\Gamma_T|}{\sqrt{N}}.
+	\end{equation}
+	
+	On peut maintenant rassembler les résultats:
+	\begin{equation}
+		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+		\leq ||\delta_{W}||_1 \frac{|\Gamma_T|}{\sqrt{N}} + ||\delta_{T}||_1 \frac{|\Gamma_W|}{\sqrt{N}}. 
+	\end{equation}
+		On utilise maintenant les hypothèses $|\Gamma_T| < \sqrt{N}/2$ et $|\Gamma_W| < \sqrt{N}/2$, on obtient ainsi :
+	\begin{equation}
+		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+		< \frac{||\delta_{T}||_1 + ||\delta_{W}||_1 }{2}.
+	\end{equation}
+		Il nous reste maintenant à appliquer la majoration que l'on vient de trouver à \ref{eq:ineqmu} et on obtient
+	\begin{equation}
+		\mu(\Gamma_T, \Gamma_W) < \frac{1}{2} \frac{||\delta_T||_1 + ||\delta_W||_1}{||\delta_T||_1 + ||\delta_W||_1} = \frac{1}{2} 
+	\end{equation}
+		Ce qui conclut la preuve (correcte?) du théorème.
+	
+	\end{preuve}
+\end{preuve}	
 \subsection{Définition de (P1)}
 \subsection{Propriétés du minimiseur}
 

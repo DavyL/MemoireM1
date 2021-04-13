@@ -1,0 +1,40 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\begin{tikzpicture}[baseline]
+	\begin{axis}[title = Ondelette $\psi$ de Shannon (temporelle),
+		axis lines = left,
+		scaled ticks = false,
+		xlabel =$t$,
+		ylabel = $\psi_{j, 0}(t)$,
+		legend entries={$j=2$,$j=4$}, 
+		minor y tick num=0.5,
+		minor x tick num=0.5,
+		trig format plots = rad]
+	\addplot[	blue, 
+				domain = -pi:pi,
+				samples = 300]{2*sin(2*4*pi*x)/(4*pi*x) - sin(4*pi*x)/(4*pi*x)}; 
+	\addplot[	red, 
+				domain = -pi:pi,
+				samples = 600]{ sin(2*pi*x)/(pi*x) - sin(pi*x)/(pi*x)}; 	
+	\end{axis}
+\end{tikzpicture}%
+
+\begin{tikzpicture}[baseline]
+	\begin{axis}[title = Ondelette $\phi$ de Shannon (fréquentielle),
+		xlabel =$t$,
+		ylabel = $\phi_{j, 0}(t)$,
+		minor y tick num=0.5,
+		legend entries={$j=2$,$j=4$}, 
+		minor x tick num=0.5,
+		trig format plots = rad]
+		\addplot[	red, 
+				domain = -pi:pi,
+				samples = 600]{ sin(4*pi*x)/(4*pi*x)}; 	
+		\addplot[	blue, 
+				domain = -pi:pi,
+				samples = 600]{ sin(pi*x)/(pi*x)};
+	\end{axis}
+\end{tikzpicture}
+\end{document}

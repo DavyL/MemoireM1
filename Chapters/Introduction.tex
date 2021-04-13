@@ -212,6 +212,9 @@ Introduisons maintenant la décomposition d'une fonction en ondelettes.
 	est une famille génératrice de $L^2(\mathbb{R})$.
 	On appelera\footnote{On considérera par la suite des frames d'ondelettes ou bien des bases de Riesz d'ondelettes} une base engendrée par une telle fonction $\psi$ une base d'ondelettes.
 \end{definition}
+\begin{figure}
+	\includegraphics{Figs/shannon}
+\end{figure}
 \begin{remarque}
 	Dans la définition des ondelettes $\psi_{j,k}$ engendrées par $\psi$, le coefficient $j$ correspond au facteur d'échelle\footnote{Du point de vue des notations, on considère que $j$ tend vers l'infini, signifie que $\psi_j$ analyse les hautes fréquences, ce choix de notation n'est pas uniforme dans la littérature, par exemple (TODO :ajouter ref) Mallat et Daubechies, utilisent $-j$ par rapport à nos notations. Par contre les notations utilisées correspondent à celles de Jaffard et Meyer. Mais cependant tous les résultats sont bien entendu équivalents.},
 	en raison du facteur $2^j$ devant la variable, au fur et à mesure que $j$ augmente, l'ondelette est parcourue de plus en plus vite. Ainsi, augmenter $j$ revient à augmenter la fréquence de $\psi$, c'est à dire d'éloigner le support de $\hat{\psi}$ de l'origine\footnote{En effet, de façon plus précise et formelle, on a $\hat{\psi_{j,0}}(\omega) = 2^{-\frac{j}{2}}\hat{\psi}(\frac{\omega}{2^j})$.}.

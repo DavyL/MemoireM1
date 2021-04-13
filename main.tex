@@ -3,11 +3,22 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{geometry}
 \usepackage{mathabx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{standalone}
+\usepackage{graphicx}
 
 \usepackage[backend = bibtex]{biblatex}
 \addbibresource{bibliography.bib}
+
 \newgeometry{vmargin={30mm}, hmargin={20mm,20mm}}
 
+
+\usetikzlibrary{external}
+\tikzexternalize[shell escape=-enable-write18]
+
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{external}
 \theoremstyle{plain}
 \newtheorem{theoreme}{Theoreme}[section]
 \newtheorem{proposition}[theoreme]{Proposition}
