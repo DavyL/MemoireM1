@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz, pgfplots}
+\pgfplotsset{height =8cm,width = 6cm,compat=1.16}
+\begin{document}
+\begin{tikzpicture}[baseline]
+	\begin{axis}[		xlabel=$k$,
+				ylabel=$2^j$,
+				ytick={0, 1, 2, 4, 8, 16},
+				yticklabels={$0$, $1$, $2$, $4$, $8$, $16=2^4$}
+		]
+		\addplot[	color=black,
+				only marks,
+				mark=x,
+			] table{reptf.dat};
+	\end{axis}
+\end{tikzpicture}
+\end{document}

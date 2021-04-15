@@ -8,25 +8,25 @@
 		axis lines = left,
 		scaled ticks = false,
 		xlabel =$t$,
-		ylabel = $\psi_{j, 0}(t)$,
-		legend entries={$j=0$,$j=1$,$j=2$, $\phi_0$}, 
+		ylabel = $\psi_{j, k}(t)$,
+		legend entries={$\psi_{0,2}$,$\psi_{1,-1}$, $\psi_{2, 4}$},
+		legend pos= north west,
 		minor y tick num=0.5,
 		minor x tick num=pi/2,
 		trig format plots = rad,
 		]
 		
 	\addplot[	red, 
-				domain = -pi:pi,
-				samples = 600]{ 2*sin(2*pi*x)/(pi*x) - sin(pi*x)/(pi*x)}; 	
+				domain = -6.5:12,
+				samples = 600]{ sin(2*pi*(x-2))/(pi*(x-2)) - sin(pi*(x-2))/(pi*(x-2))}; 	
 	
 	\addplot[	blue, 
-				domain = -pi:pi,
-				samples = 600]{ sqrt(2)*sin(2*2*pi*x)/(pi*x) - sqrt(2)*sin(2*pi*x)/(2*pi*x)}; 	
+				domain = -6.5:12,
+				samples = 600]{ sqrt(2)*sin(2*pi*(2*x + 1))/(pi*(2*x +1)) - sqrt(2)*sin(pi*(2*x +1))/(pi*(2*x +1))}; 	
+
 	\addplot[	brown, 
-				domain = -pi:pi,
-				samples = 300]{2*sin(2*4*pi*x)/(4*pi*x) - 2*sin(4*pi*x)/(4*pi*x)}; 
-	\addplot[	black, dashed, domain =-pi:pi,
-			samples = 500]{sin(pi*x)/(pi*x)};
+				domain = -6.5:12,
+				samples = 600]{2*sin(2*pi*(4*x -32))/(pi*(4*x -32)) - 2*sin(pi*(4*x -32))/(pi*(4*x-32))}; 
 	\end{axis}
 \end{tikzpicture}
 \end{document}
