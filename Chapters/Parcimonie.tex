@@ -407,7 +407,11 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 	Pour prouver le théorème on vérifiera donc dans la base de Fourier-Dirac que pour n'importe quelle paires d'indices vérifiant les conditions du théorème alors l'inégalité \ref{eq:condmu} sera vérifiée, et ainsi la solution de \ref{P0} sera bien la même que celle de \ref{P1} ce qui permettra de conclure la preuve du théorème.
 	Enonçons donc cela sous la forme d'un autre lemme
 	\begin{lemme}\label{th:muFD}
-		Soit $\Phi=(T,W)$ la paire de bases Fourier-Dirac, alors pour n'importe quels sous ensemble d'indices $\Gamma_T$ de $T$ et $\Gamma_W$ de $W$, on a,
+		Soit $\Phi=(T,W)$ la paire de bases Fourier-Dirac et soient $\Gamma_T$  et $\Gamma_W$ des sous ensembles d'indices de $T$ et respectivement de $W$ vérifiant
+		\begin{equation}
+			|\Gamma_T| < \frac{\sqrt{N}}{2} \quad \text{et} \quad |\Gamma_W| < \frac{\sqrt{N}}{2},
+		\end{equation}
+		alors on a,
 		\begin{equation}
 			\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}.
 		\end{equation}
@@ -462,43 +466,43 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 			\frac{\sum_{t\in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega|}{||\delta_T||_1 + ||\widehat{\delta_T}||_1} < \frac{1}{2}.
 		\end{equation}
 	\end{proof}	
-	On peut maintenant passer à la preuve du lemme \ref{th:mmuFD}
-	\begin{equation}\label{eq:ineqmu}
-		\mu(\Gamma_T, \Gamma_W) \leq \frac{\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_{T}}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}. 
-	\end{equation}
-	Maintenant majorons le numérateur avec 
-	\begin{equation}\label{eq:ineqnum}
-		\sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| = ||R_{\Gamma_W} F_W^t F_T \delta_T||_1 \leq ||R_{\Gamma_W} F_W^t F_T ||_1 ||\delta_T||_1 
-	\end{equation}
-	où $||A||_1 = \sup_i ||c_i||_1$ avec $c_i$ les colonnes de la matrice, et $R_{\Gamma_W}$ est la matrice de projection dans l'espace engendré par les vecteurs indexés par $\Gamma_W$.
-	Donc $R_{\Gamma_W} F_W^t F_T$ est une matrice à $|\Gamma_W|$ lignes et $N$ colonnes, la norme $\ell_1$ de chaque colonne est égale à $\frac{|\Gamma_W|}{\sqrt{N}}$, ainsi, on a\footnote{C'est ici que le choix de la paire de bases a une importance, la matrice $F_W^t F_T$ contient tous les produits scalaires des vecteurs de $W$ et de $T$, dans le dictionnaire de Fourier-Dirac, chacun des coefficients vaut $1/\sqrt{N}$} :
-	\begin{equation}\label{eq:ineqdelta1}
-		||R_{\Gamma_W} F_W^t F_T||_1 = \frac{|\Gamma_W|}{\sqrt{N}}.
-	\end{equation}	
-		Maintenant appliquons la même chose à $\delta_T = -R_{\Gamma_T}F_T^tF_W \delta_W$:
-		\begin{equation}
-			\sum_{t \in \Gamma_T} |\delta_{T,t}| = ||R_{\Gamma_T} F_T^t F_W \delta_W||_1 \leq ||R_{\Gamma_T} F_T^t F_W ||_1 ||\delta_T||_1 
+	On peut maintenant passer à la preuve du lemme \ref{th:muFD}
+	\begin{proof}
+		\begin{equation}\label{eq:ineqmu}
+			\mu(\Gamma_T, \Gamma_W) \leq \frac{\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_{T}}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}. 
 		\end{equation}
-	ainsi que
-	\begin{equation}
-		||R_{\Gamma_T} F_T^t F_W||_1 = \frac{|\Gamma_T|}{\sqrt{N}}.
-	\end{equation}
-	
-	On peut maintenant rassembler les résultats:
-	\begin{equation}
-		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
-		\leq ||\delta_{W}||_1 \frac{|\Gamma_T|}{\sqrt{N}} + ||\delta_{T}||_1 \frac{|\Gamma_W|}{\sqrt{N}}. 
-	\end{equation}
-		On utilise maintenant les hypothèses $|\Gamma_T| < \sqrt{N}/2$ et $|\Gamma_W| < \sqrt{N}/2$, on obtient ainsi :
-	\begin{equation}
-		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
-		< \frac{||\delta_{T}||_1 + ||\delta_{W}||_1 }{2}.
-	\end{equation}
-		Il nous reste maintenant à appliquer la majoration que l'on vient de trouver à \ref{eq:ineqmu} et on obtient
-	\begin{equation}
-		\mu(\Gamma_T, \Gamma_W) < \frac{1}{2} \frac{||\delta_T||_1 + ||\delta_W||_1}{||\delta_T||_1 + ||\delta_W||_1} = \frac{1}{2} 
-	\end{equation}
-		Ce qui conclut la preuve du lemme \ref{th:muFD} et donc du théorème \ref{th:DiracFourier}.
+		Maintenant majorons le numérateur avec 
+		\begin{equation}\label{eq:ineqnum}
+			\sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| = ||R_{\Gamma_W} F_W^t F_T \delta_T||_1 \leq ||R_{\Gamma_W} F_W^t F_T ||_1 ||\delta_T||_1 
+		\end{equation}
+		où $||A||_1 = \sup_i ||c_i||_1$ avec $c_i$ les colonnes de la matrice, et $R_{\Gamma_W}$ est la matrice de projection dans l'espace engendré par les vecteurs indexés par $\Gamma_W$.
+		Donc $R_{\Gamma_W} F_W^t F_T$ est une matrice à $|\Gamma_W|$ lignes et $N$ colonnes, la norme $\ell_1$ de chaque colonne est égale à $\frac{|\Gamma_W|}{\sqrt{N}}$, ainsi, on a\footnote{C'est ici que le choix de la paire de bases a une importance, la matrice $F_W^t F_T$ contient tous les produits scalaires des vecteurs de $W$ et de $T$, dans le dictionnaire de Fourier-Dirac, chacun des coefficients vaut $1/\sqrt{N}$} :
+		\begin{equation}\label{eq:ineqdelta1}
+			||R_{\Gamma_W} F_W^t F_T||_1 = \frac{|\Gamma_W|}{\sqrt{N}}.
+		\end{equation}	
+			Maintenant appliquons la même chose à $\delta_T = -R_{\Gamma_T}F_T^tF_W \delta_W$:
+			\begin{equation}
+				\sum_{t \in \Gamma_T} |\delta_{T,t}| = ||R_{\Gamma_T} F_T^t F_W \delta_W||_1 \leq ||R_{\Gamma_T} F_T^t F_W ||_1 ||\delta_T||_1 
+			\end{equation}
+		ainsi que
+		\begin{equation}
+			||R_{\Gamma_T} F_T^t F_W||_1 = \frac{|\Gamma_T|}{\sqrt{N}}.
+		\end{equation}
+		On peut maintenant rassembler les résultats:
+		\begin{equation}
+			\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+			\leq ||\delta_{W}||_1 \frac{|\Gamma_T|}{\sqrt{N}} + ||\delta_{T}||_1 \frac{|\Gamma_W|}{\sqrt{N}}. 
+		\end{equation}
+			On utilise maintenant les hypothèses $|\Gamma_T| < \sqrt{N}/2$ et $|\Gamma_W| < \sqrt{N}/2$, on obtient ainsi :
+		\begin{equation}
+			\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+			< \frac{||\delta_{T}||_1 + ||\delta_{W}||_1 }{2}.
+		\end{equation}
+			Il nous reste maintenant à appliquer la majoration que l'on vient de trouver à \ref{eq:ineqmu} et on obtient
+		\begin{equation}
+			\mu(\Gamma_T, \Gamma_W) < \frac{1}{2} \frac{||\delta_T||_1 + ||\delta_W||_1}{||\delta_T||_1 + ||\delta_W||_1} = \frac{1}{2} 
+		\end{equation}
+			Ce qui conclut la preuve du lemme \ref{th:muFD} et donc du théorème \ref{th:DiracFourier}.
 	\end{proof}
 
 
@@ -547,11 +551,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 		||x_T||_0 < \frac{1}{2}\sqrt{N} \quad \text{ et } \quad ||x_W||_0 < \frac{1}{2}\sqrt{N}
 	\end{equation}
 	est l'unique solution de (P1), et c'est la solution de (P0).
-
 	\end{theoreme}
-	\begin{proof}
-		Réécrivons une preuve correcte :
-\end{proof}	
 \subsection{Définition de (P1)}
 \subsection{Propriétés du minimiseur}
 
