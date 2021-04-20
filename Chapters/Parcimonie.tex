@@ -45,7 +45,7 @@ On va maintenant s'intéresser au théorème suivant de Stéphane Mallat qui rel
 	\end{equation}
 	et ainsi on a $\varepsilon_l(N, f) = o(N^{-2r})$.
 \end{theoreme}
-\begin{preuve}
+\begin{proof}
 	On développe le terme au centre de l'égalité dela façon suivante 
 	\begin{equation*}
 		\sum_{N=0}^{\infty} N^{2r-1} \varepsilon_l(N, f) =
@@ -74,7 +74,7 @@ On va maintenant s'intéresser au théorème suivant de Stéphane Mallat qui rel
 	\begin{equation*}
 		\lim_{N\to \infty} \varepsilon_l(N, f)N^{2r} = 0.
 	\end{equation*}
-\end{preuve}
+\end{proof}
 On a ainsi démontré que si $f$ appartient à l'espace
 \begin{equation}
 	W_{\mathcal{B}, r} =\{f : \sum_{m=0}^{+\infty} m^{2r} |\langle f, g_m \rangle |^2 < \infty\}
@@ -175,7 +175,7 @@ On va maintenant démontrer le théorème suivant de Jaffard qui permet de préc
 		|Wf(j, k)| \leq C2^{-j(\alpha + \frac{1}{2})}(1 + |2^{-j}t - t_0|2^{j\alpha}).
 	\end{equation*}
 \end{theoreme}
-\begin{preuve}
+\begin{proof}
 	Remarquons tout d'abord que, soit $P$ un polynôme de degré strictement inférieur à $m$, et $\psi$ une ondelette a $m$-moments nuls, alors, par changement de variable et d'après \ref{eq:momPol} on a :
 	\begin{equation}\label{eq:polAnn}
 		WP(j, k) = \int 2^{j/2} \psi(2^jt - 2^{-j}k) P(t)dt 
@@ -204,7 +204,7 @@ On va maintenant démontrer le théorème suivant de Jaffard qui permet de préc
 		&\leq 2^\alpha C 2^{-j(\alpha + 1/2)}\left( \int|t'|^\alpha |\psi(t')|dt' + |2^{-j}k-t_0|^\alpha 2^{\alpha j}\int |\psi(t')|dt' \right)
 	\end{align*}
 	Ce qui donne le résultat dès que les intégrales considérées sont définies, ce qui est le cas par exemple si l'ondelette est à support compact ou bien à décroissance suffisamment rapide. 
-\end{preuve}
+\end{proof}
 On peut combiner le théorème de Jaffard avec une analyse multi-échelle d'ondelettes avec la proposition suivante :
 \begin{proposition}
 	Soit $f:]0,1[ \to \mathbb{R}$ une fonction $\alpha$-Lispchitzienne avec $\alpha>1$, alors il existe une constante $C>0$ et une base d'ondelette orthonormales associée à une multiresolution $\{(\psi_{j,k})_{(i,j): j\geq J, 2^{j} > k\geq 0}\}, \{\varphi_{J,k}\}_k$ avec $m>\alpha$ moments nuls telle que  
@@ -213,7 +213,7 @@ On peut combiner le théorème de Jaffard avec une analyse multi-échelle d'onde
 	\end{equation}
 	avec $N=2^J$.
 \end{proposition}
-\begin{preuve}
+\begin{proof}
 	L'existence d'une telle base d'ondelette n'est pas démontrée ici, des constructions peuvent être trouvées dans (ajouter ref) pour obtenir des bases de $L^2(\mathbb{R})$, on peut ainsi considérer une telle multirésolution donnée par une ondelette de Daubechies ou bien une coiflet à $m>\alpha$ moments nuls.
 	Il est ensuite possible, avec quelques difficultés d'obtenir depuis ces ondelettes, une base orthonormale de $L^2(]0,1[)$ (ajouter ref).
 	Soit $f$ une fonction $\alpha$-Lipschitzienne sur $]0,1[$, on a ainsi d'après la partie sur les frames et l'existence de la base d'ondelette précédente admise, une formule de reconstruction
@@ -238,8 +238,8 @@ On peut combiner le théorème de Jaffard avec une analyse multi-échelle d'onde
 		&\leq \sum_{j=J+1}^{+\infty} C^2 2^{-j(2\alpha + 1)} 2^{j} = \sum_{j=J+1}^{+\infty} C^2 2^{-j2\alpha} \\
 		&\leq \frac{C^2}{1 - 4^{-\alpha}} 2^{-2J\alpha}	
 	\end{align*}
-	ce qui prouve la proposition.\qedhere
-\end{preuve}
+	ce qui prouve la proposition.
+\end{proof}
 \section{Résolution de (P0)}
 Dans ce qui précède, nous nous sommes intéressés aux propriétés qui font qu'une famille de vecteurs permet de reconstruire une famillle de signaux.
 Nous avons vu différentes bases (Fourier et ondelettes) et nous avons vu que ces bases permettent de reconstruire des signaux présentant un certain type de régularité avec des coefficients qui suivent une décroissance assez rapide.
@@ -298,7 +298,7 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 			||F_W f||_0 + ||F_T f||_0 \geq 2 \sqrt{N}. 	
 		\end{equation}
 	\end{theoreme}
-	\begin{preuve}
+	\begin{proof}
 	TODO :Ajouter Ref Tao uncertainty principle for cyclic....
 		Soit $0 \leq \omega \leq N-1$ un entier, alors 
 		\begin{align}
@@ -318,7 +318,7 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 			\sqrt{||F_T f||_0 ||F_W f||_0} \leq \frac{||F_T f||_0 + ||F_W f||_0}{2}
 		\end{equation}
 	et on a déjà montré que le terme de gauche est supérieur ou égal à $\sqrt{N}$.
-	\end{preuve}
+	\end{proof}
 	Observons que sans restrictions sur $N$, l'inégalité obtenue ne peut pas être améliorée, comme observé dans (Donoho-Stark 89 /Donoho-Huo TODO: ajouter ref), si $N$ est un carré, alors, la fonction avec des 1 seulement aux coefficients multiples de $\sqrt{N}$ et 0 ailleurs est sa propre transformée de Fourier et ainsi elle a $2\sqrt{N}$ coefficients dans le dictionnaire $(T,W)$ et ainsi l'inégalité est atteinte.
 	Une conséquence de cela est qu'une condition sur la parcimonie de la forme $||F_T f||_0 + ||F_W||_0 < K$ avec $K>\sqrt{N}$ ne pourra pas garantir l'unicité de la solution de (P0).
 	Montrons que si $K = \sqrt{N}$ alors on a l'unicité de la solution de (P0).
@@ -376,67 +376,137 @@ En effet nous allons voir que résoudre le problème \ref{P1},
 \end{equation}
 permet sous certaines conditions de résoudre \ref{P0}.
 L'intéret de \ref{P1} est que c'est un problème de programmation linéaire et de nombreuses méthodes permettent de le résoudre. (TODO ajouter refs et détails).
-Précisons donc ce que nous avons affirmé, dans le même cadre que précedemment, c'est à dire dans le cas d'un dictionnaire $\Phi = (T,W)$ temps fréquence composé de la base de Fourier et de Diracdans $\mathbb{R}^N$.
+Précisons donc ce que nous avons affirmé, dans le même cadre que précedemment, c'est à dire dans le cas d'un dictionnaire $\Phi = (T,W)$ temps fréquence composé de la base de Fourier et de Dirac dans $\mathbb{R}^N$.
 \begin{theoreme}\label{th:DiracFourier}
 	Soit $N$ un entier positif, $\Phi = (T, W)$ est la concaténation des bases de Dirac et de Fourier et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$ vérifiant $f = F_T x_T + F_W x_W$ et
 	\begin{equation}\label{eq:cond1}
-		||x_T||_0 + ||x_W||_0 < \frac{1}{2}\sqrt{N}
+		||x_T||_0 < \frac{\sqrt{N}}{2} \quad \text{et} \quad   ||x_W||_0 < \frac{\sqrt{N}}{2}
 	\end{equation}
-	est l'unique solution de (P1), et c'est la solution de (P0).
+	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
 \end{theoreme}
-\begin{preuve}
+\begin{proof}
+	La preuve de ce théorème se fait en plusieurs parties.
 	Tout d'abord, remarquons que si $x$ vérifie \ref{eq:cond1}, alors $x$ vérifie \ref{eq:Incert1} et donc d'après le théorème \ref{th:Incert2} $x$ est donc l'unique condition de \ref{P0}.
 	Il nous faut donc vérifier que cette solution est bien la solution de (P1).
-	Supposons que $x$ vérifie les conditions du théorème, on doit donc montrer que si $x$ est l'unique solution de (P1), alors pour tout $x_1$ différent de $x$ qui vérifie $f = F x_1$ alors $||x_1||_1 > ||x||_1$.
-	Donc de façon équivalente, pour tout $\delta \in \mathcal{N} = \{\delta : F_\Phi \delta = 0\}$ non nul, on doit vérifier que
-	\begin{equation}
-		||x + \delta||_1 - ||x|| > 0.
-	\end{equation}
-	Notons $\Gamma = \{\gamma : c_\gamma \neq 0\} = \Gamma_T \cup \Gamma_W \subset [0, 2N-1]$ l'ensemble des indices non nuls de $x = (c_\gamma)_\gamma$, 
-	on peut donc décomposer la somme
-	\begin{equation}
-		||x + \delta||_1 - ||x||_1 = \sum_{\gamma \in \Gamma^c} |\delta_\gamma| + \sum_{\gamma \in \Gamma} |c_\gamma + \delta_\gamma| - |c_\gamma|.
-	\end{equation}
-	Par l'inégalité triangulaire on a $|c_\gamma| \leq |c_\gamma + \delta_\gamma| + |\delta_\gamma|$ quel que soit $\gamma$.
-	On a ainsi 
-	\begin{equation}
-		|c_\gamma + \delta_\gamma| - |c_\gamma| \geq -|\delta_\gamma|
-	\end{equation}
-	et en insérant cette inégalité dans la somme on obtient
-	\begin{equation}
-		||x + \delta||_1 - ||x||_1 \geq \sum_{\gamma \in \Gamma^c} |\delta_\gamma| - \sum_{\gamma \in \Gamma} |\delta_\gamma|,
-	\end{equation}
-	ainsi une condition suffisante pour obtenir l'unicité est que pour $\delta \in \mathcal{N}$ non nul on ait
-	\begin{equation}\label{eq:ineqdelta}
-		\sum_{\gamma \in \Gamma} |\delta_\gamma| < \sum_{\gamma \in \Gamma^c} |\delta_\gamma|. 
-	\end{equation}
-	Avec des mots cela revient à dire que si $\delta$ est dans $\mathcal{N}$ et non nul, alors $\delta$ a plus de poids hors du support de $x$ que sur le support de $x$.
-	En ajoutant le terme de gauche de l'inégalité précédente des deux côtés on obtient
-	\begin{equation}
-		\sum_{\gamma \in \Gamma} |\delta_\gamma| < \frac{1}{2} \left(\sum_{t \in T} |\delta_{T, t}| + \sum_{\omega \in W} |\delta_{W, \omega}|\right) = \frac{||\delta_T||_1 + ||\delta_W||_1}{2}
-	\end{equation}
-	On avait vu avec \ref{eq:structN} que les éléments $\delta$ de $\mathcal{N}$ sont de la forme $(\delta_T, -F_W^t F_T \delta_T) = (\delta_T, -\widehat{\delta_T})$, donc \ref{eq:ineqdelta} devient
-	\begin{equation}
-		\sum_{t\in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega|
-		< \frac{||\delta_T||_1 + ||\widehat{\delta_T}||_1}{2}
-	\end{equation}
-	On peut ainsi définir la quantité
-	\begin{equation}
-		\mu(\Gamma_T, \Gamma_W) = \sup_x \frac{	\sum_{t\in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}
-	\end{equation}
-	et ainsi la condition suffisante pour que la solution de \ref{P1} soit unique devient
-	\begin{equation}
-		\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}.
-	\end{equation}
-	Avant de démontrer que cette inégalité est bien vérifiée énonçons ce que nous avons démontré qui est une généralisation du théorème \ref{th:DiracFourier} :
-	\begin{theoreme}\label{th:muP1}
-		Soit $N$ un entier positif et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$, où $\Gamma_T$ est le support de $x_T$ et $\Gamma_W$ est le support de $x_W$, 	vérifiant $f = F_T x_T + F_W x_W$ et
+	On montre ensuite un lemme qui permet de donner une condition suffisante pour qu'une paire de bases vérifie que la solution obtenue est bien celle de \ref{P1}.
+	On vérifiera ensuite que dans la paire de bases Fourier-Dirac, les conditions du lemme sont vérifiées et cela permettra de conclure la preuve du théorème.
+	Avant d'énoncer le lemme, définissons une quantité $\mu$ qui mesure dans une paire de bases $\Phi=(T,W)$ à quel point un élément dans le noyau de $F_\Phi$ peut être supporté à la fois sur $T$ et sur $W$.
+	\begin{definition}
+		Soit $\Phi = (T,W)$ une paire de bases, on note $\mathcal{N} = \{\delta = (\delta_T, \delta_W): F_\Phi \delta = 0\}$, soit $\Gamma_T$ (resp. $\Gamma_W$) un ensemble d'indices de $T$ (resp. $W$), alors on pose
 		\begin{equation}
+			\mu(\Gamma_T, \Gamma_W) = \sup_{\delta \in \mathcal{N}} \frac{\sum_{t \in \Gamma_T} |\delta_{T,t}| + \sum_{\omega \in \Gamma_W} |\delta_{W,\omega}|  }{||\delta_T||_1 + ||\delta_W||_1 }
+		\end{equation}
+	\end{definition}
+	\begin{lemme}\label{th:muP1}
+		Soit un signal $f \in \mathbb{R}^N$ et $\Phi=(T,W)$ une paire de bases de $\mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$, où $\Gamma_T$ est le support de $x_T$ et $\Gamma_W$ est le support de $x_W$, 	vérifiant $f = F_T x_T + F_W x_W$ et
+		\begin{equation}\label{eq:condmu}
 			\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}
 		\end{equation}
 		est l'unique solution de \ref{P1}.
-	\end{theoreme}
-	Montrons donc que dans le dictionnaire Fourier-Dirac cette condition est bien vérifiée,
+	\end{lemme}
+	Pour prouver le théorème on vérifiera donc dans la base de Fourier-Dirac que pour n'importe quelle paires d'indices vérifiant les conditions du théorème alors l'inégalité \ref{eq:condmu} sera vérifiée, et ainsi la solution de \ref{P0} sera bien la même que celle de \ref{P1} ce qui permettra de conclure la preuve du théorème.
+	Enonçons donc cela sous la forme d'un autre lemme
+	\begin{lemme}\label{th:muFD}
+		Soit $\Phi=(T,W)$ la paire de bases Fourier-Dirac, alors pour n'importe quels sous ensemble d'indices $\Gamma_T$ de $T$ et $\Gamma_W$ de $W$, on a,
+		\begin{equation}
+			\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}.
+		\end{equation}
+	\end{lemme}
+	Ainsi, une fois les lemmes démontrés, le théorème le sera aussi.
+	\end{proof}
+	Commençons par la preuve du lemme \ref{th:muP1}.
+	\begin{proof}
+		Supposons que $x$ vérifie les conditions du lemme, c'est à dire, $x$ est effectivement une solution de l'équation $f=F_\Phi x$ et la condition \ref{eq:condmu} est vérifiée sur $\Phi$, alors on doit donc montrer que $x$ est l'unique solution de (P1), on doit donc montrer que pour tout $x_1$ différent de $x$ qui vérifie $f = F_\Phi x_1$ alors $||x_1||_1 > ||x||_1$. 
+		Donc de façon équivalente, pour tout $\delta \in \mathcal{N} = \{\delta : F_\Phi \delta = 0\}$ non nul, on doit vérifier que
+		\begin{equation}\label{eq:ineqdelta3}
+			||x + \delta||_1 - ||x|| > 0.
+		\end{equation}
+		Notons $\Gamma = \{\gamma : c_\gamma \neq 0\} = \Gamma_T \cup \Gamma_W \subset [0, 2N-1]$ l'ensemble des indices non nuls de $x = (c_\gamma)_\gamma$, 
+		on peut donc décomposer la somme
+		\begin{equation}
+			||x + \delta||_1 - ||x||_1 = \sum_{\gamma \in \Gamma^c} |\delta_\gamma| + \sum_{\gamma \in \Gamma} |c_\gamma + \delta_\gamma| - |c_\gamma|.
+		\end{equation}
+		Par l'inégalité triangulaire on a $|c_\gamma| \leq |c_\gamma + \delta_\gamma| + |\delta_\gamma|$ quel que soit $\gamma$.
+		On a ainsi 
+		\begin{equation}
+			|c_\gamma + \delta_\gamma| - |c_\gamma| \geq -|\delta_\gamma|
+		\end{equation}
+		et en insérant cette inégalité dans la somme on obtient
+		\begin{equation}
+			||x + \delta||_1 - ||x||_1 \geq \sum_{\gamma \in \Gamma^c} |\delta_\gamma| - \sum_{\gamma \in \Gamma} |\delta_\gamma|,
+		\end{equation}
+		ainsi une condition suffisante pour obtenir l'unicité est que pour $\delta \in \mathcal{N}$ non nul on ait
+		\begin{equation}\label{eq:ineqdelta}
+			\sum_{\gamma \in \Gamma} |\delta_\gamma| < \sum_{\gamma \in \Gamma^c} |\delta_\gamma|. 
+		\end{equation}
+		Avec des mots cela revient à dire que si $\delta$ est dans $\mathcal{N}$ et non nul, alors $\delta$ a plus de poids hors du support de $x$ que sur le support de $x$.
+		En ajoutant le terme de gauche de l'inégalité précédente des deux côtés on obtient
+		\begin{equation}
+			\sum_{\gamma \in \Gamma} |\delta_\gamma| < \frac{1}{2} \left(\sum_{t \in T} |\delta_{T, t}| + \sum_{\omega \in W} |\delta_{W, \omega}|\right) = \frac{||\delta_T||_1 + ||\delta_W||_1}{2}.
+		\end{equation}
+		Donc l'inégalité précédente est aussi une condition suffisante pour que \ref{eq:ineqdelta3} soit vérifiée et on peut réécrire cette inégalité sous la forme
+		\begin{equation}\label{eq:ineqdelta4}
+			\frac{\sum_{t \in \Gamma_T} |\delta_{T,t}| + \sum_{\omega \in \Gamma_W} |\delta_{W,\omega}|  }{||\delta_T||_1 + ||\delta_W||_1 } < \frac{1}{2}.
+		\end{equation}
+		On veut que l'inégalité soit vérifiée pour n'importe quel delta, donc en vérifiant la condition sur le suprémum des $\delta$ dans le noyau de $F_\Phi$ le lemme sera vrai.
+		C'est exactement la condition \ref{eq:ineqmu} du lemme
+		\begin{equation}
+			\mu(\Gamma_T, \Gamma_W) := \sup_{\delta \in \mathcal{N}} \frac{\sum_{t \in \Gamma_T} |\delta_{T,t}| + \sum_{\omega \in \Gamma_W} |\delta_{W,\omega}|  }{||\delta_T||_1 + ||\delta_W||_1 } < \frac{1}{2}.
+		\end{equation}
+		Le lemme \ref{th:muP1} est donc bien démontré.
+		
+		
+		On peut au passage remarquer qu'on peut utiliser la structure du noyau de $F_\Phi$ de la façon suivante afin d'obtenir une écriture équivalente de \ref{eq:ineqmu} mais qui utilise le fait qu'un élément du noyau de $F_\Phi$ est entièrement déterminé par ses coefficients dans l'une des deux bases.
+		On avait vu avec \ref{eq:structN} que les éléments $\delta$ de $\mathcal{N}$ sont de la forme $(\delta_T, -F_W^t F_T \delta_T) =: (\delta_T, -\widehat{\delta_T})$, donc \ref{eq:ineqdelta4} devient
+		\begin{equation}
+			\frac{\sum_{t\in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega|}{||\delta_T||_1 + ||\widehat{\delta_T}||_1} < \frac{1}{2}.
+		\end{equation}
+	\end{proof}	
+	On peut maintenant passer à la preuve du lemme \ref{th:mmuFD}
+	\begin{equation}\label{eq:ineqmu}
+		\mu(\Gamma_T, \Gamma_W) \leq \frac{\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_{T}}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}. 
+	\end{equation}
+	Maintenant majorons le numérateur avec 
+	\begin{equation}\label{eq:ineqnum}
+		\sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| = ||R_{\Gamma_W} F_W^t F_T \delta_T||_1 \leq ||R_{\Gamma_W} F_W^t F_T ||_1 ||\delta_T||_1 
+	\end{equation}
+	où $||A||_1 = \sup_i ||c_i||_1$ avec $c_i$ les colonnes de la matrice, et $R_{\Gamma_W}$ est la matrice de projection dans l'espace engendré par les vecteurs indexés par $\Gamma_W$.
+	Donc $R_{\Gamma_W} F_W^t F_T$ est une matrice à $|\Gamma_W|$ lignes et $N$ colonnes, la norme $\ell_1$ de chaque colonne est égale à $\frac{|\Gamma_W|}{\sqrt{N}}$, ainsi, on a\footnote{C'est ici que le choix de la paire de bases a une importance, la matrice $F_W^t F_T$ contient tous les produits scalaires des vecteurs de $W$ et de $T$, dans le dictionnaire de Fourier-Dirac, chacun des coefficients vaut $1/\sqrt{N}$} :
+	\begin{equation}\label{eq:ineqdelta1}
+		||R_{\Gamma_W} F_W^t F_T||_1 = \frac{|\Gamma_W|}{\sqrt{N}}.
+	\end{equation}	
+		Maintenant appliquons la même chose à $\delta_T = -R_{\Gamma_T}F_T^tF_W \delta_W$:
+		\begin{equation}
+			\sum_{t \in \Gamma_T} |\delta_{T,t}| = ||R_{\Gamma_T} F_T^t F_W \delta_W||_1 \leq ||R_{\Gamma_T} F_T^t F_W ||_1 ||\delta_T||_1 
+		\end{equation}
+	ainsi que
+	\begin{equation}
+		||R_{\Gamma_T} F_T^t F_W||_1 = \frac{|\Gamma_T|}{\sqrt{N}}.
+	\end{equation}
+	
+	On peut maintenant rassembler les résultats:
+	\begin{equation}
+		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+		\leq ||\delta_{W}||_1 \frac{|\Gamma_T|}{\sqrt{N}} + ||\delta_{T}||_1 \frac{|\Gamma_W|}{\sqrt{N}}. 
+	\end{equation}
+		On utilise maintenant les hypothèses $|\Gamma_T| < \sqrt{N}/2$ et $|\Gamma_W| < \sqrt{N}/2$, on obtient ainsi :
+	\begin{equation}
+		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
+		< \frac{||\delta_{T}||_1 + ||\delta_{W}||_1 }{2}.
+	\end{equation}
+		Il nous reste maintenant à appliquer la majoration que l'on vient de trouver à \ref{eq:ineqmu} et on obtient
+	\begin{equation}
+		\mu(\Gamma_T, \Gamma_W) < \frac{1}{2} \frac{||\delta_T||_1 + ||\delta_W||_1}{||\delta_T||_1 + ||\delta_W||_1} = \frac{1}{2} 
+	\end{equation}
+		Ce qui conclut la preuve du lemme \ref{th:muFD} et donc du théorème \ref{th:DiracFourier}.
+	\end{proof}
+
+
+
+
+
+	Avant de démontrer que cette inégalité est bien vérifiée énonçons ce que nous avons démontré qui est une généralisation du théorème \ref{th:DiracFourier} :
+		Montrons donc que dans le dictionnaire Fourier-Dirac cette condition est bien vérifiée,
 	Tout d'abord minorons le dénominateur avec 
 	\begin{equation}
 		||\delta_T||_1 \geq ||\delta_T||_{\infty} \quad \text{ et } \quad ||\widehat{\delta_T}||_1 \geq \sqrt{N}||\delta_T||_\infty,
@@ -479,47 +549,9 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 	est l'unique solution de (P1), et c'est la solution de (P0).
 
 	\end{theoreme}
-	\begin{preuve}
+	\begin{proof}
 		Réécrivons une preuve correcte :
-	\begin{equation}\label{eq:ineqmu}
-		\mu(\Gamma_T, \Gamma_W) \leq \frac{\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_{T}}_\omega|}{||\delta_T||_1 + ||\delta_W||_1}. 
-	\end{equation}
-	Maintenant majorons le numérateur avec 
-	\begin{equation}\label{eq:ineqnum}
-		\sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| = ||R_{\Gamma_W} F_W^t F_T \delta_T||_1 \leq ||R_{\Gamma_W} F_W^t F_T ||_1 ||\delta_T||_1 
-	\end{equation}
-	où $||A||_1 = \sup_i ||c_i||_1$ avec $c_i$ les colonnes de la matrice, et $R_{\Gamma_W}$ est la matrice de projection dans l'espace engendré par les vecteurs indexés par $\Gamma_W$.
-	Donc $R_{\Gamma_W} F_W^t F_T$ est une matrice à $|\Gamma_W|$ lignes et $N$ colonnes, la norme $\ell_1$ de chaque colonne est égale à $\frac{|\Gamma_W|}{\sqrt{N}}$, ainsi, on a\footnote{C'est ici que le choix de la paire de bases a une importance, la matrice $F_W^t F_T$ contient tous les produits scalaires des vecteurs de $W$ et de $T$, dans le dictionnaire de Fourier-Dirac, chacun des coefficients vaut $1/\sqrt{N}$} :
-	\begin{equation}\label{eq:ineqdelta1}
-		||R_{\Gamma_W} F_W^t F_T||_1 = \frac{|\Gamma_W|}{\sqrt{N}}.
-	\end{equation}	
-		Maintenant appliquons la même chose à $\delta_T = -R_{\Gamma_T}F_T^tF_W \delta_W$:
-		\begin{equation}
-			\sum_{t \in \Gamma_T} |\delta_{T,t}| = ||R_{\Gamma_T} F_T^t F_W \delta_W||_1 \leq ||R_{\Gamma_T} F_T^t F_W ||_1 ||\delta_T||_1 
-		\end{equation}
-	ainsi que
-	\begin{equation}
-		||R_{\Gamma_T} F_T^t F_W||_1 = \frac{|\Gamma_T|}{\sqrt{N}}.
-	\end{equation}
-	
-	On peut maintenant rassembler les résultats:
-	\begin{equation}
-		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
-		\leq ||\delta_{W}||_1 \frac{|\Gamma_T|}{\sqrt{N}} + ||\delta_{T}||_1 \frac{|\Gamma_W|}{\sqrt{N}}. 
-	\end{equation}
-		On utilise maintenant les hypothèses $|\Gamma_T| < \sqrt{N}/2$ et $|\Gamma_W| < \sqrt{N}/2$, on obtient ainsi :
-	\begin{equation}
-		\sum_{t \in \Gamma_T} |\delta_{T, t}| + \sum_{\omega \in \Gamma_W} |\widehat{\delta_T}_\omega| 
-		< \frac{||\delta_{T}||_1 + ||\delta_{W}||_1 }{2}.
-	\end{equation}
-		Il nous reste maintenant à appliquer la majoration que l'on vient de trouver à \ref{eq:ineqmu} et on obtient
-	\begin{equation}
-		\mu(\Gamma_T, \Gamma_W) < \frac{1}{2} \frac{||\delta_T||_1 + ||\delta_W||_1}{||\delta_T||_1 + ||\delta_W||_1} = \frac{1}{2} 
-	\end{equation}
-		Ce qui conclut la preuve (correcte?) du théorème.
-	
-	\end{preuve}
-\end{preuve}	
+\end{proof}	
 \subsection{Définition de (P1)}
 \subsection{Propriétés du minimiseur}
 

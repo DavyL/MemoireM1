@@ -202,6 +202,99 @@ et pour conclure, on projète $\pi(f)$, sur chaque composante $f_k$ et on obtien
 \end{align*}
 On a donc, si $f$ est dans l'espace engendré par F, alors la projection ne change pas les coordonées de $f$, sinon, si $f$ est dans l'orthogonal de $F$, alors chacune de ses composantes est orthogonale à tous les $f_i$, donc $f$ est dans le noyau de $\pi$.
 Ainsi, $\pi$ est bien une projection orthogonale dans $F$.
+\newline
+On dispose donc d'une formule de reconstruction qui est valable pour tout $f$ qui est dans l'espace engendré par $F$ 
+\begin{equation}
+	f = \frac{1}{M} \sum_{f_i \in F} \langle f, f_i \rangle f_i 
+\end{equation}
+cependant cette formule ne semble rajouter que des complications par rapport à une base orthonormale (cas $m=M=1$ d'après la combinaison des théorèmes \ref{th:orth1} et \ref{th:norm1}). 
+Nous allons donc voir ci-dessous en quoi avoir un coefficient de frame équilibré $M>1$ permet d'améliorer la stabilité de la formule de reconstruction, on appelera un tel frame redondant.
+Ainsi, comme aperçu par Jean Morlet dès 1986 (TODO: ajouter ref Daubechies) travailler avec des frames permet, en pratique, de pouvoir stocker des coefficients de frame avec moins de précision.
+Avant de poursuivre et de prouver cette observation de Jean Morlet, voyons d'abord rapidement comment obtenir la redondance d'un frame équilibré d'un point de vue formel.
+Soit $F=(f_i)_{i=1, \cdots, N}$ un frame équilibré et on considère $Vect(F)$ l'espace vectoriel engendré par $F$, qui est un espace vectoriel de dimension $d$. 
+Si les éléments de $F$ ne sont pas linéairement indépendants, alors on a $d<N$ et $M>1$.
+Montrons avec le lemme suivant la relation entre le nombre d'éléments dans un frame équilibré ($N$), la constante de frame ($M$) et la dimension de l'espace engendré par le frame ($d$).
+\begin{lemme}
+	Soit $\Phi =(\varphi_i)_{i=1, \cdots, N}$ un frame avec des constantes de frame $m=M$ qui engendre $Vect \Phi$ un espace vectoriel de dimension $d$.
+	Alors
+	\begin{equation}
+		\frac{N}{M^2} \leq d?
+	\end{equation}
+\end{lemme}
+\begin{proof}
+	Afin de prouver ce résultat rappelons que l'on a l'opérateur d'analyse
+	\begin{align}
+		\mathbb{R}^d &\longrightarrow^A \ell^2(N)\\
+		f \longmapsto (\langle f, \varphi_i \rangle)_{i=1,\cdots, N}
+	\end{align}
+	et le frame étant équilibré, la boule $B_d(0,1)$ dans $\mathbb{R}^d$ de rayon 1 est envoyée sur la boule $B_N(0,M)$ de $\ell^2(N) := \ell^2(\{0, \cdots, N\})$.
+	Maintenant, on considère l'opérateur de synthèse,
+	\begin{align}
+		\ell^2(N) &\longrightarrow^S \mathbb{R}^d\\
+		x=(x_i)_{i=1, \cdots, N} &\longmapsto \sum_{i=1}^N x_i \varphi_i
+	\end{align}
+	et on considère, sans perte de généralité que chaque $\varphi_i$ est normalisé. Ainsi chaque à chaque $\varphi_i$, on peut associer une suite $(\lambda_j^i)_{j=0, \cdots, d}=(\langle \varphi_i, e_j)_{j=0,\cdots, d}$ de norme 1 dans $\mathbb{R}^d$ muni de la norme euclidienne telle que $\varphi_i = \sum_{j=1}^d \lambda_j^i e_j$ où $e_j$ est une base orthonormale de $\mathbb{R}^d$. 
+	L'objectif est maintenant de réécrire $S(x)$ dans la base orthonormale, on a ainsi
+	\begin{equation}
+		\sum_{i=1}^N x_i \varphi_i = \sum_{i=1}^N x_i \sum_{j=1}^d \lambda_j^i e_j = \sum_{j=1}^d \sum_{i=1}^N x_i \lambda_j^ie_j =\sum_{j=1}^d c_j e_j,
+	\end{equation}
+	où $c_j = \sum_{i=1}^Nx_i\lambda_j^i$. On va maintenant majorer les $c_j$ de façon uniforme, chaque $\lambda_j^i$ correspond à la projection de $\varphi_i$ sur $e_j$, chaque $\varphi_i$ est dans la boule unité ainsi $c_j$ correspond à la projection de tous les $\varphi_i$ sur $e_j$, ainsi on a la majoration
+	\begin{equation}
+		c_j \leq ||x||_2 M.
+	\end{equation}
+	On a maintenant la majoration,
+	\begin{equation}
+		||S (x)||^2_2 = ||\sum_{j=1}^d c_j e_j||_2^2= \sum_{j=1}^d c_j^2 \leq d M^2||x||_2^2. 
+	\end{equation}
+	On va maintenant chercher une minoration de $||S(x)||_2^2$,
+	\begin{equation}
+		||S(x)||_2^2 = ||\sum_{i=1}^N x_i \sum_{j=1}^d \lambda_j^i e_j||_2^2 \geq N||x||_2^2 \min_{i=1, \cdots, N} ||\sum_{j=1}^d \lambda_j^i e_j||_2^2 = N||x||_2^2 \min_{i=1, \cdots, N}\sum_{j=1}^d (\lambda_j^i)^2.
+	\end{equation}
+	Or,
+	\begin{equation}
+		\sum_{i=1}^d (\lambda_j^i)^2 = \sum_{i=1}^d \langle \varphi_j, e_i \rangle =||\varphi_j||_2^2=1.  
+	\end{equation}
+	On peut donc combiner les inégalités obtenues et on a
+	\begin{equation}
+		N ||x||_2^2 \leq ||S(x)||_2^2 \leq d M^2||x||_2^2
+	\end{equation}
+	et ainsi
+	\begin{equation}
+		\frac{N}{M^2} \leq d.
+	\end{equation}
+\end{proof}
+Fixons maintenant un élément $f\in  Vect(F)$,
+supposons tout d'abord que l'on est dans le cas classique où ${e_i}_{i=1, \cdots, d}$ est une base orthonormale de $Vect(F)$, on a ainsi la formule standard,
+\begin{equation*}
+	f = \sum_{i=1}^d \langle f, e_i \rangle e_i = \sum_{i=1}^d c_i e_i
+\end{equation*}
+Maintenant perturbons les coefficients de la façon suivante, fixons un $\epsilon >0$ qui nous permettra de contrôler la taille de la perturbation introduite, et prenons $d$ variables aléatoires réelles indépendantes $(\alpha_i)_{i=1,\cdots, d}$ de moyenne nulle et de variance égale à 1.
+On peut alors perturber chaque coefficient $c_i$ en y ajoutant $\epsilon \alpha_i$, on peut alors calculer l'erreur de reconstruction moyenne
+\begin{align*}
+	\mathbb{E}\left(|| f- \sum_{i=1}^d (c_i + \epsilon \alpha_i)e_i||_2^2\right) &= \mathbb{E}\left(\sum_{i=1}^d \epsilon^2 \alpha_i^2\right)\\
+		&= \epsilon^2 \sum_{i=1}^d \mathbb{E} (\alpha_i^2) = \epsilon^2 d.
+\end{align*} 
+Maintenant appliquons la même altération aux coefficients de $f$ dans le frame $F$ afin de calculer l'erreur de reconstruction moyenne.
+Ainsi, on a la formule de reconstruction
+\begin{equation*}
+	f = \frac{1}{M}\sum_{i=1}^N \langle f, f_i \rangle f_i
+\end{equation*}
+et prenons $N$ variables aléatoires réelles indépendantes $(\alpha_i)_{i=1, \cdots, N}$  de moyenne nulle et de variance égale à 1.
+\begin{align*}
+	\mathbb{E}\left(|| f- \frac{1}{M}\sum_{i=1}^N (\langle f, f_i\rangle + \epsilon \alpha_i)e_i||_2^2\right) &= \mathbb{E}\left(||\frac{1}{M} \sum_{i=1}^N \epsilon \alpha_i||_2^2\right)\\
+	&= \frac{\epsilon^2}{M^2} \mathbb{E}(\sum_{i=1}^N \alpha_i^2) = \frac{\epsilon^2 N}{M^2}.	
+\end{align*}
+Ainsi, d'après le lemme précédent, l'erreur de reconstruction moyenne d'un frame redondant est toujours au moins aussi petite que l'erreur de reconstruction dans une base orthonormale.
+Montrons avec un exemple dans $\mathbb{R}^2$ que l'on peut faire mieux que le résultat du lemme.
+Soit $\varphi_1 = (0, 1), \varphi_2 = (-\frac{\sqrt{3}}{2}, -\frac{1}{2}), \varphi_3 =(\sqrt{3}{2}, -\frac{1}{2})$ et prenons $x=(x_1, x_2)$ un élément de $\mathbb{R}^2$, alors,
+\begin{align*}
+	\sum_{i=1}^3 |\langle x, \varphi_i \rangle|^2 &= |x_2|^2 + |-\frac{\sqrt{3}}{2}x_1 -\frac{1}{2} x_2|^2 + |\frac{\sqrt{3}}{2}x_2 - \frac{1}{2}x_1|2 \\
+	&= \frac{3}{2}(|x_1|^2 + |x_2|^2) = \frac{3}{2} ||x||_2^2.
+\end{align*}
+Ainsi, les vecteurs $(\varphi_1, \varphi_2, \varphi_3)$ forment un frame équilibré de constante $M=\frac{3}{2}$ de $\mathbb{R}^2$.
+On a alors $\frac{N}{M^2} = \frac{3}{M^2} = \frac{4}{3} < 2 = d$.
+Donc dans le cas de ce frame, l'erreur de reconstruction moyenne après perturbation des coefficients est améliorée d'un facteur $\frac{2}{3}$ par rapport à celle que l'on obtiendrait en utilisant une base orthonormale de $\mathbb{R}^2$.
+
 \subsection{Exemples de frames (Fourier, ondelettes)}
 Introduisons maintenant la décomposition d'une fonction en ondelettes.
 \begin{definition}
@@ -237,7 +330,7 @@ Cependant bien que la formule précédente permette une reconstruction elle supp
 On va ici très rapidement introduire la notion d'analyse multi-échelle qui permet de simplifier la formule de reconstruction.
 Construisons ici une analyse multi-échelle (ici de $L^2(\mathbb{R})$), considérons tout d'abord une suite d'espaces emboités satisfaisant 
 \begin{equation*}
-	\lim_{j\to -\infty} \bigcap_{j}^{+\infty} V_i \subset \cdots \subset V_{-1} \subset V_0 \subset \cdots V_i \subset V_{i+1} \subset \cdots \subset \lim_{j\to \infty} \bigcup_{-\infty}^{j} V_i = L^2(\mathbb{R}).  
+	\{0\}=	\lim_{j\to -\infty} \bigcap_{j}^{+\infty} V_i \subset \cdots \subset V_{-1} \subset V_0 \subset \cdots V_i \subset V_{i+1} \subset \cdots \subset \lim_{j\to \infty} \bigcup_{-\infty}^{j} V_i = L^2(\mathbb{R}).  
 \end{equation*}
 L'intérêt d'avoir une telle suite d'espaces emmboités est que étant donnée une fonction $f\in L^2(\mathbb{R})$, on peut considérer sa projection orthogonale dans un $V_i$, on a alors une approximation $f_i$ de $f$ dans $V_i$, si on souhaite améliorer l'approximation de $f$ il suffit alors de remonter dans ces espaces emboités pour avoir une reconstruction avec une précision arbitraire.
 Introduisons maintenant la propriété qui va permettre de voir cette suite d'espaces comme une analyse multi-échelle
@@ -257,7 +350,7 @@ De plus, quelque soit $j$ on peut prendre $W_j$ le complémentaire orthogonal de
 donc afin d'avoir une formule de reconstruction, il suffit de connaitre un frame de $V_0$ et de même pour chaque $W_j$. 
 On peut maintenant revenir aux ondelettes, on considère que l'on connait une base $(\varphi_{0,k})_{k\in \mathbb{Z}}$ de $V_0$ et $(\psi_{j,k})_{j\in \mathbb{N}^*, k \in \mathbb{Z}}$ un frame de l'orthogonal de $V_0$ dans $L^2(\mathbb{R})$, on pose alors $W_j = W_{j-1} \bigoplus Vect(\{\psi_{j,k}\}_{k\in \mathbb{Z}})$ et on obtient ainsi que l'analyse multi-échelle ainsi construite fournit une formule de reconstruction\footnote{Dans la formule de reconstruction les deux sommes sur $\mathbb{Z}$ ne sont pas problématiques car les fonctions considérées sont dans $L^2(\mathbb{R})$ donc avec une décroissance suffisament rapide, donc seulement un nombre fini de $\langle f, \varphi_{0,k} \rangle$ sont différents de 0 si $\varphi_0$ a une décroissance suffisament rapide (et de même pour chaque $\psi_j$).}
 \begin{equation}
-	f = \sum_{k\in \mathbb{Z}} \langle f, \varphi_{0,k} \rangle \tilde{\varphi}_{0,k} + \sum_{j = 1}^{+\infty} \sum_{k\in \mathbb{Z}} \langle f, \psi_{j,k} \rangle \tilde{\psi_{j,k}}.
+	f = \sum_{k\in \mathbb{Z}} \langle f, \varphi_{0,k} \rangle \varphi_{0,k} + \sum_{j = 1}^{+\infty} \sum_{k\in \mathbb{Z}} \langle f, \psi_{j,k} \rangle \psi_{j,k}.
 \end{equation}
 On appelle l'application $\varphi_0$ ondelette d'échelle.
 On a vu que les familles orthonormales forment des frames, on a donc la proposition :
