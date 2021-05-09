@@ -1,18 +1,41 @@
-\documentclass{report}
+\documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{stmaryrd}
 \usepackage{mathabx}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{standalone}
 \usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{floatrow}
 
 \usepackage[backend = bibtex]{biblatex}
 \addbibresource{bibliography.bib}
 
-\newgeometry{vmargin={30mm}, hmargin={20mm,20mm}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}% with this we ensure that the chapter and section% headings are in lowercase.
+\renewcommand{\chaptermark}[1]{%
+	\markboth{#1}{}}\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+		\fancyhf{}  
+		% delete current header and footer
+		\fancyhead[LE,RO]{\bfseries\thepage}
+		\fancyhead[LO]{\bfseries\rightmark}
+		\fancyhead[RE]{\bfseries\leftmark}
+		\renewcommand{\headrulewidth}{0.5pt}
+		\renewcommand{\footrulewidth}{0pt}
+		\addtolength{\headheight}{0.5pt} % space for the rule
+		\fancypagestyle{plain}{%
+			\fancyhead{} % get rid of headers on plain pages
+			\renewcommand{\headrulewidth}{0pt}} % and the line
+		
+\newgeometry{vmargin={30mm}, hmargin={30mm,30mm}}
 
+\usepackage{mdframed}
+\newmdtheoremenv{theoreme}{Theorème}
 
 \usetikzlibrary{external}
 \tikzexternalize[shell escape=-enable-write18]
@@ -20,7 +43,7 @@
 \pgfplotsset{compat=1.16}
 \usepgfplotslibrary{external}
 \theoremstyle{plain}
-\newtheorem{theoreme}{Theoreme}[section]
+%\newtheorem{theoreme}{Theoreme}[section]
 \newtheorem{proposition}[theoreme]{Proposition}
 \newtheorem{lemme}[theoreme]{Lemme}
 
@@ -80,7 +103,10 @@
 \chapter{Cadre du problème}
 \input{Chapters/Introduction.tex}
 
-\chapter{Approche parcimonieuse}
+\chapter{Frame et reconstruction $||\cdot||_2$}
+\input{Chapters/Frame.tex}
+
+\chapter{Reconstruction parcimonieuse et $||\cdot||_1$}
 \input{Chapters/Parcimonie.tex}
 
 \chapter{Compressed sensing et approche aléatoire}
