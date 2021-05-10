@@ -81,9 +81,9 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 	Une conséquence de cela est qu'une condition sur la parcimonie de la forme $||F_T f||_0 + ||F_W||_0 < K$ avec $K>\sqrt{N}$ ne pourra pas garantir l'unicité de la solution de (P0).
 	Montrons que si $K = \sqrt{N}$ alors on a l'unicité de la solution de (P0).
 	\begin{theoreme}\label{th:Incert2}
-		Soit $N$ un entier positif et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et 
+		Soit $N$ un entier positif, $(T,W)$ le dictionnaire Fourier-Dirac et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et 
 		\begin{equation}\label{eq:Incert1}
-			||F_W x_W||_0 + ||F_T x_T||_0 < \sqrt{N}
+			||x_W||_0 + ||x_T||_0 < \sqrt{N}
 		\end{equation}
 		est l'unique solution de (P0).
 	\end{theoreme}
@@ -113,7 +113,7 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 	\begin{theoreme}
 		Soit $N$ un nombre premier et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et
 		\begin{equation}\label{eq:Incert2}
-		||F_T x_T||_0 \leq \frac{N}{2}
+		||x_T||_0 \leq \frac{N}{2}
 		\end{equation}
 		est l'unique solution de (P0).
 	\end{theoreme}
@@ -277,6 +277,89 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 		\end{equation}
 			Ce qui conclut la preuve du lemme \ref{th:muFD} et donc du théorème \ref{th:DiracFourier}.
 	\end{proof}
+\subsection{Généralisation à des paires de bases arbitraires}
+	A partir de cette preuve dans le dictionnaire Fourier-Dirac, on peut facilement obtenir une généralisation à une paire de bases orthogonales $(\Phi, \Psi)$ arbitraire.
+	En effet, dans les preuves le choix des bases a un effet seulement sur les matrices $F_{\Phi}$ et $F_{\Psi}$, et plus particulièrement sur les matrices $F_{\Psi}^t F_{\Phi}$ et $F_{\Phi}^t F_{\Phi}$ qui sont transposées l'une de l'autre (et chacune de ces matrices est orthogonale).
+	En se souvenant que les colonnes de $\Psi$ sont les vecteurs (qui forment des bases orthonormales) $(\psi_1, \cdots, \psi_N)$ et les colonnes de $\Phi$ sont $(\varphi_1,\cdots,\varphi_N)$ on peut facilement exprimer les matrices précédentes avec:
+	\begin{equation}
+		F_{\Psi}^tF_{\Phi} = \begin{bmatrix}
+			\langle \psi_1, \varphi_1 \rangle & 	\langle \psi_1, \varphi_1 \rangle	&\cdots 	&	\langle \psi_1, \varphi_N \rangle\\
+			\langle \psi_2, \varphi_1 \rangle & 	\ddots 					& \vdots 	&	\langle \psi_2, \varphi_N \rangle \\
+			\vdots 				& \cdots 				&\ddots 	 	&	\vdots \\
+			\langle \psi_N, \varphi_1 \rangle & \cdots 				& \cdots 		&	 \langle \psi_N, \varphi_N \rangle. 
+		\end{bmatrix}
+	\end{equation}
+	En analysant les preuves, on peut voir que la quantité qui est essentielle est :
+	\begin{equation}\label{eq:defM}
+		M = M_{\Phi, \Psi} = M_{\Psi, \Phi} = \sup_{1\leq i,j\leq N} |\langle \psi_i, \varphi_j \rangle|.
+	\end{equation}
+	On peut voir cette quantité comme la corrélation maximale entre les vecteurs de $\Phi$ et $\Psi$.
+	\newline
+	On voit en particulier, que dans les cas du dictionnaire Fourier-Dirac que l'on a considéré dans les théorèmes précédents, on a $M=\frac{1}{\sqrt{N}}$ et on voit que cette quantité peut directement être insérée dans les théorèmeset \ref{th:Incert1}, \ref{th:Incert2} pour le problème \ref{P0} et \ref{th:DiracFourier}, \ref{th:muFD} pour le problème \ref{P1}, ce n'est pas une coincidence et on va généraliser ces résultats ci-dessous.
+	\begin{theoreme}\label{th:IncertGen1}
+		Soit un signal $f\in \mathbb{R^N}$ non nul et soit $(\Phi, \Psi)$ une paire de bases orthonormales et $M$ la quantité définie par \ref{eq:defM}, alors
+		\begin{equation}
+			||F_\Phi f||_0 ||F_\Psi f||_0 \geq \frac{1}{M^2} 	
+		\end{equation}
+		et ainsi
+		\begin{equation}
+			||F_\Phi f||_0 + ||F_\Psi f||_0 \geq \frac{2}{M}. 	
+		\end{equation}
+	\end{theoreme}
+	\begin{theoreme}\label{th:IncertGen2}
+		Soit $N$ un entier positif, $(\Phi,\Psi)$ une paire de bases orthonormales, $M$ la quantité définie par \ref{eq:defM} et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et 
+		\begin{equation}\label{eq:Incert1}
+			||x_\Phi||_0 + ||x_\Psi||_0 < \frac{1}{M}
+		\end{equation}
+		est l'unique solution de (P0).
+	\end{theoreme}
+	Pour ces deux théorèmes, la démonstration est immédiate en remplaçant dans les preuves les matrices $F_T$ et $F_W$ par $F_\Phi$ et $F_\Psi$ et la quantité $\sqrt{N}$ par $\frac{1}{M}$.
+	\begin{lemme}\label{th:muFDGen}
+		Soit $(\Phi,\Psi)$ une paire de bases orthonormales et $M$ la quantité définie par \ref{eq:defM} et soient $\Gamma_T$  et $\Gamma_W$ des sous ensembles d'indices de $T$ et respectivement de $W$ vérifiant
+		\begin{equation}
+			|\Gamma_T| < \frac{1}{2M} \quad \text{et} \quad |\Gamma_W| < \frac{1}{2M},
+		\end{equation}
+		alors on a,
+		\begin{equation}
+			\mu(\Gamma_T, \Gamma_W) < \frac{1}{2}.
+		\end{equation}
+	\end{lemme}
+	Là aussi la démonstration est immédiate en faisant les changements adaptés dans la preuve.
+	On a donc de la même façon que précedemment, en appliquant le lemme \ref{th:muP1}:
+	\begin{theoreme}\label{th:recovgen}
+		Soit $N$ un entier positif, $(\Phi, \Psi)$ une paire de bases orthonormales, $M$ la quantité définie par \ref{eq:defM} et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_\Phi, x_\Psi)$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et
+	\begin{equation}\label{eq:cond1}
+		||x_T||_0 < \frac{1}{2M} \quad \text{et} \quad   ||x_W||_0 < \frac{1}{2M}
+	\end{equation}
+	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
+\end{theoreme}
+
+\subsection{Extensions du résultat}
+Comme indiqué précedemment, le théorème \ref{th:DiracFourier} obtenu est une généralisation d'un théorème de David Donoho et Xiaoming Huo dans \cite{DonohoHuo}, ainsi, la généralisation du théorème \ref{th:DiracFourier} qu'est le théorème \ref{th:recovgen}, est aussi une généralisation d'un autre théorème de l'article précédent.
+\newline
+Cependant, d'autres généralisations des résultats de David Donoho et Xiaoming Huo ont été proposées, cela tenant notamment de l'importance de l'article par exemple pour le développement du compressed sensing ou l'étude de la cohérence de paires de bases, mais aussi car comme indiqué par les auteurs les bornes ne semblaient pas exactes.
+\newline
+En effet, les auteurs indiquent que leur résultat devrait pouvoir être amélioré d'un facteur 2 optimal car un contre exemple peut être montré en considérant le peigne de Dirac pour lequel $||x_T||_0 = ||x_W||_0 = \frac{\sqrt{N}}{2}$.
+Le théorème \ref{th:recovgen} prouvé ici montre que ce contre exemple correspond au cas limite à partir duquel les hypothèses du théorème ne sont plus vérifiées.
+\newline
+Une autre généralisation des résultats de \cite{DonohoHuo} a été faite par Michael Elad et Alfred Bruckstein \cite{eladBruckstein}. Ceux-ci ont en effet démontré le théorème suivant:
+\begin{theoreme}\label{th:eladbruc}
+	Soit $N$ un entier positif, $(\Phi, \Psi)$ une paire de bases orthonormales, $M$ la quantité définie par \ref{eq:defM} et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_\Phi, x_\Psi)$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et
+	\begin{equation}
+		||x_T||_0 + ||x_W||_0 < \frac{\sqrt{2} -0.5}{M} = \frac{0.9142}{M}
+	\end{equation}
+	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
+\end{theoreme}
+La preuve de ce théorème est similaire en grande partie à celle de \ref{th:DiracFourier} présentée ici et dans \cite{DonohoHuo}, on pourra remarquer que le point de vue matriciel adopté dans ce mémoire est également celui qui est présenté par Michael Elad et Alfred Bruckstein.
+La différence essentielle entre la preuve présentée ici et celle de \cite{eladBruckstein} est que dans l'article un problème variationnel est résolu alors qu'ici les preuves découlent directement d'inégalités matricielles. 
+C'est d'ailleurs la même différence entre la preuve présentée ici de \ref{th:DiracFourier} et celle de David Donoho et Xiaoming Huo \cite{DonohoHuo}.
+\newline
+On a ainsi que le théorème de Michael Elad et Alfred Bruckstein et le théorème \ref{th:recovgen} présenté ici sont les deux vrais sur un domaine qui couvre celui sur lequel celui de David Donoho et Xiaoming Huo est vrai, ce sont donc bien des généralisations.
+On peut résumer la situation avec le graphe suivant :(TODO: ajouter graphe).
+\newline
+Une autre généralisation des résultats de Michael Elad et Alfred Bruckstein a été faite par Arie Feuer et Arkadi Nemirovski \cite{feuer} dans laquelle ils démontrent que la borne de Michael Elad et Alfred Bruckstein est atteinte, et donc optimale.
+Montrer que  la borne est atteinte revient à montrer qu'il y a au moins un signal qui atteint l'égalité du théorème \ref{th:eladbruc}, la construction d'un tel signal est rélativement élaborée. 
+On notera seulement que dans cette construction le nombre de coordonnées dans l'une des composantes vaut $\sqrt{2}\frac{\sqrt{N}}{2}$, ce n'est donc, heureusement, pas un contre exemple aux théorèmes \ref{th:DiracFourier} et \ref{th:recovgen} prouvés ici.
 
 
 \subsection{Définition de (P1)}

@@ -43,7 +43,7 @@ On a alors de façon générale le théorème suivant qui nous donne une conditi
 Cependant, comme on le verra dans la suite, il y a des situations dans lesquelles chercher à avoir une base orthonormale est trop restrictif, on cherchera donc à relacher les conditions sur la définition d'une base.
 \newline
 Tout d'abord, si la famille est orthogonale mais n'est pas génératrice on a le résultat suivant :
-\begin{theoreme}
+\begin{theoreme}\label{th:orth1}
 	Soit $\{f_i\}_I$ une famille orthonormale de $H$.
 	Alors,
 	\begin{equation*}
@@ -52,7 +52,7 @@ Tout d'abord, si la famille est orthogonale mais n'est pas génératrice on a le
 \end{theoreme}
 On peut exprimer ce théorème en disant que l'analyse par une famille orthogonale n'ajoute pas d'énergie au vecteur analysé.
 Si la famille est génératrice,
-\begin{theoreme}
+\begin{theoreme}\label{th:norm1}
 	Soit $\{f_i\}_I$ une famille génératrice normalisée.
 	Alors,
 	\begin{equation*}
@@ -85,7 +85,7 @@ En utilisant les trois théorèmes précédents on a les résultats suivants:
 		\item Une base orthonormale est une base de Riesz avec $m = M = 1$.
 		\item Une base de Riesz est un frame dont les éléments sont linéairement indépendents.
 		\item Un frame est une suite de Bessel dont les éléments sont générateurs.
-	\end{proposition}
+	\end{itemize}
 \end{proposition}
 
 Avec ces résultats, lorsque l'on dispose d'une famille de vecteurs $F = \{f_i\}_I$ on peut définir l'opérateur d'analyse
@@ -138,7 +138,7 @@ On dispose donc d'une formule de reconstruction qui est valable pour tout $f$ qu
 	\label{fig:frameR2}	
 \end{wrapfigure}
 	
-Cependant cette formule peut sembler n'ajouter qu'un inconvenient avec la constante $1/M$ par rapport à la formule de reconstruction dans une base orthonormale (cas $m=M=1$ d'après la combinaison des théorèmes \ref{th:orth1} et \ref{th:norm1}). 
+Cependant cette formule peut sembler ajouter un inconvenient avec la constante $1/M$ par rapport à la formule de reconstruction dans une base orthonormale (cas $m=M=1$ d'après la combinaison des théorèmes \ref{th:orth1} et \ref{th:norm1}). 
 Nous allons voir ci-dessous en quoi avoir un coefficient de frame serré $M>1$ permet d'améliorer la stabilité de la formule de reconstruction, on appelera un tel frame un frame redondant.
 \newline
 Avant de poursuivre vers l'étude de frames plus sophistiqués dans les parties suivantes, considérons un frame élémentaire.
@@ -179,11 +179,11 @@ Considérons la formule de reconstruction
 	f = \frac{1}{M}\sum_{i=1}^N \langle f, f_i \rangle f_i
 \end{equation*}
 et prenons $N$ variables aléatoires réelles indépendantes $(\alpha_i)_{i=1, \cdots, N}$  de moyenne nulle et de variance égale à 1.
-\begin{align*}
-	\mathbb{E}\left(|| f- \frac{1}{M}\sum_{i=1}^N (\langle f, f_i\rangle + \epsilon \alpha_i)e_i||_2^2\right) &= \mathbb{E}\left(||\frac{1}{M} \sum_{i=1}^N \epsilon \alpha_i||_2^2\right)\\
-	&= \frac{\epsilon^2}{M^2} \mathbb{E}(\sum_{i=1}^N \alpha_i^2) = \frac{\epsilon^2}{M^2} \sum_{i=1}^N \mathbb{E}(\alpha_i^2) \\
-	&= \frac{\epsilon^2 N}{M^2} \leq \frac{\epsilon^2 d}{M}. \label{eq:errframe}%%TODO Enlever dernière ineq 	
-\end{align*}
+\begin{align}
+	\mathbb{E}\left(|| f- \frac{1}{M}\sum_{i=1}^N (\langle f, f_i\rangle + \epsilon \alpha_i)e_i||_2^2\right) &= \mathbb{E}\left(||\frac{1}{M} \sum_{i=1}^N \epsilon \alpha_i||_2^2\right)\nonumber\\
+	&= \frac{\epsilon^2}{M^2} \mathbb{E}(\sum_{i=1}^N \alpha_i^2) = \frac{\epsilon^2}{M^2} \sum_{i=1}^N \mathbb{E}(\alpha_i^2) \nonumber\\
+	&= \frac{\epsilon^2 N}{M^2} \label{errframe}%%TODO Enlever dernière ineq 	
+\end{align}
 Si on souhaite comparer les majorations obtenues dans le cas orthonormal et dans le cas d'un frame serré, il nous faut donc une relation entre : le nombre d'éléments dans un frame serré ($N$), la constante de frame ($M$) et la dimension de l'espace engendré par le frame ($d$).
 \begin{lemme}\label{th:dimFrame}
 	Soit $\Phi =(\varphi_i)_{i=1, \cdots, N}$ un frame avec des constantes de frame $m=M$ qui engendre $Vect(\Phi)$ un espace vectoriel de dimension $d$.
@@ -192,7 +192,7 @@ Si on souhaite comparer les majorations obtenues dans le cas orthonormal et dans
 		\frac{N}{M} \leq d.
 	\end{equation}
 \end{lemme}
-Avec ce lemme, on peut donc comparer l'erreur de reconstruction moyenne après perturbation dans le cas d'un frame \ref{eq:errframe} et dans le cas d'une base orthonormale:
+Avec ce lemme, on peut donc comparer l'erreur de reconstruction moyenne après perturbation dans le cas d'un frame \ref{errframe} et dans le cas d'une base orthonormale:
 \begin{equation}
 	\frac{N}{M^2} \leq \frac{\epsilon^2d}{M} < \epsilon^2 d.
 \end{equation}
@@ -210,7 +210,7 @@ Maintenant passons à la preuve originale du lemme:
 		S :	\ell^2(N) &\longrightarrow^S \mathbb{R}^d\\
 			x=(x_i)_{i=1, \cdots, N} &\longmapsto \sum_{i=1}^N x_i \varphi_i
 	\end{align}
-	et on considère, sans perte de généralité que chaque $\varphi_i$ est normalisé. Ainsi chaque à chaque $\varphi_i$, on peut associer une suite $(\lambda_j^i)_{j=0, \cdots, d}=(\langle \varphi_i, e_j)_{j=0,\cdots, d}$ de norme 1 dans $\mathbb{R}^d$ muni de la norme euclidienne telle que $\varphi_i = \sum_{j=1}^d \lambda_j^i e_j$ où $e_j$ est une base orthonormale de $\mathbb{R}^d$. 
+	et on considère, sans perte de généralité que chaque $\varphi_i$ est normalisé. Ainsi chaque à chaque $\varphi_i$, on peut associer une suite $(\lambda_j^i)_{j=0, \cdots, d}=(\langle \varphi_i, e_j\rangle)_{j=0,\cdots, d}$ de norme 1 dans $\mathbb{R}^d$ muni de la norme euclidienne telle que $\varphi_i = \sum_{j=1}^d \lambda_j^i e_j$ où $e_j$ est une base orthonormale de $\mathbb{R}^d$. 
 	L'objectif est maintenant de réécrire $S(x)$ dans la base orthonormale, on a ainsi
 	\begin{equation}
 		\sum_{i=1}^N x_i \varphi_i = \sum_{i=1}^N x_i \sum_{j=1}^d \lambda_j^i e_j = \sum_{j=1}^d \sum_{i=1}^N x_i \lambda_j^ie_j =\sum_{j=1}^d c_j e_j,
@@ -266,9 +266,9 @@ Ensuite, remarquons que l'on peut réécrire \ref{eq:eqmallat} de façon équiva
 	En effet, il y a certaines symétries que l'on peut utiliser pour obtenir les inégalités dans l'autre sens. 
 	Il semble donc qu'un argument plus général puisse exister pour faciliter cette preuve.
 	On présente donc la preuve de Stéphane Mallat qui utilise naturellement la trace d'un opérateur et les valeurs propres.
-	\begin{preuve}
+	\begin{proof}
 		Remarquons tout d'abord que la définition de l'opérateur de synthèse $S$ par rapport à $A$ que l'on fait ici correspond exactement à prendre l'opérateur adjoint de $A$, que l'on note $A^*$.
-		Celui-ci vérifie pour tout $f\in \vect(F)$ et pour tout $x\in Im(A) \subset \ell^2(N)$,
+		Celui-ci vérifie pour tout $f\in Vect(F)$ et pour tout $x\in Im(A) \subset \ell^2(N)$,
 		\begin{equation}
 			\langle Af, x \rangle = \langle f, A^*x \rangle.
 		\end{equation}
@@ -292,13 +292,13 @@ Ensuite, remarquons que l'on peut réécrire \ref{eq:eqmallat} de façon équiva
 			Tr(AA^*) = \sum_{i=1,\cdots, N} |\langle f_i, f_i \rangle|^2 = N
 		\end{equation}
 		et on a alors prouvé le théorème en insérant le précédent résultat dans \ref{eq:traceeq}.  	
-	\end{preuve}	
+	\end{proof}	
 	En comparant cette preuve et celle du lemme, on voit que la trace permet de concentrer le raisonnement du lemme en quelques lignes.
 	On voit alors l'efficacité de la trace et l'importance des valeurs propres pour prouver ce type de résultat.
 	Ainsi, certains des raisonnements dans la suite de ce mémoire utiliseront ce point de vue spectral.
 	\newline
 	Avant de poursuivre vers des exemples de frames, remarquons que dans cette partie un point de vue plus général aurait pu être possible.
-	En effet, on aurait pu considérer travailler dans des espaces de Banach plutôt que de Hilbert, on aurait pu introduire d'autres notions de bases telles que les bases de Hamel ou Schauder plûtot que de Riesz ou Hilbert.
+	En effet, on aurait pu considérer travailler dans des espaces de Banach plutôt que de Hilbert, on aurait pu introduire d'autres notions de bases telles que les bases de Hamel, Schauder, Auerbach ou Markushevich plûtot que de Riesz ou Hilbert.
 	Le choix de travailler dans un espace de Hilbert a été fait car c'est un cadre suffisant pour le reste du mémoire avec des propriétés très similaire en dimension finie et infinie.
 	Il est important de remarquer que ces choix ont de l'importance seulement en dimension infinie, les notions étant équivalentes en dimension finie.
 

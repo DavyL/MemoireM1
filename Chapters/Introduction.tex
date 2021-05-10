@@ -12,9 +12,9 @@ La première étape en traitement du signal est la mesure, à partir d'un signal
 	A : 	\mathcal{F} &\longrightarrow \mathcal{G} \\
 		f &\longmapsto A(f) = (a_g(f))_{g\in I}
 \end{align}
-que l'on appelle opérateur d'analyse.
+que l'on appelle \emph{opérateur d'analyse}.
 \newline
-Des opérateurs d'analyse que l'on rencontrera seront par exemples la transformée de Fourier, qui a une application associe ses coefficients de Fourier, ou bien la transformée en ondelletes, qui a une application associe ses coefficients d'ondelette.
+Des opérateurs d'analyse que l'on rencontrera seront par exemples la transformée de Fourier, qui a une application associe ses coefficients de Fourier, ou bien la transformée en ondelette, qui a une application associe ses coefficients d'ondelette.
 Un autre exemple d'opérateur que l'on étudiera est celui qui à un élément de $\mathbb{R}^N$ lui associe ses coefficients dans deux bases, donc un élément de $\mathbb{R}^{2N}$.
 Pour donner un dernier exemple d'opérateur que l'on considérera consistera à associer à un élément de $\mathbb{R}^N$ la valeur de sa projection sur $M$ sous-espaces de $\mathbb{R}^N$ choisis au hasard, donc un élément de $\mathbb{R}^M$.
 \newline 
@@ -32,7 +32,7 @@ TODO : ajouter des figures avec un signal et sa transformée de Fourier.
   \includegraphics[width=.9\linewidth]{Figs/castle_wavelet.png}
   \label{fig:sub2}
 \end{subfigure}
-\caption{Une photographie et sa tranformée en ondelettes.}
+	\caption{Une photographie et sa tranformée en ondelettes.\footnote{Images de Wikicommons}}
 \label{fig:test}
 \end{figure}
 Comme nous souhaitons reconstruire des signaux, notre objectif est de pouvoir utiliser ces coefficients afin de revenir dans l'espace initial.
@@ -41,7 +41,7 @@ On définit donc l'application
 	S : \mathcal{G} &\longrightarrow \mathcal{F}\\
 		A(f) &\longmapsto S(A(f))
 \end{align}
-que l'on appelle opérateur de synthèse.
+que l'on appelle \emph{opérateur de synthèse}.
 \newline
 On aura donc une formule de reconstruction si $S \circ A = Id_{\mathcal{F}}$.
 Par exemple, avec $\mathcal{F}$ bien choisi, des opérateurs de synthèse que l'on rencontrera seront par exemple, la transformée de Fourier inverse, ou bien la transformée en ondelette inverse, qui a des coefficients de Fourier, respectivement d'ondelettes, associe le signal initial.
@@ -59,15 +59,17 @@ La partie \ref{bonetframe} introduira la notion de frame qui nous permettra de c
   \includegraphics[width=.9\linewidth]{Figs/kspacebrain.jpg}
   \label{fig:sub2}
 \end{subfigure}
-	\caption{Mesure par résonnance magnétique d'un cerveau (le signal), qui correspond à des coefficients de Fourier (l'analyse), et reconstruction du signal (la synthèse).}
+	\caption{Mesure par résonnance magnétique d'un cerveau (le signal), qui correspond à des coefficients de Fourier (l'analyse), et reconstruction du signal (la synthèse).\footnote{Images du site \url{www.MRIquestions.com} de Allen D. Elster.} }
 \label{fig:test}
 \end{figure}
 
 \section{Reconstructions atomiques et parcimonie}
-Dans ce mémoire on va, suivant l'approche de Mallat, approcher la problématique de la recontruction et du traitement du signal en donnant une place centrale à la notion de parcimonie.
+Dans ce mémoire on va, suivant l'approche de Stéphane Mallat\footnote{L'approche parcimonieuse est au coeur du programme de Stéphane Mallat, son livre qui fait référence en traitement du signal notamment concernant les ondelettes \emph{A wavelet tour of signal processing} s'est vu dans sa dernière édition ajouter le sous-titre \emph{The sparse way} et le cours présenté durant sa chaire au Collège de France était centré sur \emph{Le triangle "régularité, approximation, parcimonie"}.},
+approcher la problématique de la recontruction et du traitement du signal en donnant une place centrale à la notion de parcimonie.
 De façon large, l'approche parcimonieuse consistera soit à minimiser le nombre de coefficients obtenus par l'analyse ou utilisés par la synthèse, soit à exploiter, à l'aide d'un principe d'incertitude, l'hypothèse que le signal est représentable avec peu de coefficients.
 Décrivons donc ces trois stratégies que l'on développera dans ce mémoire.
-\newline 
+\newline
+
 La première approche consiste à minimiser le nombre de coefficients que l'on obtient lors de l'analyse, ainsi, cela revient à choisir un opérateur d'analyse qui est adapté à $\mathcal{F}$.
 On verra ainsi, que si on étudie des fonctions avec certaines propriétés de régularité, il est possible de choisir une transformation en ondelettes pour laquelle les coefficients seront rapidement faibles. 
 Donc, pour un signal donné, il peut être intéressant de regarder, pour plusieurs transformées en ondelettes, laquelle est celle qui a le minimum de coefficients non nuls.
@@ -87,15 +89,16 @@ On verra ainsi dans ce mémoire que les ondelettes ayant des moments nuls et à 
   \includegraphics[width=.9\linewidth]{Figs/coiflet.png}
   \label{fig:sub2}
 \end{subfigure}
-	\caption{L'ondelette de Daubechies à 2 moments nuls et la coiflet à 2 moments nuls.}
+	\caption{L'ondelette de Daubechies à 2 moments nuls et la coiflet à 2 moments nuls.\footnote{Images de Wikicommons}}
 \label{fig:test}
 \end{figure}
 
 Les deux autres approches reposent sur le fait que l'on dispose de différentes façons de représenter un signal.
 Par exemple dans le cadre de l'algèbre linéaire et d'un vecteur $f \in \mathbb{R}^N$ ou dans un espace de Hilbert, chaque choix de base revient à choisir un couple d'opérateurs analyse-synthèse $(A, S)$ et donc à une formule de reconstruction.
 De la même façon, chaque transformée en ondelettes donne un couple d'opérateurs analyse-synthèse $(A, S)$, on a ainsi le double bénéfice des ondelettes qui, en plus d'avoir de bonnes propriétés, existent en grand nombre.
-\newline 
-Avec cette multitude de représentations disponibles d'un même objet, la notion de dictionnaire a été développée.
+\newline
+
+Avec cette multitude de représentations disponibles d'un même objet, la notion de \emph{dictionnaire} a été développée.
 Introduisons cette notion par l'algèbre linéaire, un dictionnaire est alors simplement une famille de vecteurs $\{f_i\}_I$, disons que ce dictionnaire engendre $\mathcal{F}$, alors pour chaque signal $f\in\mathcal{F}$, il existe au moins une suite de coefficients $(c_i)_J$,$J\subset I$, telle que
 \begin{equation}
 	f = \sum_J c_i f_i.
@@ -106,17 +109,18 @@ Avec une approche parcimonieuse, on souhaite alors pour un signal donné, trouve
 Cela correspond donc à utiliser un minimum de coefficients pour la synthèse de $f$.
 \newline
 Ce problème est de nature combinatoire et très difficile à résoudre de façon générale (c'est un problème NP-difficile \cite{NPHard})
-On verra dans \ref{P0P1} qu'en choisissant un dictionnaire vérifiant un principe d'incertitude alors on pourra effectivement résoudre de façon unique le problème de trouver la décomposition atomique d'un élément, sous réserve qu'une décomposition atomique suffisament parcimonieuse existe.  
+On verra dans \ref{P0P1} qu'en choisissant un dictionnaire vérifiant un principe d'incertitude alors on pourra effectivement résoudre de façon unique le problème de trouver la décomposition atomique d'un élément, sous réserve qu'une décomposition atomique suffisamment parcimonieuse existe.  
 \newline
+
 La dernière approche et la plus récente est celle du compressed sensing \cite{DonohoCS}, \cite{CandesTaoUniv}, \cite{CandesSparsityIncoherence}. 
 Dans ce cadre, on souhaite reconstruire un signal $x_0 \in \mathbb{R}^N$ avec $k << N$ composantes non nulles, dans une certaine base, on se demande alors si il est possible de reconstruire ce signal en faisant $m<N$ mesures de $x_0$.
-Afin de rendre cela possible, on verra qu'il est possible de répondre à cette question par l'affirmative.
+On verra qu'il est possible de répondre à cette question par l'affirmative.
 Une partie des arguments provient de l'approche précédente, la mesure devra vérifier un principe d'incertitude avec la base dans laquelle le signal est parcimonieux, une fois que l'on a un tel opérateur d'analyse, en résolvant le problème de décomposition atomique on devrait pouvoir retrouver $x_0$.
 Cependant, on ne connait pas à l'avance dans quelle base le signal est parcimonieux, l'approche prend alors un tournant probabiliste et on va chercher à faire une mesure qui va presque sûrement vérifier un principe d'incertitude avec la base inconnue.
 \newline
 Donnons un exemple du type de résultat auquel on peut arriver à partir du compressed sensing, supposons que l'on souhaite reconstruire une image $x_0$ en niveux de gris de taille $1000\times1000$, donc un vecteur dans $\mathbb{R}^d$ avec $d=10^6$. 
 Supposons que ce vecteur a $10 000=10^4$ coefficients d'ondelette non nuls, alors avec $10^5$ mesures, en cherchant une décomposition atomique qui coincide avec ces mesures, on devrait pouvoir reconstruire exactement $x_0$.
-Le mécanisme (d'après \cite{DonohoForMost}) qui fait que l'on peut reconstruire ce signal est similaire au fait que si l'on tire $10 000$ points au hasard dans $R^{10^6}$ (l'image) et que l'on forme un cône partant de l'origine avec ces points, alors faire coincider le signal avec les $10^5$ mesures revient à choisir comment passer d'un plan à $10^5$ dimensions à ce cône.
+Le mécanisme (d'après \cite{DonohoForMost}) qui fait que l'on peut reconstruire ce signal est similaire au fait que si l'on tire $10 000$ points au hasard dans $\mathbb{R}^{10^6}$ (l'espace de l'image) et que l'on forme un cône partant de l'origine avec ces points, alors faire coincider le signal avec les $10^5$ mesures revient à choisir comment passer d'un plan à $10^5$ dimensions à ce cône.
 Le compressed sensing est alors rendu possible par le fait que la plupart des plans à $900 000$ dimensions ne coupent pas le cône, donc le signal reconstruit avec $10^5$ mesures devrait effectivement être le signal original.
 
 \section{Exemples d'applications}

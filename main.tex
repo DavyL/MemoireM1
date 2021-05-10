@@ -13,7 +13,8 @@
 \usepackage{wrapfig}
 \usepackage{floatrow}
 
-\usepackage[backend = bibtex]{biblatex}
+\usepackage[backend = bibtex, style=numeric]{biblatex}
+\DeclareNameAlias{default}{last-first}
 \addbibresource{bibliography.bib}
 
 \usepackage{fancyhdr}
@@ -34,8 +35,8 @@
 		
 \newgeometry{vmargin={30mm}, hmargin={30mm,30mm}}
 
-\usepackage{mdframed}
-\newmdtheoremenv{theoreme}{Theorème}
+%\usepackage{mdframed}
+%\newmdtheoremenv{theoreme}{Theorème}
 
 \usetikzlibrary{external}
 \tikzexternalize[shell escape=-enable-write18]
@@ -43,17 +44,17 @@
 \pgfplotsset{compat=1.16}
 \usepgfplotslibrary{external}
 \theoremstyle{plain}
-%\newtheorem{theoreme}{Theoreme}[section]
-\newtheorem{proposition}[theoreme]{Proposition}
-\newtheorem{lemme}[theoreme]{Lemme}
+\newtheorem{theoreme}{Theorème}[subsection]
+\newtheorem{proposition}[subsection]{Proposition}
+\newtheorem{lemme}[subsection]{Lemme}
 
 \theoremstyle{remark}
-\newtheorem{remarque}[theoreme]{Remarque}
-\newtheorem{exemple}[theoreme]{Exemple}
-\newtheorem{preuve}[theoreme]{Preuve}
+\newtheorem{remarque}[subsection]{Remarque}
+\newtheorem{exemple}[subsection]{Exemple}
+\newtheorem{preuve}[subsection]{Preuve}
 
 \theoremstyle{definition}
-\newtheorem{definition}[theoreme]{Definition}
+\newtheorem{definition}[subsection]{Définition}
 
 
 
