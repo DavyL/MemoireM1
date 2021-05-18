@@ -1,28 +1,59 @@
+\section{Introduction au Compressed Sensing}
+Le chapitre précédent correspond à des résultats publiés entre 1998 et 2003, grâce à eux une classe de problème en apparence impossibles à résoudre (le problème \ref{P0}) devenaient finalement accessibles sous des hypothèses de parcimonie. 
+Cependant, les résultats prouvés donnent des informations quantitatives sur les plus petits signaux qui feront que la résolution de \ref{P0} en résolvant \ref{P1} ne fonctionne pas.
+Mais en fait, il y a très peu de tels contre-exemples et dans la pratique il était déjà observé que la résolution de \ref{P0} par \ref{P1} fonctionnait pour des signaux moins parcimonieux que ceux étudiés.
+C'est ainsi que plutôt que de chercher des résultats toujours vrais comme dans le chapitre précédent la recherche de nouveaux théorèmes s'est tournée vers des questions, demandant une approche probabiliste, du type : Quel $s$ peut on choisir pour reconstruire \emph{presque} tous les signaux $s$-parcimonieux en résolvant \ref{P1} ?
+\newline 
+La deuxième question qui s'est posée, plus subtile, est la suivante, supposons que l'on sache que le signal est parcimonieux dans une base quelconque : Quel est le nombre minimal $m$ de mesures que l'on peut faire pour être sûr\footnote{On aurait bien sûr pu mettre \emph{presque sûr} au lieu de \emph{sûr}} de reconstruire tous les signaux $s$-parcimonieux de cette base quelconque ?
+\newline
+A cette deuxième question, la réponse à apporter est plus claire qu'à la première question.
+On cherche à reconstruire un signal à $N$ coefficients qui n'a que $s$ coefficients non nuls, cependant on veut pouvoir le reconstruire avec $m<N$ mesure, ce signal est arbitraire donc on ne sait pas où sont les $s$-coefficients non nuls, il faut donc que la mesure se fasse sur un grand nombre de coefficients à la fois.
+Donc, dans la base dans laquelle on mesure le signal, il ne doit pas être parcimonieux.
+Il nous faut donc une base qui vérifie un principe d'incertitude avec la base dans laquelle le signal est parcimonieux.
+C'est le contenu de la condition \textbf{Uniform Uncertainty Principle} (\textbf{UUP}).
+\newline
+A partir de là il semble qu'il y ait une possibiité pour reconstruire le signal car n'importe quel coefficient peut être mesuré avec un nombre assez faible de mesures. 
+Cependant une difficulté apparait directement, chaque mesure va mesurer plusieurs coefficients à la fois et il  nous faut donc suffisament de mesures pour être certain de distinguer chaque coefficient non nul.
+Il nous faudra donc des garanties sur la famille utilisée pour la mesure pour qu'elle puisse nous permettre de distinguer les coefficients non nuls des coefficients nuls des signaux $s$-parcimonieux.
+C'est le contenu de la condition \textbf{Exact reconstruction principle} (\textbf{ERP}).
+\newline
+La deuxième difficulté est que l'on ne connait pas à l'avance la base dans laquelle le signal est parcimonieux, on sait aussi que l'on fera un nombre limité $m$ de mesures, donc le principe d'incertitude devra être vérifié entre la base des mesures et n'importe quelle restriction à $m$ coordonées de la base inconnue.
+Cela revient donc à la projection dans un espace à $m$ dimensions arbitraires.
+C'est ainsi qu'ont été publiés par Emmanuel Candes, Justin Romberg et Terence Tao \cite{CR}, \cite{CT}, \cite{CRT}, et indépendamment par David Donoho \cite{DonohoCS}, les articles fondateurs du Compressed Sensing, dont les théorèmes montrent qu'un tel raisonnement peut-être démontré. 
+\newline
+On suivra dans un premier temps l'article de Emmanuel Candes et Terence Tao pour prouver un théorème de compressed sensing, ensuite, on verra sans preuve des théorèmes de Emmanuel Candes et Justin Romberg dont l'énoncé sera plus simple à comprendre et qui mettra en valeur l'incohérence, quantité clé du chapitre précédent.
+Dans ce chapitre, on verra \textbf{UUP} et \textbf{ERP} comme des axiomes, on ne démontrera pas que de telles familles existent, de la même façon que dans le chapitre 2 nous n'avons pas démontré que les ondelettes de Daubechies existent.
+On verra cependant des exemples de familles qui vérifient ces conditions et des preuves de ces résultats, avec des bornes plus ou moins optimales peuvent être trouvées dns les articles précedemment cités ou bien dans \cite{foucartbook}. 
 \section{Axiomatisation, \textbf{UUP} et \textbf{RIP}}
+\subsection{Notations}
+Tout d'abord réintroduisons certaines choses déjà vues dans ce mémoire et les notations qui seront utilisées.
 Dans ce chapitre on considère $\mathcal{F} \subset \mathbb{R}^N$ un classe de signaux.
-On cherche à pouvoir reconstruire chaque élément $f\in \mathcal{F}$ avec une précision $\varepsilon$ en utilisant une famille de vecteurs $(\psi_k)_{k \in \Omega}$.
+On cherche à pouvoir reconstruire chaque élément $f\in \mathcal{F}$ avec une précision $\varepsilon$ en utilisant une famille de vecteurs $\Psi=(\psi_k)_{k \in \Omega}$.
 \newline
 C'est à dire, on considère une application d'analyse,
 \begin{align}
-	\theta : 	&\mathcal{F} \longrightarrow \mathbb{R}^{|\Omega|}\\
-	(f_k)_{k = 0, \cdots, N} = &f \longmapsto (y_k = \langle f, \psi_k \rangle )_{k\in \Omega} = \theta(f)
+	A : 	&\mathcal{F} \longrightarrow \mathbb{R}^{|\Omega|}\\
+	(f_k)_{k = 0, \cdots, N} = &f \longmapsto (\langle f, \psi_k \rangle )_{k\in \Omega}
 \end{align}
-et une application de synthèse associée
+qui a chaque signal associe la projection sur chaque élément de $\Psi$.
+Pour l'instant cela est similaire à la situation dans l'étude des frames, la différence essentielle concerne $\Omega$, dans la situation des frames $\Omega$ est fixé et généralement $|\Omega| \geq N$.
+Comme discuté, on s'intéresse ici à la projection dans un sous espace arbitraire, c'est ainsi le rôle que va jouer $\Omega$ en étant une variable aléatoire, et comme on souhaite faire un nombre minimal de mesures, on va chercher à avoir que le nombre de mesures moyen $K = \mathbb{E}(|\Omega|)$ sera inférieur à $N$.
+La difficulté vient alors dans la construction de l'application de synthèse associée, pour l'instant définissons la pour fixer les notations :
 \begin{align}
-	\mathbb{R}^{|\Omega|} &\longrightarrow \mathcal{F}^\# \subset \mathbb{R}^N \\
-	(y_k)_\Omega &\longmapsto (y_k)^\# = (f_k ^\#)_{k = 0, \cdots, N}
+	S: \mathbb{R}^{|\Omega|} &\longrightarrow \mathbb{R}^N \\
+	(y_k)_\Omega &\longmapsto (y_k)^\# = (f_k ^\#)_{k = 0, \cdots, N} =: f^\#
 \end{align}
 et on cherche à obtenir une $\varepsilon$-reconstruction :
 \begin{equation}
-	|| f- \theta(f)^\#||_2 \leq \varepsilon \quad, \forall f \in \mathcal{F}. 
+	|| f- f^\#||_2 \leq \varepsilon \quad, \forall f \in \mathcal{F}. 
 \end{equation}
 Le problème est donc de choisir une famille $(\psi_k)_{k \in \Omega}$ pour qu'il soit possible d'obtenir la dernière inégalité.
+Il est clair que le problème est mal posé si on prend $\mathcal{F} = \mathbb{R}^N$, on verra plus bas sur quelles familles de signaux on pourra démontrer des résultats.
 \newline
-On remarque aussi que $||\theta(f)||_0 \leq |\Omega|$, ainsi on cherchera à avoir un $K(\varepsilon) = K = |\Omega|$ dans la suite.
+Notons $F_\Omega$ la matrice, aléatoire, avec $|\Omega|$ lignes et $N$ colonnes qui représente $A$.
+Pour aider à se fixer les idées sur le type de matrice que l'on considérera, $F_\Omega$ peut être la restriction de $|\Omega|$ lignes d'une matrice de Fourier, ou bien une matrice dont les coefficientss suivent une loi normale de moyenne nulle et de variance égale à 1.
 \newline
-On considèrera $F_\Omega$ une matrice aléatoire avec $|\Omega|$ lignes et $N$ colonnes dont les coefficients suivent une distribution de probabilités.
-On considère aussi que $|\Omega|$ est aussi une variable aléatoire à valeurs dans $\{0, \cdots, N\}$ et on notera $K = \mathbb{E}(|\Omega|)$.
-On note
+Notons maintenant $R_\Omega$ la matrice de restriction aux indices de $\Omega$.
 \begin{align}
 	R_\Omega : \ell^2([0, N]) &\longrightarrow \ell^2(\Omega) \\
 		(g_k)_{0\leq k\leq N} &\longmapsto (g_k)_{k\in \Omega}
@@ -37,9 +68,16 @@ On considèrera aussi par la suite la matrice aléatoire $F_{\Omega T}$ en conse
 	F_{\Omega T} = F_{\Omega} R_T^* : \ell^2(T) &\longrightarrow \ell^2(\Omega)\\
 		(g_k)_T &\longmapsto F_{\Omega}( (g_k)_T \oplus (0)_T^c ).
 \end{align}
-On remarque aussi que $F_{\Omega T}^* F_{\Omega T} : \ell^2(T) \rightarrow \ell^2(T)$ est symétrique et que l'on peut la diagonaliser sous la forme $U \Lambda U^*$ où $\Lambda = (\lambda_1 \geq \cdots \geq \lambda_{|T|})$ sont les valeurs propres de $F_{\Omega T}^* F_{\Omega T}$.
+On remarque aussi que $F_{\Omega T}^* F_{\Omega T} : \ell^2(T) \rightarrow \ell^2(T)$ est symétrique et que l'on peut la diagonaliser sous la forme $U \Lambda U^*$ où $\Lambda = (\lambda_1 \geq \cdots \geq \lambda_{|T|})$ sont les valeurs propres de $F_{\Omega T}^* F_{\Omega T}$ qui sont aussi appelées valeurs singulières de $F_{\Omega T}$.
+\newline
+Dans ce chapitre on considérera trois modèles de matrices aléatoires, on a déjà vu le modèle aléatoire de Fourier en échantillonant les lignes indéxées par $\Omega$ de la matrice de Fourier.
+On verra aussi la matrice gaussienne dont les coefficients suivent une loi normale centrée réduite normalisée et le modèle de Bernoulli où les coefficients sont égaux à $+1$ ou $-1$.
+\newline
+Deux modèles d'échantillonage sont utilisés dans la suite, si on fixe $|\Omega|$ et que $\Omega$ peut être n'importe quel ensemble de taille $\Omega$ on peut parler de modèle uniforme.
+Si $\Omega$ est obtenu en faisant un échantillonage qui suit une loi de Bernoulli, on peut parler de modèle de Bernoulli.
 \subsection{Définition de \textbf{UUP}} 
-On peut alors définir le principe uniforme d'incertitude (Uniform Uncertainty Principle), 
+
+On peut alors définir le \emph{principe uniforme d'incertitude} (\textbf{Uniform Uncertainty Principle}), 
 \begin{definition}
 	On dit que $F_\Omega$ vérifie $\lambda$-\textbf{UUP} si il existe $\rho$ tel que avec probabilité $1 - \mathcal{O}(N^{-\rho / \alpha})$ on ait:
 	\newline
@@ -52,18 +90,37 @@ On peut alors définir le principe uniforme d'incertitude (Uniform Uncertainty P
 		\frac{1}{2}\frac{K}{N} ||f||_2^2\leq ||F_\Omega f||_2^2 \leq \frac{3}{2} \frac{K}{N} ||f||_2^2.
 	\end{equation}
 \end{definition}
+Quelques mots s'imposent sur cette définition. 
+Tout d'abord, comme mentionné en début de chapitre, on ne cherche pas à avoir un résultat toujours vrai, on veut seulement qu'il soit presque toujours vrai, d'où le fait que le résultat soit vrai avec une probabilité $1-\mathcal{O}(N^{-\rho/\alpha})$.
+Remarquons aussi que le résultat est exprimé en terme de $\mathcal{O}$ et on en déduit donc que le résultat peut devenir vrai avec probabilité égale à 1 si on peut choisir $N$ arbitrairement grand.
+\newline
+Ensuite, on voit que les signaux sur lesquels le résultat est vrai sont ceux dont le support est inférieur $\alpha K /\lambda$, pour couvrir un maximum de signaux, on cherchera donc à avoir $F_\Omega$ qui vérifie $\lambda$-\textbf{UUP} avec $\lambda$ aussi petit que possible.
+\newline
+Concernant \ref{eq:UUP2} avec l'étude des frames et de leurs liens avec les bases orthonormales, il devrait être clair que \ref{eq:UUP2} est entre une condition de frame et de base orthonormale.
+
 On aurait aussi pu définir le principe uniforme d'incertitude à l'aide des valeurs propres :
-\begin{proposition}
+\begin{proposition}\label{th:lambdauup}
 	$F_\Omega$ vérifie $\lambda$-\textbf{UUP} si et seulement si 
 	\newline
-	avec probabilité au moins $1-\mathcal{O}(N^{-\rho / \alpha})$ on a
+	avec probabilité au moins $1-\mathcal{O}(N^{-\rho / \alpha})$ pour un certain $\rho>0$ on a
 	$\forall T \subset [0, N]$ qui vérifie $|T| \leq \alpha \frac{K}{\lambda}$ alors les valeurs propres de $F_{\Omega T}$ vérifient
 	\begin{equation*}
 		\frac{1}{2} \frac{K}{N} \leq \lambda_{min}(\Lambda) \leq \lambda_{max}(\Lambda) \leq \frac{3}{2}\frac{K}{N}.
 	\end{equation*}
+	où $\lambda_{max}$ (resp. $\lambda_{min}$) est la valeur propre maximale (resp. minimale) de $F_{\Omega T} F_{\Omega T}^*$. 
 \end{proposition}
 \begin{preuve}
-A recopier.
+	Pour montrer que la définition implique la proposition, on prend un vecteur propre $f$ de $F_{\Omega T}F_{\Omega T}^*$ de valeur propre maximale (resp. minimale), d'où:
+	\begin{equation}
+		||F_{\Omega T} f||_2^2 = f^t F_{\Omega T}^*F_{\Omega T} f = \lambda_{max} ||f||_2^2 
+	\end{equation}
+	et le dernier terme est plus petit (resp. plus grand pour $\lambda_{min}$) que $\frac{3K}{2N}||f||_2^2$  (resp. $\frac{K}{2N}||f||_2^2$)par hypothèse.
+	\newline
+	Dans l'autre sens, on prend un vecteur $f$ tel que $T$ est le support de $f$, alors $F_{\Omega T} f = F_\Omega f$ et donc:
+	\begin{equation}
+		\lambda_{min} ||f||_2^2 \leq ||F_\Omega f||_2^2 \leq \lambda_{max} ||f||_2^2
+	\end{equation}
+	et il suffit de remplacer $\lambda_{min}$ et $\lambda_{max}$ par leurs valeurs dans la proposition.
 \end{preuve}
 \begin{remarque}
 	Pour expliciter le fait que cela définit bien un principe d'incertitude, considérons $F_\Omega$ comme étant la transformée de fourier discrète partielle, et un signal concentré en temps ($|supp(f)| \leq \alpha \frac{K}{\lambda}$), alors on a 
@@ -84,7 +141,7 @@ Justifions maintenant le fait que c'est un principe uniforme.
 	\newline
 	Ainsi, le principe est uniforme car la propriété \textbf{UUP} est telle que l'on a une probabilité au moins $1- \mathcal{O}(N^{-\rho / \alpha})$ que \ref{eq:UUP2} soit vrai pour tous les $f$ possibles vérifiant \ref{eq:UUP1}. Ce qui justifie l'appélation uniforme.
 \end{remarque}
-\begin{remarque}\footnote{A vérifier}
+\begin{remarque}
 	Remarquons que l'on peut réécrire \ref{eq:UUP2} peut se réécrire
 	\begin{equation*}
 		(1-\delta_K)||f||_2^2 \leq ||F_\Omega f||_2^2 \leq ||f||_2^2(1 + \delta_K)
@@ -92,30 +149,30 @@ Justifions maintenant le fait que c'est un principe uniforme.
 	avec $\delta = 1 - \frac{K}{2N}$ ce qui rappelle la définition d'un frame avec des bornes $m = M = \frac{1}{2}$ dans le meilleur des cas.
 	Cela justifie que certaines fois le principe uniforme d'incertitude est aussi appelé propriété d'isométrie restreinte (\textbf{RIP}) (Restricted Isometry Property).
 \end{remarque}
-\subsection{Exemple de familles vérifiant \textbf{UUP}}
 \begin{proposition}\footnote{Pour certains résultats concernant ERP et UUP : \url{https://www.math.ucla.edu/~tao/preprints/sparse.html}}
 	\newline 
 	\begin{itemize}
-		\item Les ensembles Gaussiens et binaires vérifient $\log N-UUP$
-		\item L'ensemble de Fourier vérifie $(\log N)^6-UUP$.
+		\item Les ensembles Gaussiens et binaires vérifient $\log(N)-\textbf{UUP}$
+		\item L'ensemble de Fourier vérifie $\log(N)-\textbf{UUP}$.
 	\end{itemize}
 \end{proposition}
+On peut trouver des démonstration dans \cite{CT} et \cite{foucartbook}.
 \subsection{Définition de \textbf{ERP}}
 Un autre principe que l'on va utiliser qui nous permettra de nous assurer que l'approximation $f^\#$ obtenue est proche de $f$ pour la norme $\ell^1$ est le principe de reconstruction exacte (\textbf{ERP} - Exact Reconstruction Principle).
 \begin{definition}
-	$F_\Omega$ vérifie \textbf{ERP} si
+	$F_\Omega$ vérifie $\lambda$-\textbf{ERP} si
 	\begin{itemize}
-		\item $\forall T \subset [0, N]$
+		\item $\forall T \subset [0, N]$ vérifiant $|T| \leq \alpha \frac{K}{\lambda}$
 		\item $\forall \sigma \in \{\pm 1\}^T$
 	\end{itemize}
-	il existe avec probabilité prépondérante, un vecteur $P\in \mathbb{R}^N$ tel que
+	il existe avec probabilité au moins $1-\mathcal{O}(N^{-\rho / \alpha})$ pour un certain $\rho>0$, un vecteur $P\in \mathbb{R}^N$ tel que
 	\begin{enumerate}
 		\item $P(t) = \sigma(t), \forall t \in T$
-		\item $P$ est une combinaison linéaire des lignes de $F_\Omega$ \footnote{ C'est équivalent à $P$ appartient au \textit{rowspace} de $F_\Omega$, ce qui est équivalent à : $\exists Q$ tel que $P = F_\Omega ^* Q$.}
+		\item $P$ est une combinaison linéaire des lignes de $F_\Omega$ \footnote{ C'est équivalent à $P$ appartient au \textit{rowspace} de $F_\Omega$, ce qui est équivalent à : $\exists Q$ tel que $P = F_\Omega ^* Q$ donc $Q$ avec $|\Omega|$ coordonnées.}
 		\item $P(t) < \frac{1}{2}, \forall t \in T^c$\footnote{Le $\frac{1}{2}$ n'a pas vraiment d'importance, n'importe quelle constante $0 < \beta < 1$ permet d'obtenir les mêmes résultats} 
 	\end{enumerate}
 \end{definition}
-\subsection{Exemples de familles vérifiant \textbf{ERP}}
+Comme discuté dans l'introduction de ce chapitre, cela revient à pouvoir reconstruire (et surtout distinguer) n'importe quelle suite de signes supportée sur $T$
 \begin{proposition} 
 	\begin{itemize}
 		\item Les ensembles Gaussiens et binaires vérifient $\log N$-\textbf{ERP}
@@ -123,47 +180,206 @@ Un autre principe que l'on va utiliser qui nous permettra de nous assurer que l'
 	\end{itemize}
 \end{proposition}
 
-\subsection{Lien entre \textbf{RIP} et \textbf{ERP}}
-
 \section{Théorème de Candes-Tao}
-\subsection{Enoncé du théorème}
+Avec les notations et les définitions ci-dessus on peut maintenant énoncer puis prouver le théorème de Emmanuel Candes et Terence Tao.
 \begin{theoreme}
 	Soit $F_\Omega$ qui vérifie $\lambda_1$-\textbf{ERP} et $\lambda_2$-\textbf{UUP}.
 	On pose $\lambda = \max(\lambda_1, \lambda_2)$, soit $K\geq \lambda$.
 	\newline
 	Soit $f$ un signal dans $\mathbb{R}^N$ tel que ses coefficients dans une base de référence décroissent comme\footnote{les coefficient $(|\theta_{(n)}|)$sont triés par ordre décroissant} :
-	\begin{equation}
+	\begin{equation}\label{eq:ineqtheta}
 		|\theta_{(n)}| \leq C n^{-\frac{1}{p}}
 	\end{equation}
 	pour un certain $C >0$ et $0 < p \leq 1$. 
 	\newline
 	On pose $r = \frac{1}{p} - \frac{1}{2}$, alors n'importe quel minimiseur de (P1) vérifie :
 	\begin{equation}
-		||f - f^\#||_2 \leq C_r (\frac{K}{\lambda})^-r
+		||f - f^\#||_2 \leq C_r (\frac{K}{\lambda})^{-r}
 	\end{equation}
-	avec probabilité au moins $1 - \mathcal{O}(n^{-\frac{\rho}{\alpha}})$, pour certains $\rho$ et $\alpha$.
+	avec probabilité au moins $1 - \mathcal{O}(N^{-\frac{\rho}{\alpha}})$, pour certains $\rho$ et $\alpha$.
 \end{theoreme}
-\subsection{Preuve du théorème}
+Tout d'abord on peut préciser la famille de signaux que l'on considère, ce sont ceux dont les coefficients décroissent comme une loi en puissance dans une certaine base. 
+C'est une telle décroissance que l'on a par exemple identifié pour les coefficients d'ondelettes d'une fonction lipschitzienne par rapport à l'échelle dans le théorème de Stéphane Jaffard \ref{th:Jaffard}.
+On voit donc que le théorème peut s'appliquer de façon générale.
+De plus, contrairement aux résultats du chapitre 3, on ne demande pas à ce que le signal soit exactement parcimonieux pour avoir une bonne reconstruction $\ell^2$.
+L'avantage de ce théorème est donc qu'en résolvant \ref{P1}, même si une solution vraiment parcimonieuse n'existe pas, on a quand même une reconstruction du signal pour la norme euclidienne.
+\newline
+Passons à la preuve du théorème, on discutera ensuite de certaines conséquences ainsi que de résultats analogues.
+\begin{proof}
+	Soit $F_\Omega$ comme dans le théorème.
+	Soit $f \in \mathbb{R}^N$ dont les coefficients vérifient \ref{eq:ineqtheta}, on note alors $f^\#$ une solution $y=F_\Omega f$.
+	L'objectif est de déterminer
+	\begin{equation}
+		||f - f^\#||_2.
+	\end{equation}
+	On note $T$ l'ensemble des $T$ plus grandes valeurs de $|f| + |f^\#|$.
+	Comme vu dans les preuves du chapitre 3, on a:
+	\begin{equation}\label{eq:kerFO}
+		F_\Omega (f - f^\#) = 0.
+	\end{equation}
+	Cependant, les hypothèses que l'on peut utiliser (\textbf{ERP} et \textbf{UUP}) ne peuvent être utilisées que dans sur des ensemble de taille $T$ où $T\leq \alpha K /\lambda$.
+	Donc, plutôt que de considérer $f-f^\#$, on va considérer $h = (f-f^\#) 1_T$, où on note $1_T$ la restriction aux indices de $T$.
+	Il est alors possible de démontrer en appliquant \textbf{UUP} (voir le lemme \ref{th:tao3}) que l'on peut trouver $g \in \mathbb{R}^N$ qui s'écrit $g = F_\Omega^* V$ pour un certain $V \in \mathbb{R}^\Omega$ et qui vérifie à la fois de prendre les mêmes valeurs que $h$ sur $T$ et
+	\begin{equation}\label{eq:ineqgf}
+		\sum_{t \in E} |g(t)|^2 \leq C \sum_{t\in T} |f(t) - f^\#(t)|^2
+	\end{equation}
+	pour n'importe que ensemble $E$ disjoint de $T$ et de taille $|E| = \mathcal{O}(K/\lambda)$.
+	Avec des mots, l'image de $g$ par $F_{\Omega}$ vaut 0 sur $T$, et hors de $T$ les valeurs de $g$ sont majorées par la distance euclidienne de $f$ et $f^\#$.
+	On peut alors utiliser le fait que $g$ s'écrive $g=F_\Omega^* V$:
+	\begin{equation}
+		\langle f-f^\#, g \rangle = \langle f-f^\#, F_\Omega^* V\rangle = \langle F_\Omega(f-f^\#), V \langle = 0
+	\end{equation}
+	d'après \ref{eq:kerFO}.
+	Ainsi, on a 
+	\begin{equation}
+		\sum_{t=0,\cdots, N} (f - f^\#)(t) g(t) = 0
+	\end{equation}
+	que l'on peut réécrire
+	\begin{equation}\label{eq:ineqfg}
+		\sum_{t\in T} (f - f^\#)(t) g(t) = ||f-f^\#||_{\ell^2(T)}^2 = - \sum_{t\in T^c} (f - f^\#)(t) g(t).
+	\end{equation}
+	Par ailleurs, on a toujours:
+	\begin{equation}
+		||f-f^\#||_{\ell^1(T^c)} \leq ||f||_{\ell^1(T^c)} + ||f||_{\ell^1(T^c)}
+	\end{equation}
+	D'après un lemme qui utilise \textbf{ERP} que l'on peut trouver en annexe \ref{th:tao1} 
+	\begin{equation}\label{eq:ineqtc}
+		||f + f^\#||_{\ell^1(T^c)} \leq C |T|^{1-\frac{1}{p}}.
+	\end{equation}
+	et d'après un autre lemme \ref{th:tao2} démontré en annexe on a 
+	\begin{equation}\label{eq:ineqinf}
+		||f-f^\#||_{\ell^\infty (T^c)} \leq C |T|^{-1/p}
+	\end{equation}
+	Avec ces deux inégalités on peut appliquer l'inégalité de Hölder pour obtenir :
+	\begin{equation}
+		||f-f^\#||_{\ell^2(T^c)} = \sqrt{|||f-f^\#|^2||_{\ell^1(T^c)}} \leq \sqrt{||f + f^\#||_{\ell^1(T^c)} 	||f-f^\#||_{\ell^\infty (T^c)}} \leq C |T|^{\frac{1}{2} - \frac{1}{2p}}.
+	\end{equation}
+	Pour prouver le théorème, il reste donc à montrer qu'une telle majoration est encore vraie sur $T$.
+	Pour obtenir cela on va réordonner les indices, tout d'abord on énumère $T^c=(n_1, \cdots, n_{N-|T|})$ tels que les coefficients correspondants dans $|f-f^\#|$ soient classés par ordre décroissant.
+	Maintenant on regroupe ces coefficients en blocs de taille $|T|$, à part peut-être pour le dernier qui peut être plus petit.
+	On les notes $B_J =\{n_j, J|T| < j \leq (J+1)|T|\}$ ces blocs pour $J=0,\cdots, \lfloor N/|T| \rfloor$.
+	On a alors, d'après Cauchy-Schwarz, à $J$ fixé:
+	\begin{equation}
+		\sum_{j\in B_J} (f-f^\#)(n_j) g(n_j) \leq ||f-f^\#||_{\ell^2(B_J)} ||g||_{\ell^2(B_J)}.
+	\end{equation}
+	Or d'après \ref{eq:ineqgf}, $||g||_{\ell^2(B_J)} \leq C||f-f^\#||_{\ell^2(T)}$, donc l'inégalité précédente devient:
+	\begin{equation}
+		\sum_{j\in B_J} (f-f^\#)(n_j) g(n_j) \leq C ||f-f^\#||_{\ell^2(T)} ||f-f^\#||_{\ell^2(B_J)} \leq C ||f-f^\#||_{\ell^2(T)} I_J
+	\end{equation}
+	en notant
+	\begin{equation}
+		I_J := ||f-f^\#||_{\ell^2(B_J)} = \sqrt{\sum_{j=J|T| + 1}^{(J+1)|T|} |(f-f^\#)(n_j)|^2}.
+	\end{equation}
+	Comme les coefficients sont par ordre décroissants, on va pouvoir obtenir des inégalités successives entre les $I_J$.
+	Tout d'abord, pour $J=0$, on  a clairement :
+	\begin{equation}
+		I_0 \leq \sqrt{|T|}||f-f^\#||_{\ell^\infty(B_J)} \leq \sqrt{|T|} |(f-f^\#)(n_0)|.
+	\end{equation}
+	D'après \ref{eq:ineqinf} on a donc:
+	\begin{equation}
+		I_0 \leq C|T|^{\frac{1}{2} - \frac{1}{p}} = C|T|^{-r}.
+	\end{equation}
+	Pour $J\geq 1$ on a ainsi:
+	\begin{equation}
+		I_J =||f-f^\#||_{\ell^{2}(B_{J})} \leq |T|^\frac{1}{2}|f-f^\#|(n_{J|T|+1}) \leq |T|^\frac{1}{2} |T|^{-1} ||f-f^\#||_{\ell^1(B_{J-1})}.
+	\end{equation}
+	Afin de conclure il nous faut donc évaluer la somme sur $J$ des $I_J$,
+	\begin{equation}\label{eq:ineqij}
+		\sum_{J\geq 0} I_J \leq I_0 + \sum_{J\geq 1} I_J  \leq C|T|^{-r} +\frac{1}{|T|^{\frac{1}{2}}} \sum_{J\geq 0} I_J.
+	\end{equation}
+	On déduit de la précédente inégalité:
+	\begin{equation}
+		\sum_{J\geq 0} I_J \leq C|T|^{-r} + |T|^{-\frac{1}{2}} ||f-f^\#||_{\ell^1(T^c)}
+	\end{equation}
+	et d'après \ref{eq:ineqtc} on a ainsi:
+	\begin{equation}
+		\sum_{J\geq 0} I_J \leq C|T|^{-r} + C|T|^{\frac{1}{2} - \frac{1}{p}} = 2C|T|^{-r}.
+	\end{equation}
+	Les $B_J$ formant une partition de $\{0, \cdots, N\}\backslash T$ on a, d'après \ref{eq:ineqbj}, puis \ref{eq:ineqij}:
+	\begin{align}
+		\sum_{t \in T^c} (f-f^\#)(t)g(t)&\leq \sum_J C ||f-f^\#||_{\ell^2(T)}||f-f^\#||_{\ell^2(B_J)} \\
+						&\leq C||f-f^\#||_{\ell^2(T)}\sum_J I_J \leq 2C||f-f^\#||_{\ell^2(T)}|T|^{-r}
+	\end{align}
+	Et donc finalement avec \ref{eq:ineqfg} on a:
+	\begin{equation}
+		||f-f^\#||_{\ell^2(T)}^2\leq 2C ||f-f^\#||_{\ell^2(T)}|T|^{-r}
+	\end{equation}
+	que l'on peut réécrire :
+	\begin{equation}
+		||f-f^\#||_{\ell^2(T)}\leq 2C|T|^{-r}.
+	\end{equation}
+	On a donc bien démontré le théorème.	
+\end{proof}
+Dans la preuve, deux résultats intermédiaires ont été admis. Le premier utilise \emph{UUP} et est une conséquence d'un théorème d'extension, avec des mots, on a construit un vecteur dans l'espace engendré par $F_\Omega^*$ qui coincide avec un autre vecteur arbitraire sur un support fini et qui vérifie une forme de stabilité $\ell^2$. On pourra trouver une démonstration de ce résultat en annexe \ref{th:tao3}.
+\newline
+Le second résultat utilise \emph{ERP} et permet de démontrer un autre résultat sur la concentration en dehors d'un support fixé, mais pour la norme $\ell^1$. On pourra en trouver un résultat formel en annexe également \ref{th:tao1}.
+\newline
+Cependant il aurait été possible d'utiliser d'autres conditions, la condition \textbf{UUP} n'étant pas très difficile à vérifier contrairement à la condition \textbf{ERP} qui doit être vérifiée pour n'importe quelle suite de signes. 
+Il est ainsi possible d'affaiblir cette condition en \textbf{Weak Exact Reconstruction Principle} (\textbf{WERP}) dans laquelle plutôt que d'avoir \textbf{ERP} pour n'importe quelle suite de signe, on souhaite pour presque n'importe quelle suite de signes \textbf{ERP}. 
+En fait, Terence Tao et Emmanuel Candes prouvent dans \cite{CT} que \textbf{WERP} et \textbf{UUP} impliquent \textbf{ERP} pour presque n'importe quel signal.
+\section{Théorème de Donoho}
+Etudions maintenant un autre théorème fondamental du Compressed Sensing, et en fait très similaire à celui de Emmanuel Candes et Terence Tao, avec le théorème de David Donoho.
+Ce théorème est présenté ici car il est plus facile à exprimer que le théorème précédent, il n'y a pas besoin d'autant de notations et définitions, aussi, on va voir que ce résultat est assez proche de l'esprit des résultats du chapitre 3.
+Cependant on ne fera pas la preuve de ce résultat pour plusieurs raisons, premièrement, après le théorème précédent et le chapitre 3 il devrait être clair qu'un tel résultat soit démontrables, deuxièmement, les techniques de preuves utilisées par David Donoho sont assez élaborées et reposent sur l'usage d'inégalités sur des lois de probabilités, finalement, il aurait été difficile d'introduire de façon raisonnable ces résultats sans ajouter trop de pages supplémentaires à ce mémoire (qui est peut-être déjà trop long).
+\newline
+Cela étant dit, le résultat de David Donoho n'a besoin que de d'un rappel de définitions utilisée dans les chapitres précédents.
+Soit $(\Phi, \Psi)$ une paires de matrices et $(\psi_1, \cdots, \psi_N)$ les colonnes de $\Psi$ et $(\varphi_1, \cdots, \varphi_N)$ les colonnes de $\Phi$.
+On note la cohérence entre $\Phi$ et $\Psi$:
+\begin{equation}
+	M_{\Phi, \Psi} = \sup_{i,j}|\langle \psi_i, \varphi_j \rangle|
+\end{equation}
+On notera en particulier $M_\Phi = \sup_{i,j} |\varphi_{i,j}|$.
 
-\section{Exemple de $F_\Omega$}
-\subsection{Ensemble de Fourier}
-\subsection{Gaussien}
+On peut alors énoncer le théorème de David Donoho:
+\begin{theoreme}
+	Soit $\Phi$ une base orthonormale de $\mathbb{R}^N$. 
+	Soit $T \subset \{0, \cdots, N\}$ un sous-ensemble fixé et soit $z \in \{\pm 1\}^T$ une suite de signes tirée uniformément au hasard ($\mathbb{P}(z(t) = 1) = \mathbb{P}(z(t) = -1) = \frac{1}{2}$ pour tout $t\in T$).
+	Si le nombre de mesures $m$ vérifie:
+	\begin{equation}
+		m\geq C_0 |T| N M_{\Phi}^2 \log(\frac{N}{\delta})
+	\end{equation}
+	et
+	\begin{equation}
+		m\geq C_1 \log^2(\frac{N}{\delta})
+	\end{equation}
+	pour des constantes fixées $C_0$ et $C_1$.
+	Alors, avec probabilité au moins $1-\delta$, on peut reconstruire n'importe quel signal $x_0$ supporté sur $T$ et ayant la même suite de signes que $z$ à partir de $m$ mesures
+	\begin{equation}
+		y = F_{\Phi \Omega} x_0
+	\end{equation}
+	en résolvant \ref{P1}.
+\end{theoreme}
+On ne démontre pas ce théorème mais discutons de son lien avec le théorème de Emmanuel Candes et Terence Tao, dans celui ci on choisit d'abord une suite de signes, qui n'est pas arbitraire et qui a été obtenue par un processus aléatoire et on peut ensuite conclure sur la reconstruction, on n'est donc pas dans le cas de l'\textbf{Exact Reconstruction Principle} mais plutôt du \textbf{Weak Exact Reconstruction Principle}.
+\newline
+Ensuite, ici, le lien entre la cohérence de la matrice utilisée pour mesurer et le nombre de mesures à réaliser est explicite, en fait ce nombre de mesures est choisi car il permet de vérifier (théorème 1.2 \cite{CR}), que les valeurs singulières de $F_{\Phi, \Omega T}$ sont toutes proches de $\frac{m}{N}$, c'est bien le contenu de l'\textbf{Uniform Uncertainty Principle}.
+\newline
+Aussi, il est possible de relier les $\lambda_1$ et $\lambda_2$ du théorème de Emmanuel Candes et Terence Tao aux deux inégalités du théorème de Donoho. 
+On remarquera juste que dans le cas où $F_\Phi$ est la matrice de Fourier, alors $M_\Phi= \frac{1}{\sqrt{N}}$, on utilise donc la seconde inégalité si $|T|$ est petit.
+De même pour une matrice dont les coefficients suivent une loi normale centrée de variance égale à 1, alors\footnote{Pour montrer cela il faut montrer que l'espérance de la valeur maximale de $n$ tirages de loi normale centrée réduite est majoré par $C\sqrt{\log(n)}$, la démonstration étant hors du sujet du mémoire n'est pas faite ici, on pourr consulter \cite{foucartbook} pour de nombreux résultats et démonstrations sur les matrices aléatoires dans le cadre du compressed sensing.} $M_\Phi \leq C\frac{1}{N}\sqrt{\log(N)}$, on est donc également dans le cas de la seconde inégalité du théorème, si $|T|$ est petit.
+Cependant, on peut revenir au cas de la première inégalité en supposant $C_0> C_1\log(\frac{N}{\delta})$. 
+\newline
+On a donc le corollaire suivant :
+\begin{theoreme}
+	Soit $F_{\Omega}$ la restriction de la matrice de Fourier ou d'une matrice gaussienne à un sous ensemble $\Omega \subset \{0, \cdots, N-1\}$ qui vérifie:
+	\begin{equation}
+		|\Omega| \geq C S \log(N)
+	\end{equation}
+	pour une certaine constante $C$.
+	Soit $f$ un signal $s$-parcimonieux, donc tel qu'il existe $x_0$ avec $s$-composantes vérifiant $f=F_{\Omega}x_0$ alors avec probabilité tendant vers 1 la solution $x$ de \ref{P1} est $x=x_0$.
+\end{theoreme}
+On peut aussi déduire du théorème de Donoho la version asymptotique des théorèmes \ref{th:DiracFourier}, \ref{th:recovgen} et \ref{th:eladbruc} en considérant que l'on fait toutes les mesures $(|\Omega| =N)$:
+\begin{theoreme}\label{th:recovgen}
+		Soit $N$ un entier positif, $(\Phi, \Psi)$ une paire de bases orthonormales, $M$ la quantité définie 
+		\begin{equation}
+			M = \sup_{i,j} |\langle \varphi_i, \psi_j \rangle|
+		\end{equation}
+		et un signal $f\in \mathbb{R}^N$, alors avec probabilité tendant vers 1, n'importe quel $x = (x_\Phi, x_\Psi)$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et
+	\begin{equation}\label{eq:cond1}
+		||x_\Phi||_0 +  ||x_\Psi||_0 < C \frac{N}{M^2\log(N)}
+	\end{equation}
+	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
+\end{theoreme}
 
-\section{Conséquences du théorème}
-\subsection{Influence des paramètres}
-\subsection{Quelques résultats numériques}
 
-\section{Sur la propriété RIP}
-\subsection{Difficulté pour un ensemble de vérifier RIP}
-\subsection{Lien entre \textbf{RIP} et \textbf{WERP}}
 
-\section{Extensions du théorème}
-\subsection{Conditions suffisantes sur $\delta_K$}
-\subsection{Conditions nécessaires sur $\delta_K$}
-\subsection{Sur l'optimalité du résultat}
-
-\section{Algorithmes}
-\subsection{Orthogonal Matching Pursuit}
-\subsection{Robust Orthogonal Matching Pursuit}
-\subsection{Quelques exemples numériques}
 

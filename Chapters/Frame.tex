@@ -8,7 +8,7 @@ Ensuite on verra progressivement comment relacher certaines des définitions ini
 Afin d'expliciter l'intérêt de ces définitions on verra deux exemples de frames.
 Tout d'abord le frame de Fourier, dont la compréhension sera utile pour le troisième chapitre.
 Ensuite, nous introduirons les ondelettes par l'analyse multi-résolution; les formules que nous obtiendrons seront utilisées pour montrer que certaines ondelettes permettent d'obtenir des formules de reconstruction avec une approximation rapide sur certaines classes de fonctions.
-Ainsi, après ce chapitre il devrait être clair que la reconstruction en norme $||\cdot||_2$ est faisable, de plusieurs façons et qu'il est possible que de telles reconstructions aient une représentation parcimonieuse.
+Ainsi, après ce chapitre il devrait être clair que la reconstruction en norme $||\cdot||_2$ est faisable, de plusieurs façons et qu'il est possible que de telles reconstructions aient une représentation parcimonieuse\footnote{En fait la représentation obtenue avec un frame n'est généralement pas exactement parcimonieuse, de nombreux coefficients peuvent avoir une petite valeur différente de 0, cependant il est possible de conserver une bonne formule de reconstruction avec moins de coefficients, soit par seuillage, soit par les techniques plus élaborées du chapitre 4}.
 \subsection{Lien entre frame et base orthonormale}
 Rappelons tout d'abord les définitions et propriétés d'une base orthonormale. On considère ici $H$ un espace de Hilbert donc un espace vectoriel muni d'une base hilbertienne et d'un produit scalaire.
 Pour alléger les notations, on considère que $H$ est un $\mathbb{R}$-espace vectoriel, pour passer à un $\mathbb{C}$-espace vectoriel la seule modification est d'appliquer la conjugaison à de nombreux endroits.
@@ -104,7 +104,7 @@ Tout d'abord on peut remarquer que, si $F$ est une famille orthonormale, alors l
 On va maintenant voir que si $F$ est un frame \textit{serré} (ou \textit{équilibré}) (c'est à dire avec des constantes $m, M$ égales), alors on dispose d'une formule analogue à \ref{eq:thetaF} qui nous donne une projection orthogonale.
 L'intérêt de cela étant que, si $F$ est génératrice de l'espace entier $H$, alors la projection orthogonale correspond à une formule de reconstruction.
 \newline
-Supposons ainsi que l'on ait $m =M$, on a d'après \ref{eq:defFrame}, 
+Supposons ainsi que l'on ait $m=M$, on a d'après \ref{eq:defFrame}, 
 \begin{equation*}
 	\sum_I |\langle f_j, f_i \rangle |^2 = M||f_j||^2.
 \end{equation*}
@@ -140,6 +140,9 @@ On dispose donc d'une formule de reconstruction qui est valable pour tout $f$ qu
 	
 Cependant cette formule peut sembler ajouter un inconvenient avec la constante $1/M$ par rapport à la formule de reconstruction dans une base orthonormale (cas $m=M=1$ d'après la combinaison des théorèmes \ref{th:orth1} et \ref{th:norm1}). 
 Nous allons voir ci-dessous en quoi avoir un coefficient de frame serré $M>1$ permet d'améliorer la stabilité de la formule de reconstruction, on appelera un tel frame un frame redondant.
+Par ailleurs, une démonstration est donnée en annexe \ref{bestframe} qui montre que la solution obtenue par les coefficients de frame est la solution minimale pour la norme $\ell^2$.
+\newline
+En annexe \ref{recframe} une généralisation de la formule de reconstruction est donnée pour des frames non serrés, celle ci est obtenue avec un algorithme ayant une vitesse de convergence expontielle.
 \newline
 Avant de poursuivre vers l'étude de frames plus sophistiqués dans les parties suivantes, considérons un frame élémentaire.
 	On se place dans $\mathbb{R}^2$ et on considère la famille de vecteurs $\Phi= \{\varphi_1 = (0, 1), \varphi_2 = (-\frac{\sqrt{3}}{2}, -\frac{1}{2}), \varphi_3 =(\frac{\sqrt{3}}{2}, -\frac{1}{2})\}$.
@@ -180,7 +183,7 @@ Considérons la formule de reconstruction
 \end{equation*}
 et prenons $N$ variables aléatoires réelles indépendantes $(\alpha_i)_{i=1, \cdots, N}$  de moyenne nulle et de variance égale à 1.
 \begin{align}
-	\mathbb{E}\left(|| f- \frac{1}{M}\sum_{i=1}^N (\langle f, f_i\rangle + \epsilon \alpha_i)e_i||_2^2\right) &= \mathbb{E}\left(||\frac{1}{M} \sum_{i=1}^N \epsilon \alpha_i||_2^2\right)\nonumber\\
+	\mathbb{E}\left(|| f- \frac{1}{M}\sum_{i=1}^N (\langle f, f_i\rangle + \epsilon \alpha_i)f_i||_2^2\right) &= \mathbb{E}\left(||\frac{1}{M} \sum_{i=1}^N \epsilon \alpha_i||_2^2\right)\nonumber\\
 	&= \frac{\epsilon^2}{M^2} \mathbb{E}(\sum_{i=1}^N \alpha_i^2) = \frac{\epsilon^2}{M^2} \sum_{i=1}^N \mathbb{E}(\alpha_i^2) \nonumber\\
 	&= \frac{\epsilon^2 N}{M^2} \label{errframe}%%TODO Enlever dernière ineq 	
 \end{align}
@@ -299,6 +302,7 @@ Ensuite, remarquons que l'on peut réécrire \ref{eq:eqmallat} de façon équiva
 	\newline
 	Avant de poursuivre vers des exemples de frames, remarquons que dans cette partie un point de vue plus général aurait pu être possible.
 	En effet, on aurait pu considérer travailler dans des espaces de Banach plutôt que de Hilbert, on aurait pu introduire d'autres notions de bases telles que les bases de Hamel, Schauder, Auerbach ou Markushevich plûtot que de Riesz ou Hilbert.
+	On pourra consulter \cite{jaffardondelettes} notamment pour le lien qui est fait entre les définitions de ces bases et leurs liens avec les ondelettes.
 	Le choix de travailler dans un espace de Hilbert a été fait car c'est un cadre suffisant pour le reste du mémoire avec des propriétés très similaire en dimension finie et infinie.
 	Il est important de remarquer que ces choix ont de l'importance seulement en dimension infinie, les notions étant équivalentes en dimension finie.
 
@@ -314,17 +318,16 @@ Ensuite, remarquons que l'on peut réécrire \ref{eq:eqmallat} de façon équiva
 	Il semble qu'une façon par laquelle on aurait pu généraliser l'étude d'opérateurs ayant des propriétés similaires aux frames dans des espaces de Banach aurait été de donner une place centrale à la trace, en considérant la classe des opérateurs à trace, aussi appelés opérateurs nucléaires.
 	A cette théorie on peut associer le nom de Grothendieck avec l'article \cite{groth}. 
 	Pour une introduction aux opérateurs à trace par les frames on peut consulter \cite{traceclass}, par leur similarité à l'analyse complexe on peut consulter \cite{acQuef}, pour un point de vue historique sur leur développement on peut consulter \cite{surlestraces}. 
-\subsection{Exemples de frames (Fourier, ondelettes)}
-Historiquement, au début du XXème siècle, David Hilbert souhaitait savoir si d'autres bases de $L^2([0,1])$ pouvaient être trouvées que la base de Fourier.
+\subsection{Frames d'ondelettes et analyse multi-résolution}\label{sec:frameondelette}
+Historiquement, au début du XXème siècle, le problème de la non-convergence de la série de Fourier de certaines fonctions continues amena David Hilbert à se demander si ce phénomène était inhérent aux bases orthogonales de $L^2([0,1])$.
 C'est ainsi que sous sa direction Alfréd Haar introduit dans sa thèse \cite{haar} en 1909 la base orthogonale de $L^2([0,1])$ donnée par \ref{fig:haar}.
-Jusqu'aux années 1980, aucune autre ondelette n'a été trouvée, c'est sous l'impulsion des travaux de Jean Morlet et Alexandre Grossman que le domaine des ondelettes a commencée à être exploré.
+Jusqu'aux années 1980, aucune autre ondelette n'a été trouvée, c'est sous l'impulsion des travaux de Jean Morlet et Alexandre Grossman que le domaine des ondelettes a commencé à être exploré.
 Ensuite Yves Meyer a reconnu dans leurs travaux des formules analogues à des résultats d'analyse harmonique, cependant à ce moment là, tous les frames d'ondelettes qui étaient construits étaient redondants.
 Yves Meyer (voir \cite{daubpers} pour plus de détails sur l'ensemble de ces développements) a donc souhaité prouver que c'était nécessaire que les frames d'ondelettes soient redondants, et donc pas orthonormaux.
 En essayant de prouver cela par l'absurde, en supposant l'existence d'un frame d'ondelette orthonormal, au lieu d'obtenir une contradiction il obtint une construction d'une famille d'ondelettes orthonormales \cite{meyer}.
 A partir de là de nombreuses constructions d'ondelettes fûrent faites avec différentes propriétés de régularité, de support, de décroissance,... 
-Mentionnons tout de même la construction d'ondelettes avec des moments nuls à support compact par Ingrid Daubechies \cite{daubbook} ainsi que l'algorithme de transformée en ondelette discret et le concept d'analyse multi-résolution de Stéphane Mallat \cite{mallatbook} qui ont permis aux ondelettes de devenir un outil maintenant très répandu dans les mathématiques appliquées.
-
-Les concepts d'analyse-temps fréquence et de localisation développés dans la théorie des ondelettes sont aujourd'hui développés en mathématiques pures dans le cadre de l'analyse micro-locale. (TODO : ajouter ref + d'autres développements des idées des ondelettes en maths pures)
+Mentionnons tout de même la construction d'ondelettes avec des moments nuls à support compact par Ingrid Daubechies \cite{daubbook} ainsi que l'algorithme de transformée en ondelette discret et le concept d'analyse multi-résolution de Stéphane Mallat \cite{mallatbook} qui ont permis aux ondelettes de devenir un outil maintenant très répandu dans les mathématiques appliquées et que l'on utilisera dans la suite du mémoire.
+Les concepts d'analyse-temps fréquence et de localisation développés dans la théorie des ondelettes sont aujourd'hui développés en mathématiques pures dans le cadre de l'analyse micro-locale. On pourra à nouveau consulter \cite{jaffardondelettes} pour un exposé général sur le développement et le rôle des ondelettes dans les mathématiques actuelles.
 \newline
 Etudions donc ces ondelettes:
 \begin{definition}
@@ -350,7 +353,7 @@ Etudions donc ces ondelettes:
 	}
 \end{figure}
 \begin{remarque}
-	Dans la définition des ondelettes $\psi_{j,k}$ engendrées par $\psi$, le coefficient $j$ correspond au facteur d'échelle\footnote{Du point de vue des notations, on considère que $j$ tend vers l'infini, signifie que $\psi_j$ analyse les hautes fréquences, ce choix de notation n'est pas uniforme dans la littérature, par exemple (TODO :ajouter ref) Mallat et Daubechies, utilisent $-j$ par rapport à nos notations. Par contre les notations utilisées correspondent à celles de Jaffard et Meyer. Mais cependant tous les résultats sont bien entendu équivalents.},
+	Dans la définition des ondelettes $\psi_{j,k}$ engendrées par $\psi$, le coefficient $j$ correspond au facteur d'échelle\footnote{Du point de vue des notations, on considère que $j$ tend vers l'infini, signifie que $\psi_j$ analyse les hautes fréquences, ce choix de notation n'est pas uniforme dans la littérature, par exemple Stéphane Mallat et Ingrid Daubechies, utilisent $-j$ par rapport à nos notations. Par contre les notations utilisées correspondent à celles de Stéphane Jaffard et Yves Meyer. Mais cependant tous les résultats sont bien entendu équivalents.},
 	en raison du facteur $2^j$ devant la variable, au fur et à mesure que $j$ augmente, l'ondelette est parcourue de plus en plus vite. Ainsi, augmenter $j$ revient à augmenter la fréquence de $\psi$, c'est à dire d'éloigner le support de $\hat{\psi}$ de l'origine. 
 	Le coefficient $k$ correspond à une translation de l'ondelette $\psi_j$, en ce sens, l'analyse par ondelette, permet une analyse à la fois en temps (par rapport à $k$) et en fréquence (par rapport à $j$).
 	\newline 
@@ -386,8 +389,7 @@ et on se demande alors si à partir de ces coefficients on peut reconstruire $f$
 	\caption{Les coefficients d'ondelette (pour l'ondelette de Daubechies D4) d'un signal présentant des zones de différentes régularité. Les coefficients les plus proches du signaux correspondent aux échelles les plus fines. On remarque que ces coefficients sont très petits dans les zones sans discontinuités. On peut voir que les hautes valeurs de ces coefficients (proches des discontinuités) se propagent vers les plus grandes échelles en s'étalant.}
 \end{figure}
 Cela revient ainsi à déterminer si la famille d'ondelettes est un frame d'ondelette. 
-Ici on ne cherchera pas a énumérer et a vérifier des frames d'ondelettes, un très grand nombre de frames d'ondelettes existent (ajouter ref.), on admet ainsi pour l'instant l'existence des frames d'ondelettes.
-Un peu plus bas nous verrons et démontrerons un théorème qui permet de construire de nombreux frames d'ondelettes, ce théorème fournira également une extension des ondelettes à $L^2(\mathbb{R}^d)$ et avec une version qui montre que la présence de puissances de 2 dans la définition des ondelettes revient à un choix d'échantillonage. 
+Ici on ne cherchera pas a énumérer et a vérifier des frames d'ondelettes, un très grand nombre de frames d'ondelettes existent\footnote{Pour une introduction au sujet des ondelettes par les frames on peut recommander le livre d'Ingrid Daubechies \cite{daubbook}, pour un théorème donnant une construction simple d'ondelettes en dimension $d\geq 1$ avec un échantillonage arbitraire (au lieu de l'échantillonage dyadique) on peut consulter \cite{IrregWav} et pour une liste d'ondelettes \url{https://en.wikipedia.org/wiki/Wavelet#List_of_wavelets}}, on admet ainsi l'existence des frames d'ondelettes. 
 \newline
 Supposons ainsi que l'on dispose d'un frame d'ondelettes et que ce frame est équilibré (c'est à dire que les bornes de frame $m$ et $M$ sont égales), alors on dispose d'une formule de reconstruction (d'après Daubechies 3.2.2)
 \begin{equation}
@@ -420,42 +422,6 @@ On peut maintenant revenir aux ondelettes, on considère que l'on connait $\varp
 	f = \sum_{k\in \mathbb{Z}} \langle f, \varphi_{k} \rangle \varphi_{k} + \sum_{j = 1}^{+\infty} \sum_{k\in \mathbb{Z}} \langle f, \psi_{j,k} \rangle \psi_{j,k}.
 \end{equation}
 On appelle l'application $\varphi_0$ ondelette d'échelle.
-On a vu que les familles orthonormales forment des frames, on a donc la proposition :
-\begin{proposition}
-	\begin{enumerate}
-		\item La transformée de Fourier discrète est un frame pour $\mathcal{F}$.
-		\item Les ondelettes forment un frame pour $\mathcal{F}$.
-	\end{enumerate}
-\end{proposition}
-\begin{preuve}
-	\begin{enumerate}
-		\item On utilisera la transformée de Fourier discrète écrite sous forme de matrice unitaire, qui est une matrice unitaire de Vandermonde avec les racines de l'unité en coefficients. Avec de l'algèbre on montre l'orthonormalité des colonnes.
-		\item Application du théorème suivant.
-	\end{enumerate}
-\end{preuve}
-
-\begin{theoreme}
-	Soit $\mathcal{Q} \subset \mathcal{R}^d$ un ensemble de mesure finie, $h \in L^2(\mathbb{R}^d)$
-	et $\mathcal{A} =\{A_j \in GL_d(R)\}_J$ une famille de matrices inversibles.
-	\newline
-	Pour tout $j \in J$, on pose $B_j =(A_j^T)^{-1}, S_j = A_j^TQ, h_j = h(B_j \cdot)$
-	et soit $\mathcal{S} = \{S_j\}_J$.
-	\newline
-	On suppose que $\mathcal{S}$ est un recouvrement de $\mathbb{R}^d$, $\mathcal{H}$ est une partition de Riesz de l'unité avec des bornes $p$ et $P$ et que $Supp(h) \subset Q$.
-	\newline
-	Soit $X = \{x_{j,k} \in \mathbb{R}^d : j\in J, k \in K\}$ tel que quelque soit $j \in J$, 
-	l'ensemble $\{e_{x_{j,k}}\chi_Q\}_K$ forme un frame pour $\mathcal{K}_Q$ avec des bornes $m_j$ et $M_j$. 
-	\newline
-	Si $m := \inf_J m_j > 0$ et $M= \sup_J M_j < \infty$, alors la collection
-	\begin{equation*}
-		\{|\det A_j|^{1/2} \psi(A_j x - x_{j,k})\}_{J, K}
-	\end{equation*}
-	forme un frame d'ondelettes de $L^2(\mathbb{R}^d)$ avec des bornes $mp$ et $MP$, 
-	engendré par une seule fonction $\psi$ où $\psi$ est la transformée de Fourier inverse de $h$.
-\end{theoreme}
-\begin{preuve}
-	Voir \cite{IrregWav} pour la preuve et les définitions, je les ajouterais ici et au dessus plus tard %%TODO 
-\end{preuve}
 
 \section{Décroissance des coefficients et régularité}
 \subsection{Approximation linéaire et régularité}
@@ -537,7 +503,7 @@ On a ainsi démontré que si $f$ appartient à l'espace
 alors l'approximation linéaire dans la base $\mathcal{B}$ décroit au moins comme $N^{-2r}$.
 On montrera dans la prochaine sections que si $\mathcal{B}$ est une base de Fourier alors $W_{\mathcal{B}, r}$ contient les fonctions $r$-différentiables. 
 On montrera ensuite que si $\mathcal{B}$ est une base d'ondelette avec une certaine propriété alors l'espace $W_{\mathcal{B}, r}$ contient les fonctions $\alpha$-Lipschitziennes pour $1 < \alpha < r$.
-Des énoncés réciproques existent aussi et des démonstrations de ceux-ci peuvent être trouvés dans ( TODO :Ajouter Ref )
+Des énoncés réciproques existent aussi et des démonstrations de ceux-ci peuvent être trouvés dans l'article de Stéphane Jaffard \cite{jaffard} ou bien dans le livre de Stéphane Mallat \cite{mallatbook}.
 \subsection{Décroissance des coefficients de Fourier}
 On considère ici $\mathcal{B} = (e_{n})_{n \in \mathbb{Z}}$ la base de Fourier ( voir 1.3.3) de $L^2(\mathbb{R})$.
 On peut ainsi définir l'espace $U_N = \{f \in L^2(\mathbb{R}) : |k| > N \implies \hat{f}(k) = 0\}$ sur lequel $\mathcal{B}_N = (e_{n})_{|n|\leq N}$ est une base. 

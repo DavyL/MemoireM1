@@ -3,10 +3,9 @@ La reconstruction du signal est un problème que l'on considère dans le cadre d
 D'un point de vue plus formel, on considère une famille de signaux $\mathcal{F}$, chaque élément de cette famille étant une application $f : X \longrightarrow Y$, et on considère un opérateur $F : \mathcal{F} \longrightarrow \mathcal{G}$, où $\mathcal{G}$ est une autre famille de signaux.
 \newline
 Par exemple une famille de signaux que l'on considérera est $\mathbb{R}^N$ et on verra donc $f\in \mathbb{R}^N$ comme une application $\llbracket 0,N-1 \rrbracket \rightarrow \mathbb{R}$.
-Une autre famille que l'on étudiera est $L^2(\mathbb{R}^d)$ ou bien $\ell^2(\mathbb{N}^d)$ et certains de leurs sous-espaces, par exemple on pourra se restreindre à des applications satisfaisant une forme de régularité. 
+Une autre famille que l'on étudiera est $L^2(\mathbb{R})$ et de façon plus générale les espaces de Hilbert. 
 \newline
 L'objectif de ce mémoire est de présenter des techniques permettant la reconstruction de signaux, donc on cherchera à obtenir des opérateurs $F	:\mathcal{F} \rightarrow \mathcal{F}$ qui vérifieront $f=F(f)$. 
-
 La première étape en traitement du signal est la mesure, à partir d'un signal, on lui associe des coefficients, ainsi on a une application
 \begin{align}
 	A : 	\mathcal{F} &\longrightarrow \mathcal{G} \\
@@ -72,7 +71,7 @@ Décrivons donc ces trois stratégies que l'on développera dans ce mémoire.
 
 La première approche consiste à minimiser le nombre de coefficients que l'on obtient lors de l'analyse, ainsi, cela revient à choisir un opérateur d'analyse qui est adapté à $\mathcal{F}$.
 On verra ainsi, que si on étudie des fonctions avec certaines propriétés de régularité, il est possible de choisir une transformation en ondelettes pour laquelle les coefficients seront rapidement faibles. 
-Donc, pour un signal donné, il peut être intéressant de regarder, pour plusieurs transformées en ondelettes, laquelle est celle qui a le minimum de coefficients non nuls.
+Donc, pour un signal donné, il peut être intéressant de regarder, pour plusieurs transformées en ondelettes, laquelle est celle qui a le minimum de coefficients non nuls (c'est le principe de l'algorithme Best Ortho Basis de Coifman et Meyer \cite{coifortho}).
 Par exemple, pour reconstruire une image en deux dimensions, il est possible de reconstruire cette image en choisissant parmi des ondelettes de Daubechies, des coiflets, des curvelets, des brushlets, ...
 chacune de ces ondelettes étant plus ou moins adaptée pour représenter des images avec différentes propriétés.
 On verra ainsi dans ce mémoire que les ondelettes ayant des moments nuls et à support compact (les ondelettes de Daubechies et les coiflets) permettent une reconstruction avec une décroissance rapide de leurs coefficients pour les fonctions Lipschitziennes \ref{decond}.
@@ -106,10 +105,10 @@ Introduisons cette notion par l'algèbre linéaire, un dictionnaire est alors si
 Ainsi, on peut identifier la suite de coefficients $(c_i)_J$ à $f$, et chacune de ces suites de coefficients donne lieu à une identification avec $f$.
 Une telle suite de coefficients peut être appellée une décomposition atomique de $f$, chaque vecteur $f_i$ étant alors appelé un atome.
 Avec une approche parcimonieuse, on souhaite alors pour un signal donné, trouver la décomposition atomique qui utilise un minimum d'atomes. 
-Cela correspond donc à utiliser un minimum de coefficients pour la synthèse de $f$.
+Cela correspond donc à utiliser un minimum de coefficients pour la synthèse de $f$, on appelera ce problème \ref{P0}.
 \newline
 Ce problème est de nature combinatoire et très difficile à résoudre de façon générale (c'est un problème NP-difficile \cite{NPHard})
-On verra dans \ref{P0P1} qu'en choisissant un dictionnaire vérifiant un principe d'incertitude alors on pourra effectivement résoudre de façon unique le problème de trouver la décomposition atomique d'un élément, sous réserve qu'une décomposition atomique suffisamment parcimonieuse existe.  
+On verra dans le chapitre 3 qu'en choisissant un dictionnaire vérifiant un principe d'incertitude alors on pourra effectivement résoudre de façon unique le problème de trouver la décomposition atomique d'un élément, sous réserve qu'une décomposition atomique suffisamment parcimonieuse existe.  
 \newline
 
 La dernière approche et la plus récente est celle du compressed sensing \cite{DonohoCS}, \cite{CandesTaoUniv}, \cite{CandesSparsityIncoherence}. 
@@ -119,7 +118,7 @@ Une partie des arguments provient de l'approche précédente, la mesure devra v�
 Cependant, on ne connait pas à l'avance dans quelle base le signal est parcimonieux, l'approche prend alors un tournant probabiliste et on va chercher à faire une mesure qui va presque sûrement vérifier un principe d'incertitude avec la base inconnue.
 \newline
 Donnons un exemple du type de résultat auquel on peut arriver à partir du compressed sensing, supposons que l'on souhaite reconstruire une image $x_0$ en niveux de gris de taille $1000\times1000$, donc un vecteur dans $\mathbb{R}^d$ avec $d=10^6$. 
-Supposons que ce vecteur a $10 000=10^4$ coefficients d'ondelette non nuls, alors avec $10^5$ mesures, en cherchant une décomposition atomique qui coincide avec ces mesures, on devrait pouvoir reconstruire exactement $x_0$.
+Supposons que ce vecteur a $20 000$ coefficients d'ondelette non nuls, alors avec $10^5$ mesures, en cherchant une décomposition atomique qui coincide avec ces mesures, on devrait pouvoir reconstruire exactement $x_0$.
 Le mécanisme (d'après \cite{DonohoForMost}) qui fait que l'on peut reconstruire ce signal est similaire au fait que si l'on tire $10 000$ points au hasard dans $\mathbb{R}^{10^6}$ (l'espace de l'image) et que l'on forme un cône partant de l'origine avec ces points, alors faire coincider le signal avec les $10^5$ mesures revient à choisir comment passer d'un plan à $10^5$ dimensions à ce cône.
 Le compressed sensing est alors rendu possible par le fait que la plupart des plans à $900 000$ dimensions ne coupent pas le cône, donc le signal reconstruit avec $10^5$ mesures devrait effectivement être le signal original.
 

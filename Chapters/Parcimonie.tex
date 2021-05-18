@@ -1,4 +1,4 @@
-\section{Résolution de (P0)}
+\section{Introduction à (P0)}
 Dans ce qui précède, nous nous sommes intéressés aux propriétés qui font qu'une famille de vecteurs permet de reconstruire une famillle de signaux.
 Nous avons vu différentes bases (Fourier et ondelettes) et nous avons vu que ces bases permettent de reconstruire des signaux présentant un certain type de régularité avec des coefficients qui suivent une décroissance assez rapide.
 \newline
@@ -14,10 +14,31 @@ Nous allons maintenant nous intéresser à l'autre direction de ce problème, c'
 Cependant on connait seulement la valuation de cette fonction et pas les vecteurs sous-jacents qui permettent de représenter la fonction de façon parcimonieuse.
 Aussi, on n'a pas supposé que cette famille est libre donc il n'y a pas une unique façon d'obtenir cette solution, en fait il y a une infinité de solutions dès que la famille n'est pas libre.
 On va voir cependant que l'hypothèse de parcimonie est cruciale et qu'elle nous permettra de récupérer exactement les coefficients qui permettent l'écriture parcimonieuse de cette fonction.
-\subsection{Définition de (P0)}
+\newline
+Avant de poursuivre, il est important de remarquer que résoudre un tel problème requiert à priori de choisir la bonne décomposition parmi toutes les colonnes possibles qui est un problème combinatoire très difficile.
+On va voir que pour exploiter la parcimonie on utilisera de façon répétitive la norme $||\cdot||_1$ pour trouver la solution parcimonieuse, contrairement au chapitre précédent dans lequel la norme $||\cdot||_2$ était omniprésente.
+On peut donner une intuition géométrique à la préférence de la norme 1 par rapport à la norme 2 pour résoudre un problème ayant un lien avec la parcimonie.
+On verra que ce que l'on cherche à résoudre est une équation du type $y=Fx$, donc pour trouver la solution minimale pour une certaine norme, il suffit de prendre la boule centrée en 0 de plus petit rayon avec la norme correspondante et la solution minimale revient à trouver l'intersection entre cette boule et le plan des solutions de $y=Fx$.
+
+
+On peut donc représenter cela avec la figure \ref{fig:compball}, la boule unité pour la norme $||\cdot||_0$ correspondant aux axes (privés de l'origine), il est clair que la plupart des équation du type $y=Fx$ auront leur solution en norme 1 qui coincide avec celle en norme 0.
+Par contre, un tel phénomène n'est pas vérifié pour la norme euclidienne.
+	\begin{figure}[h]\label{fig:compball}
+		\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=4cm}}]{figure}[\FBwidth]
+		{\caption{Minimisation de $y=Fx$ pour la norme $\ell^1$. La solution de \ref{P1} est généralement celle de \ref{P0} sauf si les solutions sont parallèles à l'une des faces de la boule de $\ell^1$.}}
+		{\includegraphics{Figs/l1vs1}}
+
+		\floatbox[{\capbeside\thisfloatsetup{capbesideposition={right,bottom},capbesidewidth=4cm}}]{figure}[\FBwidth]
+		{\caption{Minimisation de $y=Fx$ pour la norme $\ell^2$. La solution de \ref{P2} n'est généralement pas celle de \ref{P0} sauf si les solutions sont parallèles à l'un des axes.}}
+		{\includegraphics{Figs/l1vs2}}
+	
+	\end{figure}
+
+
+\section{Résolution de (P0)}
 Formalisons maintenant ce que nous avons dit ci-dessus. 
 On considère $\mathcal{F}$ un espace vectoriel et utilisons un dictionnaire $\Phi = \Phi_1 \cup \cdots \cup \Phi_D$ de bases, où chaque $\Phi_d$ est une base de $\mathcal{F}$. 
-Ainsi $\Phi$ est une concaténation de bases\footnote{Ainsi $\Phi$ est un frame équilibré d'après la première partie (TODO : ajouter ref)} et on s'intéresse aux façon d'écrire un signal $f\in \mathcal{F}$ dans $\Phi$, c'est à dire aux façon d'écrire
+Ainsi $\Phi$ est une concaténation de bases\footnote{Ainsi $\Phi$ définit un frame serré.} et on s'intéresse aux façon d'écrire un signal $f\in \mathcal{F}$ dans $\Phi$, c'est à dire aux façon d'écrire
 \begin{equation}\label{eq:defSSum}
 	f = \sum_\gamma c_\gamma \phi_\gamma
 \end{equation}
@@ -33,8 +54,8 @@ Ainsi, le problème que l'on cherche à résoudre est
 	\min ||x||_0\quad \text{tel que } f = F_\Phi x,
 \end{equation}
 où $||x||_0 = \#\{\gamma : c_\gamma \neq 0\}$ est le nombre de coefficients non nuls de $x$.
-Cependant, la résolution en toute généralité de ce problème n'est pas faisable, en effet résoudre ce problème nécessite de résoudre (P0) pour chaque combinaison de vecteurs du dictionnaire si $x$ est dans l'image.
-Ainsi, le nombre de combinaisons possibles parmi tous les vecteurs croit bien trop vite pour être calculable en pratique, nous verrons donc comment résoudre ce problème en utilisant une autre méthode.
+Cependant, la résolution en toute généralité de ce problème n'est pas faisable, en effet résoudre ce problème nécessite de résoudre \ref{P0} pour chaque combinaison de vecteurs du dictionnaire si $x$ est dans l'image.
+Ainsi, le nombre de combinaisons possibles parmi tous les vecteurs croit bien trop vite pour permettre la résolution de \ref{P0} de cette façon, nous verrons donc comment résoudre ce problème en utilisant une autre méthode.
 \newline
 Il est important de noter qu'à ce stade il n'y a aucune raison de supposer que chercher une unique solution à (P0) a un sens.
 En effet, quand on a choisi le dictionnaire $\Phi$ rien ne nous interdisait de prendre à chaque fois la même base et on aurait ainsi $D$ solutions identiques, ayant chacune la même parcimonie.
@@ -44,7 +65,7 @@ Il est donc clair qu'il est nécessaire d'imposer des conditions sur les bases q
 Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$ a un sens.
 \begin{exemple}
 	On étudie les signaux dans $\mathbb{R}^N$ et on choisi un dictionnaire constitué de la concaténation de la base de Fourier $ W = \{e_k(t) = \frac{1}{\sqrt{N}} e^{\frac{i 2\pi k t}{N}}\}_{0 \leq k \leq N -1}$ et de la base canonique de Diracs\footnote{Chaque vecteur de cette base vérifie $\delta_{k,i} = 1$ si $i = k$ et 0 sinon.} $T = \{\delta_k\}_{0 \leq k \leq N-1}$.
-	Ainsi, avec ce choix $F_W$ est la matrice de Fourier discrète et $F_T$ est la matrice identité de taille $N$.
+	Ainsi, avec ce choix $F_W$ est la matrice de Fourier discrète normalisée et $F_T$ est la matrice identité de taille $N$.
 	Avec le théorème suivant, on va obtenir un principe d'incertitude, qui nous garantira qu'un signal ne peut pas être parcimonieux à la fois dans la base de Dirac, et dans la base de Fourier.
 	\begin{theoreme}\label{th:Incert1}
 		Soit un signal $f\in \mathbb{R^N}$ non nul, alors
@@ -57,7 +78,7 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 		\end{equation}
 	\end{theoreme}
 	\begin{proof}
-	TODO :Ajouter Ref Tao uncertainty principle for cyclic....
+		La preuve qui est faite ici est standard, on peut par exemple la trouver dans l'article \cite{taoprime}, on précise cependant la matrice $F_T$ qui permettra d'obtenir des généralisations directes par la suite.
 		Soit $0 \leq \omega \leq N-1$ un entier, alors 
 		\begin{align}
 			|F_W(\omega)| &= |\hat{f}(\omega)| = \frac{1}{\sqrt{N}}|\sum_t f(t)e_\omega(t)| \\
@@ -68,7 +89,8 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 		\begin{align}
 			\sup_\omega|F_W(\omega)| &\leq \frac{1}{\sqrt{N}}\sum_t |F_Tf (t)| = \frac{1}{\sqrt{N}}\langle sign(f), |f| \rangle \\
 			&\leq  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |f|, |f| \rangle ^{\frac{1}{2}} =  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |F_W f|, |F_Wf| \rangle ^{\frac{1}{2}} \\
-			&\leq   \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |f|, |f| \rangle ^{\frac{1}{2}} =  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \left( \sum_\omega|\hat{f}(\omega)|^2 \right)^{\frac{1}{2}} \leq \frac{1}{\sqrt{N}}||F_T||_0^{\frac{1}{2}} ||F_W f||_0^{\frac{1}{2}} \sup_\omega |F_W(\omega)|.
+			&\leq   \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \langle |F_Wf|, |F_Wf| \rangle ^{\frac{1}{2}} =  \frac{1}{\sqrt{N}} ||F_T||_0^{\frac{1}{2}} \left( \sum_\omega|\hat{f}(\omega)|^2 \right)^{\frac{1}{2}}\\ 
+			&\leq \frac{1}{\sqrt{N}}||F_T||_0^{\frac{1}{2}} ||F_W f||_0^{\frac{1}{2}} \sup_\omega |F_W(\omega)|.
 		\end{align}
 		On a ainsi montré la première partie du théorème, la deuxième partie provient directement de l'inégalité entre la moyenne arithmétique et la moyenne géométrique.
 		En effet, on a 
@@ -77,7 +99,7 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 		\end{equation}
 	et on a déjà montré que le terme de gauche est supérieur ou égal à $\sqrt{N}$.
 	\end{proof}
-	Observons que sans restrictions sur $N$, l'inégalité obtenue ne peut pas être améliorée, comme observé dans (Donoho-Stark 89 /Donoho-Huo TODO: ajouter ref), si $N$ est un carré, alors, la fonction avec des 1 seulement aux coefficients multiples de $\sqrt{N}$ et 0 ailleurs est sa propre transformée de Fourier et ainsi elle a $2\sqrt{N}$ coefficients dans le dictionnaire $(T,W)$ et ainsi l'inégalité est atteinte.
+	Observons que sans restrictions sur $N$, l'inégalité obtenue ne peut pas être améliorée, comme observé dans \cite{donohostark} \cite{DonohoHuo}, si $N$ est un carré, alors, la fonction avec des 1 seulement aux coefficients multiples de $\sqrt{N}$ et 0 ailleurs est sa propre transformée de Fourier et ainsi elle a $2\sqrt{N}$ coefficients dans le dictionnaire $(T,W)$ et ainsi l'inégalité est atteinte.
 	Une conséquence de cela est qu'une condition sur la parcimonie de la forme $||F_T f||_0 + ||F_W||_0 < K$ avec $K>\sqrt{N}$ ne pourra pas garantir l'unicité de la solution de (P0).
 	Montrons que si $K = \sqrt{N}$ alors on a l'unicité de la solution de (P0).
 	\begin{theoreme}\label{th:Incert2}
@@ -104,24 +126,21 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 	En revenant a la situation initiale $\delta = x_1 - x_2$, on a une contradiction car à la fois $x_1$ et $x_2$ ont chacun moins de $\sqrt{N}$ coefficients, donc $\delta = 0$.
 	Ainsi, si une solution existe avec moins de $\sqrt{N}$ coefficients, alors c'est la solution de (P0) et elle est unique.
 	\newline
-	Cependant, en choisissant $N = p$, où $p$ est un nombre premier\footnote{L'hypothèse $p$ premier est essentielle, la preuve reposant sur la non-existence de sous-groupes propres du groupe cyclique $\mathbb{Z}/p\mathbb{Z}$}, Tao 2005 (TODO: ajouter ref) a montré que l'on obtient l'inégalité
+	Cependant, en choisissant $N = p$, où $p$ est un nombre premier\footnote{L'hypothèse $p$ premier est essentielle, la preuve reposant sur la non-existence de sous-groupes propres du groupe cyclique $\mathbb{Z}/p\mathbb{Z}$}, Terence Tao \cite{taoprime} a montré que l'on obtient l'inégalité
 	\begin{equation}
 		||F_T f||_0 + ||F_W f||_0 \geq p + 1
 	\end{equation}
-	et que l'inégalité est atteinte\footnote{L'inégalité est atteinte en ce sens que si $A\subset T$ et $B\subset W$ tels que $|A| + |B| \geq p+1$ alors il existe une fonction $f$ telle que $Supp F_T f = A$ et $Supp F_W f = B$}.
-	Grâce à ce principe d'incertitude plus fort que \ref{th:Incert1}, on obtient avec le même type de preuve\footnote{Voir Candes-Romberg-Tao pour les détails, un lemme sur l'injectivité d'un opérateur similaire $F_W$ est tout de même nécessaire pour conclure la preuve.} le résultat suivant
+	et que l'inégalité est atteinte\footnote{L'inégalité est atteinte en ce sens qu'il existe $A\subset T$ et $B\subset W$ tels que $|A| + |B| = p+1$ et il existe une fonction $f$ telle que $Supp F_T f = A$ et $Supp F_W f = B$}.
+	Grâce à ce principe d'incertitude plus fort que \ref{th:Incert1}, on obtient avec le même type de preuve\footnote{Voir \cite{CRT} pour les détails, un lemme sur l'injectivité d'un opérateur similaire $F_W$ est tout de même nécessaire pour conclure la preuve.} le résultat suivant
 	\begin{theoreme}
-		Soit $N$ un nombre premier et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et
+		Soit $p$ un nombre premier et un signal $f \in \mathbb{R}^N$, alors n'importe quel $x$ vérifiant $f = F_\Phi x = F_W x_W + F_T x_T$ et
 		\begin{equation}\label{eq:Incert2}
-		||x_T||_0 \leq \frac{N}{2}
+		||x_T||_0 \leq \frac{p}{2}
 		\end{equation}
 		est l'unique solution de (P0).
 	\end{theoreme}
 	On a ainsi vu qu'avec un dictionnaire constitué de Fourier et de Dirac la solution de (P0) est unique, on a également vu brièvement, qu'en renforçant le principe d'incertitude sur les deux familles, alors on peut certifier qu'on a bien obtenu \it{la} solution de (P0) pour des signaux avec un support plus grand.
 \end{exemple}
-\subsection{Solution optimale combinatoire}
-\subsection{Résolution dans un dictionnaire pics/Fourier}
-\subsection{Principe d'incertitude}
 
 \section{Résolution de (P1)}
 On a ainsi vu dans la section précedente que le problème (P0) de minimisation de la solution par rapport à la parcimonie admet une solution unique dès qu'une solution existe et que cette solution vérifie une condition de la forme \ref{eq:Incert1} ou \ref{eq:Incert2}.
@@ -133,7 +152,8 @@ En effet nous allons voir que résoudre le problème \ref{P1},
 	min_x ||x||_1 \text{tel que } f = Fx 
 \end{equation}
 permet sous certaines conditions de résoudre \ref{P0}.
-L'intéret de \ref{P1} est que c'est un problème de programmation linéaire et de nombreuses méthodes permettent de le résoudre. (TODO ajouter refs et détails).
+L'intéret de \ref{P1} est que c'est un problème de programmation linéaire et de nombreuses méthodes permettent de le résoudre.
+Dans l'annexe \ref{MP} on pourra trouver la définition de l'algorithme Matching Pursuit ainsi que quelques références vers d'autres algorithmes similaires.
 Précisons donc ce que nous avons affirmé, dans le même cadre que précedemment, c'est à dire dans le cas d'un dictionnaire $\Phi = (T,W)$ temps fréquence composé de la base de Fourier et de Dirac dans $\mathbb{R}^N$.
 \begin{theoreme}\label{th:DiracFourier}
 	Soit $N$ un entier positif, $\Phi = (T, W)$ est la concaténation des bases de Dirac et de Fourier et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$ vérifiant $f = F_T x_T + F_W x_W$ et
@@ -143,7 +163,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
 \end{theoreme}
 \begin{remarque}
-	Le théorème précédent a été obtenu en cherchant une preuve alternative à la preuve qui est faite par Donoho et Huo (TODO: ajouter ref), leur preuve, comme une grande partie de la section précédente, utilise le même schéma que celle qui est faite ici.
+	Le théorème précédent a été obtenu en cherchant une preuve alternative à la preuve qui est faite par David Donoho et Xiaoming Huo \cite{DonohoHuo}, leur preuve utilise le même schéma que celle qui est faite ici.
 	Leur théorème est le suivant :
 \begin{theoreme}
 	Soit $N$ un entier positif, $\Phi = (T, W)$ est la concaténation des bases de Dirac et de Fourier et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$ vérifiant $f = F_T x_T + F_W x_W$ et
@@ -153,7 +173,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
 \end{theoreme}
 	La preuve qui est présentée utilise un lemme qui est une version affaiblie d'un résultat présenté dans l'article.
-	Dans l'article, l'inégalité plus forte qui est utilisée est obtenue à l'aide d'un principe variationnel (TODO: préciser), mais comme les auteurs le remarquent, leur résultat ne semblait pas exact au sens où même lorsque l'inégalité est atteinte il n'y avait aucun contre-exemple apparent.
+	Dans l'article, l'inégalité plus forte qui est utilisée est obtenue à l'aide d'un principe variationnel, mais comme les auteurs le remarquent, leur résultat ne semblait pas exact au sens où même lorsque l'inégalité est atteinte il n'y avait aucun contre-exemple apparent.
 	En effet, dans le cas de la base de Fourier-Dirac, le peigne de Dirac, fournit dans certains cas un exemple de signal qui est supporté sur $\sqrt{N}$ coefficients soit dans la base de Fourier, soit dans la base de Dirac, ainsi le problème \ref{P0} a plusieurs solutions et donc une condition nécessaire pour résoudre simultanément \ref{P1} et \ref{P0} est $||x||_0 < \sqrt{N}$.
 	Or, les hypothèses du théorème ne sont plus vérifiées dès que $||x||_0 = \sqrt{N}$ (car au moins, soit $x_T$, soit $x_W$ est supporté sur au moins $\frac{\sqrt{N}}{2}$ coefficients). 
 \end{remarque}
@@ -277,9 +297,9 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 		\end{equation}
 			Ce qui conclut la preuve du lemme \ref{th:muFD} et donc du théorème \ref{th:DiracFourier}.
 	\end{proof}
-\subsection{Généralisation à des paires de bases arbitraires}
+\section{Généralisation à des paires de bases arbitraires}
 	A partir de cette preuve dans le dictionnaire Fourier-Dirac, on peut facilement obtenir une généralisation à une paire de bases orthogonales $(\Phi, \Psi)$ arbitraire.
-	En effet, dans les preuves le choix des bases a un effet seulement sur les matrices $F_{\Phi}$ et $F_{\Psi}$, et plus particulièrement sur les matrices $F_{\Psi}^t F_{\Phi}$ et $F_{\Phi}^t F_{\Phi}$ qui sont transposées l'une de l'autre (et chacune de ces matrices est orthogonale).
+	En effet, dans les preuves le choix des bases a un effet seulement sur les matrices $F_{\Phi}$ et $F_{\Psi}$, et plus particulièrement sur les matrices $F_{\Psi}^t F_{\Phi}$ et $F_{\Phi}^t F_{\Psi}$ qui sont transposées l'une de l'autre (et chacune de ces matrices est orthogonale).
 	En se souvenant que les colonnes de $\Psi$ sont les vecteurs (qui forment des bases orthonormales) $(\psi_1, \cdots, \psi_N)$ et les colonnes de $\Phi$ sont $(\varphi_1,\cdots,\varphi_N)$ on peut facilement exprimer les matrices précédentes avec:
 	\begin{equation}
 		F_{\Psi}^tF_{\Phi} = \begin{bmatrix}
@@ -334,7 +354,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
 \end{theoreme}
 
-\subsection{Extensions du résultat}
+\section{Extensions du résultat}
 Comme indiqué précedemment, le théorème \ref{th:DiracFourier} obtenu est une généralisation d'un théorème de David Donoho et Xiaoming Huo dans \cite{DonohoHuo}, ainsi, la généralisation du théorème \ref{th:DiracFourier} qu'est le théorème \ref{th:recovgen}, est aussi une généralisation d'un autre théorème de l'article précédent.
 \newline
 Cependant, d'autres généralisations des résultats de David Donoho et Xiaoming Huo ont été proposées, cela tenant notamment de l'importance de l'article par exemple pour le développement du compressed sensing ou l'étude de la cohérence de paires de bases, mais aussi car comme indiqué par les auteurs les bornes ne semblaient pas exactes.
@@ -361,23 +381,5 @@ Une autre généralisation des résultats de Michael Elad et Alfred Bruckstein a
 Montrer que  la borne est atteinte revient à montrer qu'il y a au moins un signal qui atteint l'égalité du théorème \ref{th:eladbruc}, la construction d'un tel signal est rélativement élaborée. 
 On notera seulement que dans cette construction le nombre de coordonnées dans l'une des composantes vaut $\sqrt{2}\frac{\sqrt{N}}{2}$, ce n'est donc, heureusement, pas un contre exemple aux théorèmes \ref{th:DiracFourier} et \ref{th:recovgen} prouvés ici.
 
-
-\subsection{Définition de (P1)}
-\subsection{Propriétés du minimiseur}
-
-\section{Lien géométrique entre (P0) et (P1)}
-\begin{figure}[h]
-	\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=4cm}}]{figure}[\FBwidth]
-	{\caption{Minimisation de $y=Fx$ pour la norme $\ell^1$. La solution de \ref{P1} est généralement celle de \ref{P0} sauf si les solutions sont parallèles à l'une des faces de la boule de $\ell^1$.}}
-	{\includegraphics{Figs/l1vs1}}
-	
-	\floatbox[{\capbeside\thisfloatsetup{capbesideposition={right,bottom},capbesidewidth=4cm}}]{figure}[\FBwidth]
-	{\caption{Minimisation de $y=Fx$ pour la norme $\ell^2$. La solution de \ref{P2} n'est généralement pas celle de \ref{P0} sauf si les solutions sont parallèles à l'un des axes.}}
-	{\includegraphics{Figs/l1vs2}}
-	
-	\end{figure}
-
-\subsection{Boules unité en grande dimension}
-\subsection{Unicité de la solution de (P0) et (P1)}
 
 

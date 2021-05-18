@@ -1,3 +1,223 @@
-\section{Valeurs propres de $F_\Omega F_\Omega ^*$ et Analyse en composante principale}
+\section{Algorithmes}
+Présentons ici quelques algorithmes qui peuvent être utilisés pour mettre en oeuvre les résultats de ce mémoire. On peut mentionner l'article \cite{ChenDonoho} pour une courte introduction à plusieurs technique en norme 2 et en norme 1, et on pourra consulter \ref{foucartbook} pour des algorithmes plus récents et avancés qui tirent notamment parti du compressed sensing
+\subsection{Frames}\label{recframe}
+Tout d'abord montrons que la reconstruction avec les coefficients de frame minimise la norme $\ell^2$.
+Considérons qu'un dictionnaire $\Phi=(\varphi_i)_{i\in I}$ est un frame, on note $F_\Phi$ l'opérateur d'analyse avec pour lignes les colonnes de $\Phi$ et $F_\Phi^*$ l'opérateur de synthèse vérifiant $F_\Phi^* \circ F_\Phi =Id$ sur $Vect(\Phi)$.
+Alors on a la proposition suivante, d'après \cite{daubbook}
+\begin{proposition}\label{bestframe}
+	Si $f =\sum_{i \in I} c_i \varphi_i$ pour une suite de coefficients $(c_i)_I \in \ell^2(I)$,
+	alors la décomposition est minimale en norme $\ell^2$ seulement si $c_i = \langle f, \varphi_i \rangle$ pour tout $i\in I$.
+	\newline
+	De façon équivalente, si il existe un $i \in I$ tel que $c_i \neq \langle f, \varphi_i \rangle$, alors
+	\begin{equation}
+		\sum_I |c_i|^2 > \sum_I |\langle f, \varphi_j \rangle |^2.
+	\end{equation}
+\end{proposition}
+\begin{proof}
+	On a donc $f=F_\Phi^* c$ pour un certain $c\in\ell^2(I)$.
+	On décompose maintenant $c$ entre sa partie $a$ dans l'espace vectoriel engendré par $F_\Phi$, et celle $b$ dans l'orthogonal de cet espace, on a donc $c=a+b$ et par le théorème de Pythagore $||c||^2 = ||a||^2 + ||b||^2$.
+	Donc il existe aussi $x\in \mathcal{H}$ (où $\mathcal{H}$ est l'espace de Hilbert sur lequel on suppose que le frame est défini) tel que $a=F_\Phi x$, donc $c = F_\Phi x + b$.
+	Ainsi $f = F_\Phi ^* c = F_\Phi^* F_\Phi x + F_\Phi^* b$, le dernier terme valant 0 par construction on a $x=f$, donc $c = F_\Phi f + b$. On obtient donc:
+	\begin{equation}
+		\sum_I |c_j|^2 = ||c||^2 = ||F_\Phi f||^2 + ||b||^2 = \sum_I |\langle f, \varphi_i \rangle|^2 + ||b||^2
+	\end{equation}
+	qui est strictement supérieur à $\sum_I |\langle f, \varphi_i \rangle |^2$, sauf si $b=0$ et donc $c=F_\Phi f =(\langle f, \varphi_i \rangle)_I$.
+\end{proof}
+Voyons maintenant comment obtenir une formule de reconstruction lorsque le frame n'est pas serré. Dans le cas où le frame est serré on a vu que l'on a la formule de reconstruction
+\begin{equation}
+	f= \frac{1}{M}\sum_I \langle f, \varphi_i \rangle \varphi_i = \frac{1}{M}Id
+\end{equation}
+cependant si le frame n'est pas serré on a $m\neq M$ et donc la formule de reconstruction n'est plus valide.
+Il nous faudrait donc plutôt une formule de reconstruction du type:
+\begin{equation}
+	f= \sum_I \langle f, \tilde{\varphi_i} \rangle \varphi_i
+\end{equation}
+où les $\tilde{\varphi_i}$ dépendent du frame.
+On peut montrer que ces vecteurs correspondent au frame dual de $F$ et qu'ils sont définis par
+\begin{equation}
+	\tilde{\varphi}_i = (F_\Phi^*F_\Phi)^{-1} \varphi_i.
+\end{equation}
+Maintenant on considère que les constantes $m,M$ sont proches l'unes de l'autre, c'est à dire $r=M/m - 1 <<1$, alors la formule de reconstruction obtenue avec $\frac{1}{M} Id$ dans le cas d'un frame serré devrait, dans l'autre cas être que $F_\Phi^* F_\Phi$ est proche de $\frac{m+M}{2}Id$.
+Ainsi $(F_\Phi^*F_\Phi)^{-1}$ devrait être proche de $\frac{2}{m+M}Id$ et de même on devrait avoir que $\tilde{\varphi}_i$ doit être proche de $\frac{2}{m+M}Id$.
+On peut préciser cela avec
+\begin{equation}
+	f = \frac{2}{m+M}Id \sum_I \langle f, \varphi_i \rangle \varphi_i + Rf 
+\end{equation}
+avec $R = Id - \frac{2}{m+M}F^*F$ et il suffit de remplacer $R$ dans la précédente équation pour vérifier qu'elle est correcte.
+Or, en notant $||\cdot||$ la norme d'opérateur, on a par contruction $m \leq ||F_\Phi^*F_\Phi|| \leq  M$ et donc:
+\begin{equation}
+	-(Id - \frac{2}{m+M}M Id) \leq R \leq Id- \frac{2}{m+M}mId 
+\end{equation}
+ce qui est identique à $-\frac{M-m}{M+m}Id \leq R \leq \frac{M-m}{M+m}Id$, d'où:
+\begin{equation}
+	||R||\leq \frac{M-m}{M+m} = \frac{r}{2+r}.
+\end{equation}
+Donc l'erreur de reconstruction en norme euclidienne de $f$ est donc $\frac{r}{2+r}||f||$.
+A partir de là il n'est pas difficile d'obtenir de meilleures formules de reconstruction, il suffit de répéter le processus.
+Avec la définition que l'on a de $R$ on a 
+\begin{equation}
+	F_\Phi^*F_\Phi = \frac{m+M}{2} (Id - R)
+\end{equation}
+et on a aussi montré $||R||< 1$, on cherche $(F_\Phi^*F_\Phi)^{-1}$ pour connaitre les $\tilde{\varphi_i}$, donc il suffit d'inverser le terme de droite.
+Pour cela il suffit de développer la série de $(Id-R)^{-1}$ qui converge en norme.
+On a donc:
+\begin{equation}
+	\tilde{\varphi_i} = (F_\Phi^*F_\Phi)^{-1} \varphi_i = \frac{2}{m+M} \sum_{k=0}^\infty R^k \varphi_i. 
+\end{equation}
+On peut donc construire une approximation à $n$ itérations:
+\begin{equation}
+	\tilde{\varphi}_i^n = \frac{2}{m+M} \sum_{k=0}^n R^k \varphi_i. 
+\end{equation}
+En utilisant le fait que l'on peut réécrire l'égalité précédente sous la forme
+\begin{equation}	
+	\tilde{\varphi}_i^n = Id - \frac{2}{m+M} \sum_{k=n+1}^\infty R^k \varphi_i = (Id -R^{n+1})\tilde{\varphi}_i. 
+\end{equation}
+on peut montrer que l'erreur d'une approximation de $f$ avec $N$ itérations est inférieure ou égale à $(\frac{r}{2+r})^{n+1}||f||$, on a ainsi une décroissance exponentielle en $N$.
 
-\section{Outils probabilistes de la preuve du théorème}
+\subsection{Matching Pursuit}\label{MP}
+Présentons maintenant l'algorithme Matching Pursuit introduit par Stéphane Mallat \cite{mpmallat}.
+Cet algorithme de la plus grande simplicité permet de faire une minimisation en norme 1 et peut notamment être utilisé pour la résolution de \ref{P1}. 
+\newline
+On dispose d'un dictionnaire $\Phi =(\varphi_1, \cdots, \varphi_N)$ et on cherche à minimiser la reconstruction en norme 1 d'un signal $f$. 
+L'idée est très simple, à l'étape $k$ on utilise deux vecteurs, le premier, $f^{(k)}$ représente l'approximation de $f$, le second, $r^{(k)}$ représente le résidu de l'approximation.
+\newline
+Initialement, $f^{(0)} = 0$ et $r^{(0)} = f$.
+\newline
+Pour passer de l'étape $k$ à l'étape $k+1$, on ajoute à $f^{(k)}$ le vecteur de $\Phi$ qui est maximalement corrélé avec $r^{(k)}$ (multiplié par le coefficient de corrélation), et on définit $s^{(k+1)} = f - f^{(k+1)}$.
+\newline
+De nombreuses extensions de cet algorithme sont possible telles que l'Orthogonal Matching Pursuit ou le Robust Orthogonal Matching Pursuit. Un autre algorithme similaire est l'algorithme Basis Pursuit de Scott Chen, David Donoho et Michael Saunders \cite{basispursuit} qui exploite notamment les résultats des chapitres 3 et 4.
+
+\section{Lemmes du théorème de Candes-Tao}
+Dans la preuve du théorème d'Emmanuel Candes et Terence Tao deux résultats ont été nécessaires, démontrons les ici.
+Le premier lemme peut être vu comme une stabilité en norme $\ell^1$.
+\begin{lemme}\label{th:tao1}
+	Soit $F_\Omega$ une matrice d'analyse qui vérifie \textbf{ERP}. 
+	Soit $f$ un signal fixé de la forme $f = f_0 + h$ où $f_0$ est un signal supporté sur un ensemble $T$ qui vérifie
+	\begin{equation}
+		|T|\leq \alpha \frac{K}{\lambda}.
+	\end{equation}
+	Alors avec probabilité au moins $1-\mathcal{O}(N^{-\frac{\rho}{\alpha}})$ alors n'importe quelle solution de \ref{P1} 
+	\begin{equation}
+		\min ||f^\#||_{\ell^1} \text{ tel que } F_\Omega f = F_\Omega f^\# 
+	\end{equation}
+	vérifie
+	\begin{equation}
+		||f^\#||_{\ell^1(T^c)} \leq 4||h||_{\ell^1}.
+	\end{equation}
+\end{lemme}
+\begin{proof}
+	Tout d'abord, $f^\#$ étant un minimiseur de \ref{P1}, on a:
+	\begin{equation}\label{eq:ftao}
+		||f^\#||_{\ell^1} \leq ||f||_{\ell^1} \leq ||f_0||_{\ell^1} + ||h||_{\ell^1}.
+	\end{equation}
+	On utilise maintenant le fait que $F_\Omega$ vérifie \textbf{ERP}, on a donc, avec probabilité au moins $1-\mathcal{O}(N^{-\frac{\rho}{\alpha}})$, il existe un vecteur $P$ qui s'écrit $P=F_\Omega^* V$ ($P$ est une combinaison linéaire des lignes de $F_\Omega$) pour un certain $V \in \ell^2(\Omega)$ tel que pour tout $t\in T$, $P(t) = signe(f_0(t))$ et pour tout $t \in T^c$, $|P(t)| \leq \frac{1}{2}$.
+	\newline
+	Tout d'abord, utilisons $P=F_\Omega^* V$:
+	\begin{equation}
+		\langle f^\#, P \rangle = \langle f^\#, F_\Omega^* V \rangle = \langle F_\Omega f^\#, V \rangle 
+		= \langle F_\Omega(f_0 + h), V \rangle = \langle f_0 + h, F_\Omega^* V\rangle = \langle f_0 + h, P \rangle.
+	\end{equation}
+	Utilisons maintenant le fait que $P$ ait les mêmes signes que $f_0$ sur son support et que $|P(t)| < 1$ hors de $T$:
+	\begin{equation}
+		\langle f^\#, P\rangle = \langle f_0, P\rangle + \langle h, P \rangle \geq ||f_0||_{\ell^1} - ||h||_{\ell^1}.
+	\end{equation}
+	et dans l'autre sens, avec $|P(t)|\leq \frac{1}{2}$, on a
+	\begin{align}
+		|\langle f^\#, P \rangle | &\leq \sum_{t \in T} |f^\#(t) P(t)| + \sum_{t \in T^c} |f^\#(t)P(t)| \\
+					&\leq \sum_{t \in T} |f^\#(t)| + \frac{1}{2} \sum_{t \in T^c} |f^\#(t)|\\
+					&= ||f^\#||_{\ell^1} - \frac{1}{2} ||f^\#||_{\ell^1(T^c)}.
+	\end{align}
+	On a donc obtenu
+	\begin{equation}
+		||f_0||_{\ell^1} - ||h||_{\ell^1} \leq ||f^\#||_{\ell^1} - \frac{1}{2}||f^\#||_{\ell^1(T^c)}.
+	\end{equation}
+	En remplaçant $||f^\#||_{\ell^1}$ par ce qui a été obtenu à l'inégalite \ref{eq:ftao}, on obtient finalement
+	\begin{equation}
+		-||h||_{\ell^1} \leq ||h||_{\ell^1} -\frac{1}{2}||f^\#||_{\ell^1(T^c)}
+	\end{equation}
+	et en réorganisant les termes on a bien prouvé le lemme.
+\end{proof}
+On a donc démontré ce lemme qui nous indique que n'importe quelle solution de \ref{P1} est concentrée sur le support du signal parcimonieux sous-jacent.
+On peut maintenant montrer que si $f$ vérifie la propriété de décroissance de ses coefficients dans une base fixée
+\begin{equation}
+	|\theta|_{(n)} \leq Cn^{-\frac{1}{p}}
+\end{equation}
+comme dans le théorème.
+Si on suppose que l'ensemble $T$ contient les $|T|$ plus grands coefficients de $f$ dans la base fixée, alors, en notant $f = f_0 + h$ avec $f_0 = f_T$ et $h = f_{T^c}$ alors
+\begin{equation}
+	||h||_{\ell^1} = ||f||_{\ell^1(T^c)} \leq C \sum_{t=T+1}^N t^{-\frac{1}{p}}
+\end{equation}
+On peut alors majorer facilement le terme de droite en utilisant d'abord le fait que l'on peut majorer le terme de droite par la série correspondante, celle-ci étant convergente car $0<p<1$, et ensuite on peut majorer la série par l'intégrale, ce qui donne
+\begin{equation}
+	||f||_{\ell^1(T^c)} \leq C \sum_{t=T+1}^N t^{-\frac{1}{p}} \leq C\sum_{t=T+1}^\infty t^{-\frac{1}{p}} \leq C\int_T^\infty t^{-\frac{1}{p}}\,dt \leq C\frac{T^{1-\frac{1}{p}}}{\frac{1}{p}-1} = C_p T^{1-\frac{1}{p}} 
+\end{equation}
+et ainsi en appliquant le lemme
+\begin{equation}\label{eq:fdiese}
+	||f^\#||_{\ell^1(T^c)} \leq 4C_p |T|^{1-\frac{1}{p}}.
+\end{equation}
+A partir de cela on peut obtenir une majoration sur les coefficients de $f^\#$ avec le lemme suivant:
+\begin{lemme}\label{th:tao2}
+	Soit $f^\#$ et $T$ comme dans le lemme \ref{th:tao1}, écrivons $|f^\#|_{(0)} \geq |f^\#|_{(1)} \geq \cdots \geq |f^\#|_{(N)}$ les coefficients de $f^\#$ par ordre décroissant.
+	Alors ces coefficients vérifient pour tout $m>|T|$:
+	\begin{equation}
+		|f^\#|_{(m)} \leq C_p \frac{|T|^{1-\frac{1}{p}}}{m - |T|}.
+	\end{equation}
+\end{lemme}
+\begin{preuve}
+	$T$ est comme dans le lemme, donc c'est l'ensemble des $|T|$ plus grandes valeurs de $f$. Notons $E_m$ les $m$ plus grandes valeurs de $f^\#$. On a clairement $|E_m \cap T^c| \geq m - |T|$ et donc
+	\begin{equation}
+		||f^\#||_{\ell^1(E_m \cap T^c)} \geq (m-|T|)|f^\#|_{(m)}.
+	\end{equation}
+	On a aussi 
+	\begin{equation}
+		||f^\#||_{\ell^1(E_m \cap T^c)} \leq ||f^\#||_{\ell^1(T^c)} \leq C |T|^{1-\frac{1}{p}}
+	\end{equation}
+	la dernière inégalité étant obtenue avec \ref{eq:fdiese}.
+	En combinant les deux inégalités précédentes on a alors le résultat souhaité.
+\end{preuve}
+Maintenant que l'on a montré le résultat utilisé dans la preuve qui utilise \textbf{ERP}, passons au résultat qui utilise \textbf{UUP}.
+\newline
+Les lemmes précédents peuvent être vus comme des résultats sur la norme $\ell^1$. Le prochain résultat est lui par rapport à la norme $\ell^2$. 
+\begin{lemme}\label{th:tao3}
+	Soit $F_\Omega$ une matrice qui vérifie \textbf{UUP}. Alors, avec probabilité au moins $1-\mathcal{O}(N^{-\frac{\rho}{\alpha}})$ alors, pour tout ensemble $T\subset \{0, \cdots, N-1\}$ vérifiant $|T| \leq \alpha \frac{K}{\lambda}$
+	et pour n'importe quel $f\in \ell^2(T)$, il existe $f^{ext} \in \ell^2(N)$ tel que:
+	\begin{itemize}
+		\item pour tout $t \in T$, $f(t) = f^{ext}(t)$ (c'est à dire $R_T f^{ext} = f$)
+	
+		\item $f^{ext}$ est une combinaison linéaires des lignes de $F_\Omega$ (c'est à dire $f^{ext} = F_\Omega V$ pour un certain $V \in \ell^2(\Omega)$)
+		\item De plus $f^{ext}$ vérifie pour tout $E\subset \{0, \cdots, N-1\}$
+		\begin{equation}
+			||f^{ext}||_{\ell^2(E)} \leq C\sqrt{(1 + \frac{E}{\alpha K /\lambda})} ||f||_{\ell^2(T)}
+		\end{equation}
+	\end{itemize}
+\end{lemme}
+\begin{proof}
+	On peut donc supposer que \textbf{UUP} est vérifié, on a donc d'après le chapitre sur les frames que $F_{\Omega T}^* F_{\Omega T}$ est inversible, et d'après la proposition \ref{th:lambdauup}, en notant $||\cdot||$ la norme d'opérateur, on a
+	\begin{equation}
+		||(F_{\Omega T}^*F_\Omega)^{-1}|| \leq \frac{2N}{K}.
+	\end{equation}
+	Posons
+	\begin{equation}\label{eq:fext}
+		f^{ext} = F_\Omega^* F_{\Omega T} (F_{\Omega T}^* F_{\Omega T})^{-1} f.
+	\end{equation}	
+	On vérifie ainsi directement les deux premiers résultats du lemme.
+	Dans un premier temps supposons que $|E|\leq\frac{\alpha K}{\lambda}$, on a alors avec la proposition \ref{th:lambdauup} que $||F_{\Omega T}||\leq\sqrt{\frac{3K}{2N}}$.
+	On peut maintenant remarquer en notant $V=F_{\Omega T}(F_{\Omega T}^* F_{\Omega T})^{-1}f$: 
+	\begin{equation}
+		||f^{ext}||_{\ell^2(E)} = ||R_E f_{ext}||_{\ell^2} = ||F_{\Omega E}^* V|| \leq \sqrt{\frac{3K}{2N}}
+	\end{equation}
+	et on peut alors calculer la norme $\ell^2$ de $f^{ext}$ avec \ref{eq:fext}:
+	\begin{equation}
+		||f^{ext}||_{\ell^2(E)} \leq ||F_{\Omega E}^*|| ||F_{\Omega T}|| ||(F_{\Omega T}^* F_{\Omega T})^{-1}|| ||f||_{\ell^2(T)}
+	\end{equation}
+	et en remplaçant avec les majorations des normes d'opérateurs que l'on a obtenues on a:
+	\begin{equation}
+		||f^{ext}||_{\ell^2(E)} \leq \frac{3K}{2N} \frac{2N}{K}||f||_{\ell^2(T)} = 3 ||f||_{\ell^2(T)}.
+	\end{equation}
+	Maintenant débarassons nous de l'hypothèse $|E| \leq \alpha K / \lambda$ en écrivant $E$ comme une union disjointe d'ensembles chacun de taille inférieure ou égale à $\alpha K/\lambda$, c'est à dire $E=E_1\bigcup E_2 \bigcup \cdots E_{n}$ avec $n=\lceil \frac{|E|}{\alpha K /\lambda} \rceil$ et $E_i \leq \alpha K /\lambda$, ainsi,
+	\begin{equation}
+		||f^{ext}||_{\ell^2(E)}^2 = \sum_{i=1}^{n} ||f^{ext}||_{\ell^2(E_i)}^2 \leq (1+\frac{|E|}{\alpha K/\lambda} )3||f||_{\ell^2(T)}^2
+	\end{equation}
+	et on a donc bien le résultat souhaité.
+\end{proof}
+

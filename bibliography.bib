@@ -1,3 +1,21 @@
+@ARTICLE{coifortho,
+
+  author={Coifman, R.R. and Wickerhauser, M.V.},
+
+  journal={IEEE Transactions on Information Theory}, 
+
+  title={Entropy-based algorithms for best basis selection}, 
+
+  year={1992},
+
+  volume={38},
+
+  number={2},
+
+  pages={713-718},
+
+  doi={10.1109/18.119732}}
+
 @article{IrregWav,
 title = {Wavelets on irregular grids with arbitrary dilation matrices and frame atoms for L2(Rd)},
 journal = {Applied and Computational Harmonic Analysis},
@@ -13,6 +31,60 @@ author = {Akram Aldroubi and Carlos Cabrelli and Ursula M. Molter},
 keywords = {Frames, Irregular sampling, Wavelet sets, Wavelets},
 abstract = {In this article, we develop a general method for constructing wavelets {|detAj|1/2ψ(Ajx−xj,k):j∈J,k∈K} on irregular lattices of the form X={xj,k∈Rd:j∈J,k∈K}, and with an arbitrary countable family of invertible d×d matrices {Aj∈GLd(R):j∈J} that do not necessarily have a group structure. This wavelet construction is a particular case of general atomic frame decompositions of L2(Rd) developed in this article, that allow other time frequency decompositions such as nonharmonic Gabor frames with nonuniform covering of the Euclidean space Rd. Possible applications include image and video compression, speech coding, image and digital data transmission, image analysis, estimations and detection, and seismology.}
 }
+@ARTICLE{mpmallat,
+
+  author={Mallat, S.G. and Zhifeng Zhang},
+
+  journal={IEEE Transactions on Signal Processing}, 
+
+  title={Matching pursuits with time-frequency dictionaries}, 
+
+  year={1993},
+
+  volume={41},
+
+  number={12},
+
+  pages={3397-3415},
+
+  doi={10.1109/78.258082}}
+
+@article{basispursuit,
+author = {Chen, Scott Shaobing and Donoho, David L. and Saunders, Michael A.},
+title = {Atomic Decomposition by Basis Pursuit},
+year = {2001},
+issue_date = {2001},
+publisher = {Society for Industrial and Applied Mathematics},
+address = {USA},
+volume = {43},
+number = {1},
+issn = {0036-1445},
+url = {https://doi.org/10.1137/S003614450037906X},
+doi = {10.1137/S003614450037906X},
+abstract = {The time-frequency and time-scale communities have recently developed a large number of overcomplete waveform dictionaries---stationary wavelets, wavelet packets, cosine packets, chirplets, and warplets, to name a few. Decomposition into overcomplete systems is not unique, and several methods for decomposition have been proposed, including the method of frames (MOF), matching pursuit (MP), and, for special dictionaries, the best orthogonal basis (BOB). Basis pursuit (BP) is a principle for decomposing a signal into an "optimal"' superposition of dictionary elements, where optimal means having the smallest l1 norm of coefficients among all such decompositions. We give examples exhibiting several advantages over MOF, MP, and BOB, including better sparsity and superresolution. BP has interesting relations to ideas in areas as diverse as ill-posed problems, abstract harmonic analysis, total variation denoising, and multiscale edge denoising. BP in highly overcomplete dictionaries leads to large-scale optimization problems. With signals of length 8192 and a wavelet packet dictionary, one gets an equivalent linear program of size 8192 by 212,992. Such problems can be attacked successfully only because of recent advances in linear and quadratic programming by interior-point methods. We obtain reasonable success with a primal-dual logarithmic barrier method and conjugate-gradient solver.},
+journal = {SIAM Rev.},
+month = jan,
+pages = {129–159},
+numpages = {31},
+keywords = {wavelet packets, interior-point methods for linear programming, wavelets, time-scale analysis, cosine packets, matching pursuit, overcomplete signal representation, total variation denoising, denoising, $ell^1$ norm optimization, time-frequency analysis, multiscale edges, MATLAB code}
+}
+@INPROCEEDINGS{ChenDonoho,
+
+  author={Shaobing Chen and Donoho, D.},
+
+  booktitle={Proceedings of 1994 28th Asilomar Conference on Signals, Systems and Computers}, 
+
+  title={Basis pursuit}, 
+
+  year={1994},
+
+  volume={1},
+
+  number={},
+
+  pages={41-44 vol.1},
+
+  doi={10.1109/ACSSC.1994.471413}}
 
 @book{daubbook,
 author = {Daubechies, Ingrid},
@@ -49,8 +121,97 @@ eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611970104}
   pages={2558-2567},
 
   doi={10.1109/TIT.2002.801410}}
+@article{donohostark,
+ ISSN = {00361399},
+ URL = {http://www.jstor.org/stable/2101993},
+ abstract = {The uncertainty principle can easily be generalized to cases where the "sets of concentration" are not intervals. Such generalizations are presented for continuous and discrete-time functions, and for several measures of "concentration" (e.g., L2 and L1 measures). The generalizations explain interesting phenomena in signal recovery problems where there is an interplay of missing data, sparsity, and bandlimiting.},
+ author = {David L. Donoho and Philip B. Stark},
+ journal = {SIAM Journal on Applied Mathematics},
+ number = {3},
+ pages = {906--931},
+ publisher = {Society for Industrial and Applied Mathematics},
+ title = {Uncertainty Principles and Signal Recovery},
+ volume = {49},
+ year = {1989}
+}
+@book{foucartbook,
+author = {Foucart, Simon and Rauhut, Holger},
+title = {A Mathematical Introduction to Compressive Sensing},
+year = {2013},
+isbn = {0817649476},
+publisher = {Birkh\"{a}user Basel},
+abstract = {At the intersection of mathematics, engineering, and computer science sits the thriving field of compressive sensing. Based on the premise that data acquisition and compression can be performed simultaneously, compressive sensing finds applications in imaging, signal processing, and many other domains. In the areas of applied mathematics, electrical engineering, and theoretical computer science, an explosion of research activity has already followed the theoretical results that highlighted the efficiency of the basic principles. The elegant ideas behind these principles are also of independent interest to pure mathematicians.A Mathematical Introduction to Compressive Sensing gives a detailed account of the core theory upon which the field is build. With only moderate prerequisites, it is an excellent textbook for graduate courses in mathematics, engineering, and computer science. It also serves as a reliable resource for practitioners and researchers in these disciplines who want to acquire a careful understanding of the subject. A Mathematical Introduction to Compressive Sensing uses a mathematical perspective to present the core of the theory underlying compressive sensing.}
+}
+@article{CR,
+   title={Sparsity and incoherence in compressive sampling},
+   volume={23},
+   ISSN={1361-6420},
+   url={http://dx.doi.org/10.1088/0266-5611/23/3/008},
+   DOI={10.1088/0266-5611/23/3/008},
+   number={3},
+   journal={Inverse Problems},
+   publisher={IOP Publishing},
+   author={Candès, Emmanuel and Romberg, Justin},
+   year={2007},
+   month={Apr},
+   pages={969–985}
+}
+
+@ARTICLE{CT,
+
+  author={Candes, Emmanuel J. and Tao, Terence},
+
+  journal={IEEE Transactions on Information Theory}, 
+
+  title={Near-Optimal Signal Recovery From Random Projections: Universal Encoding Strategies?}, 
+
+  year={2006},
+
+  volume={52},
+
+  number={12},
+
+  pages={5406-5425},
+
+  doi={10.1109/TIT.2006.885507}}
+
+@article{CRT,
+author = {Candes, E. J. and Romberg, J. and Tao, T.},
+title = {Robust Uncertainty Principles: Exact Signal Reconstruction from Highly Incomplete Frequency Information},
+year = {2006},
+issue_date = {February 2006},
+publisher = {IEEE Press},
+volume = {52},
+number = {2},
+issn = {0018-9448},
+url = {https://doi.org/10.1109/TIT.2005.862083},
+doi = {10.1109/TIT.2005.862083},
+abstract = {This paper considers the model problem of reconstructing an object from incomplete frequency samples. Consider a discrete-time signal f∈CN and a randomly chosen set of frequencies Ω. Is it possible to reconstruct f from the partial knowledge of its Fourier coefficients on the set Ω? A typical result of this paper is as follows. Suppose that f is a superposition of |T| spikes f(t)=στ∈Tf(τ)δ(t-τ) obeying |T|≤CM·(log N)-1 · |Ω| for some constant CM>0. We do not know the locations of the spikes nor their amplitudes. Then with probability at least 1-O(N-M), f can be reconstructed exactly as the solution to the ℓ1 minimization problem. In short, exact recovery may be obtained by solving a convex optimization problem. We give numerical values for CM which depend on the desired probability of success. Our result may be interpreted as a novel kind of nonlinear sampling theorem. In effect, it says that any signal made out of |T| spikes may be recovered by convex programming from almost every set of frequencies of size O(|T|·logN). Moreover, this is nearly optimal in the sense that any method succeeding with probability 1-O(N-M) would in general require a number of frequency samples at least proportional to |T|·logN. The methodology extends to a variety of other situations and higher dimensions. For example, we show how one can reconstruct a piecewise constant (one- or two-dimensional) object from incomplete frequency samples - provided that the number of jumps (discontinuities) obeys the condition above - by minimizing other convex functionals such as the total variation of f.},
+journal = {IEEE Trans. Inf. Theor.},
+month = feb,
+pages = {489–509},
+numpages = {21},
+keywords = {Convex optimization, trigonometric expansions, total-variation minimization, sparsity, free probability, random matrices, duality in optimization, linear programming, uncertainty principle, image reconstruction}
+}
+
+  
 
 
+@ARTICLE{taoprime,
+       author = {{Tao}, Terence},
+        title = "{An uncertainty principle for cyclic groups of prime order}",
+      journal = {arXiv Mathematics e-prints},
+     keywords = {Mathematics - Classical Analysis and ODEs, Mathematics - Number Theory, 42A99},
+         year = 2003,
+        month = aug,
+          eid = {math/0308286},
+        pages = {math/0308286},
+archivePrefix = {arXiv},
+       eprint = {math/0308286},
+ primaryClass = {math.CA},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2003math......8286T},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
 
 @article{DonohoHuo,
 author = {Donoho, D. L. and Huo, X.},
@@ -172,7 +333,24 @@ language = {fre},
 author = {Queffélec, Hervé et Queffélec, Martine},
 address = {Paris},
 }
+@article{jaffardondelettes,
+	URL = {https://perso.math.u-pem.fr/jaffard.stephane/pdf/decompositions_en_ondelettes.pdf},
+	author={S.Jaffard},
+	title={Décompositions en ondelettes},
+}
 
+@article{jaffard,
+ ISSN = {02141493, 20144350},
+ URL = {http://www.jstor.org/stable/43736311},
+ author = {S. Jaffard},
+ journal = {Publicacions Matemàtiques},
+ number = {1},
+ pages = {155--168},
+ publisher = {Universitat Autònoma de Barcelona},
+ title = {POINTWISE SMOOTHNESS, TWO-MICROLOCALIZATION AND WAVELET COEFFICIENTS},
+ volume = {35},
+ year = {1991}
+}
 
 @unpublished{surlestraces,
   TITLE = {{Sur les traces d'op{\'e}rateurs (De Grothendieck {\`a} Lidskii)}},
