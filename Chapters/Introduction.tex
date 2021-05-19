@@ -9,13 +9,13 @@ L'objectif de ce mémoire est de présenter des techniques permettant la reconst
 La première étape en traitement du signal est la mesure, à partir d'un signal, on lui associe des coefficients, ainsi on a une application
 \begin{align}
 	A : 	\mathcal{F} &\longrightarrow \mathcal{G} \\
-		f &\longmapsto A(f) = (a_g(f))_{g\in I}
+		f &\longmapsto A(f) = (a_i(f))_{i\in I}
 \end{align}
 que l'on appelle \emph{opérateur d'analyse}.
 \newline
 Des opérateurs d'analyse que l'on rencontrera seront par exemples la transformée de Fourier, qui a une application associe ses coefficients de Fourier, ou bien la transformée en ondelette, qui a une application associe ses coefficients d'ondelette.
 Un autre exemple d'opérateur que l'on étudiera est celui qui à un élément de $\mathbb{R}^N$ lui associe ses coefficients dans deux bases, donc un élément de $\mathbb{R}^{2N}$.
-Pour donner un dernier exemple d'opérateur que l'on considérera consistera à associer à un élément de $\mathbb{R}^N$ la valeur de sa projection sur $M$ sous-espaces de $\mathbb{R}^N$ choisis au hasard, donc un élément de $\mathbb{R}^M$.
+Pour donner un dernier exemple d'opérateur que l'on considérera consistera à associer à un élément de $\mathbb{R}^N$ les valeurs de ses projection sur $M$ vecteurs aléatoires de $\mathbb{R}^N$, donc un élément de $\mathbb{R}^M$.
 \newline 
 TODO : ajouter des figures avec un signal et sa transformée de Fourier.
 
@@ -44,7 +44,7 @@ que l'on appelle \emph{opérateur de synthèse}.
 \newline
 On aura donc une formule de reconstruction si $S \circ A = Id_{\mathcal{F}}$.
 Par exemple, avec $\mathcal{F}$ bien choisi, des opérateurs de synthèse que l'on rencontrera seront par exemple, la transformée de Fourier inverse, ou bien la transformée en ondelette inverse, qui a des coefficients de Fourier, respectivement d'ondelettes, associe le signal initial.
-La partie \ref{bonetframe} introduira la notion de frame qui nous permettra de caractériser des opérateurs sur lesquels on aura la garantie d'avoir une formule de reconstruction.
+La première partie du chapitre 2 introduira la notion de frame qui nous permettra de caractériser des opérateurs sur lesquels on aura la garantie d'avoir une formule de reconstruction.
 
 \begin{figure}[h]%%Courtesy of Allen D. Elster, MRIquestions.com
 \centering
@@ -74,7 +74,7 @@ On verra ainsi, que si on étudie des fonctions avec certaines propriétés de r
 Donc, pour un signal donné, il peut être intéressant de regarder, pour plusieurs transformées en ondelettes, laquelle est celle qui a le minimum de coefficients non nuls (c'est le principe de l'algorithme Best Ortho Basis de Coifman et Meyer \cite{coifortho}).
 Par exemple, pour reconstruire une image en deux dimensions, il est possible de reconstruire cette image en choisissant parmi des ondelettes de Daubechies, des coiflets, des curvelets, des brushlets, ...
 chacune de ces ondelettes étant plus ou moins adaptée pour représenter des images avec différentes propriétés.
-On verra ainsi dans ce mémoire que les ondelettes ayant des moments nuls et à support compact (les ondelettes de Daubechies et les coiflets) permettent une reconstruction avec une décroissance rapide de leurs coefficients pour les fonctions Lipschitziennes \ref{decond}.
+On verra ainsi dans la seconde partie du chapitre 2 que les ondelettes ayant des moments nuls et à support compact (les ondelettes de Daubechies et les coiflets) permettent une reconstruction avec une décroissance rapide de leurs coefficients pour les fonctions Lipschitziennes.
 
 \begin{figure}[h]%%Wikicommons
 \centering
@@ -96,23 +96,23 @@ Les deux autres approches reposent sur le fait que l'on dispose de différentes 
 Par exemple dans le cadre de l'algèbre linéaire et d'un vecteur $f \in \mathbb{R}^N$ ou dans un espace de Hilbert, chaque choix de base revient à choisir un couple d'opérateurs analyse-synthèse $(A, S)$ et donc à une formule de reconstruction.
 De la même façon, chaque transformée en ondelettes donne un couple d'opérateurs analyse-synthèse $(A, S)$, on a ainsi le double bénéfice des ondelettes qui, en plus d'avoir de bonnes propriétés, existent en grand nombre.
 \newline
-
 Avec cette multitude de représentations disponibles d'un même objet, la notion de \emph{dictionnaire} a été développée.
-Introduisons cette notion par l'algèbre linéaire, un dictionnaire est alors simplement une famille de vecteurs $\{f_i\}_I$, disons que ce dictionnaire engendre $\mathcal{F}$, alors pour chaque signal $f\in\mathcal{F}$, il existe au moins une suite de coefficients $(c_i)_J$,$J\subset I$, telle que
+Introduisons cette notion par l'algèbre linéaire, un dictionnaire est alors simplement une famille de vecteurs $\{f_i\}_I$. Disons que ce dictionnaire engendre $\mathcal{F}$, alors pour chaque signal $f\in\mathcal{F}$, il existe au moins une suite de coefficients $(c_i)_J$,$J\subset I$, telle que
 \begin{equation}
 	f = \sum_J c_i f_i.
 \end{equation}
 Ainsi, on peut identifier la suite de coefficients $(c_i)_J$ à $f$, et chacune de ces suites de coefficients donne lieu à une identification avec $f$.
 Une telle suite de coefficients peut être appellée une décomposition atomique de $f$, chaque vecteur $f_i$ étant alors appelé un atome.
 Avec une approche parcimonieuse, on souhaite alors pour un signal donné, trouver la décomposition atomique qui utilise un minimum d'atomes. 
-Cela correspond donc à utiliser un minimum de coefficients pour la synthèse de $f$, on appelera ce problème \ref{P0}.
+Cela correspond donc à utiliser un minimum de coefficients pour la synthèse de $f$, on appelera ce problème \ref{P0} et on montrera dans le début du chapitre 3 des conditions pour avoir l'unicité d'une telle décomposition.
+Obtenir une telle unicité signifie qu'il n'y a pas deux décompositions distinctes qui soient concentrées sur peu de coefficients, on dira alors que le dictionnaire vérifie un principe d'incertitude.
 \newline
-Ce problème est de nature combinatoire et très difficile à résoudre de façon générale (c'est un problème NP-difficile \cite{NPHard})
-On verra dans le chapitre 3 qu'en choisissant un dictionnaire vérifiant un principe d'incertitude alors on pourra effectivement résoudre de façon unique le problème de trouver la décomposition atomique d'un élément, sous réserve qu'une décomposition atomique suffisamment parcimonieuse existe.  
-\newline
-
+Cependant ce problème est de nature combinatoire et très difficile à résoudre de façon générale (c'est un problème NP-difficile \cite{NPHard})
+On verra dans la suite du chapitre 3 que sous certaines conditions plutôt que de résoudre directement le problème \ref{P0}, on pourra passer par un problème beaucoup plus simple \ref{P1} et trouver la décomposition atomique.
+Les conditions à vérifier étant que le dictionnaire vérifie un principe d'incertitude et qu'une décomposition suffisamment parcimonieuse existe.
+\newline 
 La dernière approche et la plus récente est celle du compressed sensing \cite{DonohoCS}, \cite{CandesTaoUniv}, \cite{CandesSparsityIncoherence}. 
-Dans ce cadre, on souhaite reconstruire un signal $x_0 \in \mathbb{R}^N$ avec $k << N$ composantes non nulles, dans une certaine base, on se demande alors si il est possible de reconstruire ce signal en faisant $m<N$ mesures de $x_0$.
+Dans ce cadre, on souhaite reconstruire un signal $x_0 \in \mathbb{R}^N$ avec $k << N$ composantes non nulles, dans une certaine base, on se demande alors si il est possible de reconstruire ce signal en faisant $m<N$, ou même $m\sim k$, mesures de $x_0$.
 On verra qu'il est possible de répondre à cette question par l'affirmative.
 Une partie des arguments provient de l'approche précédente, la mesure devra vérifier un principe d'incertitude avec la base dans laquelle le signal est parcimonieux, une fois que l'on a un tel opérateur d'analyse, en résolvant le problème de décomposition atomique on devrait pouvoir retrouver $x_0$.
 Cependant, on ne connait pas à l'avance dans quelle base le signal est parcimonieux, l'approche prend alors un tournant probabiliste et on va chercher à faire une mesure qui va presque sûrement vérifier un principe d'incertitude avec la base inconnue.
@@ -128,9 +128,9 @@ Afin de formaliser ces problèmes nous aurons besoin de $||\cdot||_1$ et $||\cdo
 Cette "norme" permet de mesurer la parcimonie de l'écriture de $x$, cependant, bien qu'on l'appelle ici norme (en omettant les guillemets), ce n'en est pas une car elle n'est pas homogène.
 L'un des objectifs de ce mémoire est de comprendre comment manipuler et obtenir des résultats avec cette norme, de nombreux résultats seront ainsi obtenus en la reliant à la norme $||\cdot||_1$.
 \begin{exemple}[Compression]
-	Soit $y \in \mathbb{R}^N$ un signal. Normalement on doit décrire $y$ avec ses $N$ coefficients, avec ce qui est développé dans ce mémoire, plusieurs méthodes sont proposées pour décrire $y$ avec $k<N$ coefficients.
-	Est-ce possible de représenter $y$ avec moins de $N$ coefficients?
+	Soit $y \in \mathbb{R}^N$ un signal, est-ce possible de représenter $y$ avec (nettement) moins de $N$ coefficients ?
 	\newline
+	Normalement on doit décrire $y$ avec ses $N$ coefficients, avec ce qui est développé dans ce mémoire, plusieurs méthodes sont proposées pour décrire $y$ avec $k<N$ coefficients.
 	On répondra à cette question sous des conditions différentes avec la théorie des frames et avec la décomposition atomique.
 \end{exemple}	
 \begin{exemple}[Débruitage]
@@ -156,28 +156,33 @@ L'un des objectifs de ce mémoire est de comprendre comment manipuler et obtenir
 \begin{exemple}[Imagerie par résonnance magnétique (IRM)]
 	Terminons cette série d'exemples avec l'apport du compressed sensing aux techniques d'IRM, on se base sur \cite{LustigCS} pour la discussion. 
 	
-	En IRM l'objectif est de reconstruire des images de l'intérieur d'un corps humain (par exemple), ainsi la mesure se doit d'être indirecte et sans danger. 
-	Cette mesure est faite en envoyant des suites de photons à travers le corps et en raison de phénomènes physiques, la mesure de l'énergie de ces photons correspond à une transformée de Fourier spatiale d'une section du corps.
-	La mesure est limitée en vitesse par des contraintes inévitables (voir \cite{LustigCS}) et donc il n'est pas possible de connaitre l'ensemble des coefficients de Fourier.
+	En IRM l'objectif est de reconstruire des images de l'intérieur d'un corps humain (par exemple), ainsi la mesure se doit d'être indirecte et sans danger.
+	Cette mesure est faite en induisant un champ magnétique pour aligner la polarisation des protons contenus dans le corps, ensuite des trains d'ondes radio-fréquence sont envoyés qui vont provoquer le désalignement de ces protons.
+	Peu après ces photons se réorientent avec le champ magnétique et c'est ce changement qui est mesurable.
+	Comme décrit dans l'article précédemment cité, ce qui est mesuré au cours du temps par les bobines correspond à la transformée de Fourier d'une section du corps à différentes fréquences spatiales.
 	\newline
-	Formalisons donc ce problème, notons $F$ la transformée de Fourier, et $F_I$ la restriction de $F$ aux $|I|$ coefficients mesurés mesurés.
-	Notons $m$ la section du corps que l'on cherche à trouver, et on a donc $y=F_I m$ le signal obtenu.
-	Cependant l'équation $y=F_I x$ n'admet pas de solution unique, il nous faut donc rajouter une contrainte.
-	Grâce à la partie \ref{decond} on saura que l'on peut généralement représenter une image avec peu de coefficients dans une base d'ondelette, notons cette décomposition $W x$.
+	Ce que l'on retient de cela du point de vue du traitement du signal c'est que l'IRM permet d'obtenir la transformation de Fourier d'un objet et du point de vue de la reconstruction on cherche à partir de cette transformation à retrouver l'objet mesuré.
+	Cependant, il est important de noter que la mesure est limitée en vitesse par des contraintes physiques et physiologiques inévitables (voir \cite{LustigCS}) et donc il n'est pas possible de connaitre l'ensemble des coefficients de Fourier.
+	\newline
+	Formalisons donc ce problème, notons $F$ la transformée de Fourier, et $F_I$ la restriction de $F$ aux $I$ coefficients mesurés mesurés.
+	Notons $m$ la section de l'objet que l'on cherche à trouver, et on a donc $y=F_I m$ le signal obtenu.
+	Cependant l'équation générale $y=F_I x$ n'admet pas de solution unique, il nous faut donc rajouter une contrainte.
+	Grâce au chapitre 2 on saura que l'on peut généralement représenter une image avec peu de coefficients dans une base d'ondelette, notons cette décomposition $W x$.
 	Grâce au compressed sensing on verra que le problème de minimiser $||Wx||_1$ parmi les $x$ qui vérifient $y = F_I x$ admet une unique solution, que l'on peut calculer et c'est $x=m$. 
+	Ce type de résultat correspond à une extension des résultats du chapitre 3.
 	\newline
 	Ainsi, avant le compressed sensing les images reconstruites demandaient une longue durée de scan (6mn avec certaines périodes d'apnée) et les résultat n'étaient pas de très bonne qualité.
 	Après le compressed sensing, la reconstruction ne nécessitant pas de récupérer tous les coefficients, les scans sont devenus bien plus rapides et de meilleure qualité (25s avec respiration libre).	
 \end{exemple}
 Avant de poursuivre et de s'éloigner des applications pour passer à la théorie, notons quelques unes de leurs caractéristiques auxquelles on veillera dans les résultats obtenus.
 \newline
-Tout d'abord, les problèmes énoncés sont résolvables avec les méthodes de ce mémoire sous certaines conditions, ainsi, sur certains problèmes appliqués, par exemple ceux dont la résolution implique l'utilisation d'une décomposition atomique, leur résolution n'est pas automatique.
+Tout d'abord, les problèmes énoncés sont résolubles avec les méthodes de ce mémoire sous certaines conditions, ainsi, sur certains problèmes appliqués, par exemple ceux dont la résolution implique l'utilisation d'une décomposition atomique, l'existence d'une telle décomposition n'est pas automatique.
 En effet, il est nécessaire d'avoir un dictionnaire avec des atomes permettant une décomposition atomique, et en pratique cela peut être très difficile de trouver un tel dictionnaire pour certains problèmes.
 \newline
 Ensuite, certains de ces problèmes sont issus de la physique, il y a donc de fortes chances pour que les mesures soient perturbées et avec une certaine imprécision. 
 Il sera donc intéressant de vérifier que les techniques de reconstruction que l'on utilise sont stables lorsque la solution est légèrement modifiée.
 De la même façon, en pratique, dans les égalités du type $y=Ax$ des exemples ci-dessus, on cherchera plutôt à résoudre $||y-Ax||_2 < \varepsilon$.
 \newline
-Finalement, un dernier point auquel il faut veiller, la première étape étant la mesure, il sera intéressant de pouvoir donner pour certaines classes de signaux le nombre minimal de mesures nécessaires afin de reconstruire le signal mesuré.
+Finalement, voici un dernier point auquel il faut veiller : la première étape étant la mesure ; il sera intéressant de pouvoir donner pour certaines classes de signaux le nombre minimal de mesures nécessaires afin de reconstruire le signal mesuré.
 Le dernier exemple nous indique aussi qu'il peut être intéressant de pouvoir dire quand est-ce qu'on a suffisament de mesures pour pouvoir reconstruire le signal.
 

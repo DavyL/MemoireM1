@@ -6,9 +6,9 @@ On a par exemple vu que l'on pouvait reconstruire les fonctions Lipschitziennes 
 De plus, on a remarqué que si la fonction se comporte comme un polynôme d'un degré inférieur au nombre de moments nuls au voisinage d'un point, alors les coefficients d'ondelettes dans ce voisinage seront nuls.
 De même, les seuls coefficients d'ondelette qui seront grands seront ceux au voisinage d'un point où aucune approximation par un polynôme de petit degré n'est efficace\footnote{Une analyse du théorème de Jaffard \ref{th:Jaffard} montre que les coefficients affectés par une discontinuité forment un cône dans les coefficients d'ondelette autour du point de discontinuité. Ce cône se visualise dans la représentation temps-fréquence des coefficients d'ondelette, il part du point de discontinuité et s'élargit en diminuant le coefficient d'échelle $j$. La largeur de ce cône dépend de la régularité $\alpha$ de la fonction.}.
 Ainsi, la représentation avec ces ondelettes d'une fonction ne possédant que quelques points où elle est irrégulière sera approximée avec peu de coefficients.
-Afin d'insister, l'intérêt de cela est que de façon naive, afin de déterminer une fonction, il faut connaitre sa valeur en chaque point, ainsi, si l'on souhaite faire un traitement par ordinateur de cette fonction, il faut stocker chacun des points de la fonction.
+L'intérêt de cela est que de façon naive, afin de déterminer une fonction, il faut connaitre sa valeur en chaque point (sa valuation), ainsi, si l'on souhaite faire un traitement par ordinateur de cette fonction, il faut stocker chacun des points de la fonction.
 Avec ce que l'on a fait, on sait qu'en fait on peut reconstruire la fonction avec un plus petit nombre de coefficients que la fonction n'a de points.
-En ce sens, la représentation en ondelettes d'une fonction Hölderienne est parcimonieuse (peu de coefficients non nuls), alors que la représentation par la valuation d'une fonction Hölderienne n'est pas parcimonieuse.
+En ce sens, la représentation en ondelettes d'une fonction Lipschitzienne est parcimonieuse (peu de coefficients non nuls), alors que la représentation par la valuation d'une fonction Hölderienne n'est pas parcimonieuse.
 \newline
 Nous allons maintenant nous intéresser à l'autre direction de ce problème, c'est à dire que nous allons supposer que l'on dispose d'une famille de vecteurs et que la fonction que l'on cherche à reconstruire est une somme parcimonieuse de vecteurs de cette famille.
 Cependant on connait seulement la valuation de cette fonction et pas les vecteurs sous-jacents qui permettent de représenter la fonction de façon parcimonieuse.
@@ -38,12 +38,12 @@ Par contre, un tel phénomène n'est pas vérifié pour la norme euclidienne.
 \section{Résolution de (P0)}
 Formalisons maintenant ce que nous avons dit ci-dessus. 
 On considère $\mathcal{F}$ un espace vectoriel et utilisons un dictionnaire $\Phi = \Phi_1 \cup \cdots \cup \Phi_D$ de bases, où chaque $\Phi_d$ est une base de $\mathcal{F}$. 
-Ainsi $\Phi$ est une concaténation de bases\footnote{Ainsi $\Phi$ définit un frame serré.} et on s'intéresse aux façon d'écrire un signal $f\in \mathcal{F}$ dans $\Phi$, c'est à dire aux façon d'écrire
+Ainsi $\Phi$ est une concaténation de bases\footnote{Ainsi $\Phi$ définit un frame.} et on s'intéresse aux façon d'écrire un signal $f\in \mathcal{F}$ dans $\Phi$, c'est à dire aux façon d'écrire
 \begin{equation}\label{eq:defSSum}
 	f = \sum_\gamma c_\gamma \phi_\gamma
 \end{equation}
 où l'indice $\gamma = (d, i)$ indique le dictionnaire $\Phi_d$ correspondant ainsi que le vecteur $\phi_{d, i} \in \Phi_d$.
-On peut aussi écrire \ref{eq:defSSum} sous forme matricielle en posant $F_\Phi$ la matrice ayant pour lignes les vecteurs $\phi_\gamma$ et en posant $x = (c_\gamma)_\gamma$ la notation sous forme de vecteur de $x$, on utilisera aussi la notation $x = (x_d)_{d=1, \cdots, D}$
+On peut aussi écrire \ref{eq:defSSum} sous forme matricielle en posant $F_\Phi$ la matrice ayant pour lignes les vecteurs $\phi_\gamma$ et en posant $x = (c_\gamma)_\gamma$, on utilisera aussi la notation $x = (x_d)_{d=1, \cdots, D}$
 On s'intéresse ainsi aux solutions de 
 \begin{equation}
 	f = F_\Phi x.
@@ -53,7 +53,7 @@ Ainsi, le problème que l'on cherche à résoudre est
 \begin{equation}\label{P0}\tag{P0}
 	\min ||x||_0\quad \text{tel que } f = F_\Phi x,
 \end{equation}
-où $||x||_0 = \#\{\gamma : c_\gamma \neq 0\}$ est le nombre de coefficients non nuls de $x$.
+où $||x||_0 = |\{\gamma : c_\gamma \neq 0\}|$ est le nombre de coefficients non nuls de $x$.
 Cependant, la résolution en toute généralité de ce problème n'est pas faisable, en effet résoudre ce problème nécessite de résoudre \ref{P0} pour chaque combinaison de vecteurs du dictionnaire si $x$ est dans l'image.
 Ainsi, le nombre de combinaisons possibles parmi tous les vecteurs croit bien trop vite pour permettre la résolution de \ref{P0} de cette façon, nous verrons donc comment résoudre ce problème en utilisant une autre méthode.
 \newline
@@ -64,7 +64,7 @@ Cependant, cette solution ne sera jamais moins parcimonieuse que l'une des $D$ s
 Il est donc clair qu'il est nécessaire d'imposer des conditions sur les bases qui constituent le dictionnaire si l'on souhaite obtenir une solution unique.
 Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$ a un sens.
 \begin{exemple}
-	On étudie les signaux dans $\mathbb{R}^N$ et on choisi un dictionnaire constitué de la concaténation de la base de Fourier $ W = \{e_k(t) = \frac{1}{\sqrt{N}} e^{\frac{i 2\pi k t}{N}}\}_{0 \leq k \leq N -1}$ et de la base canonique de Diracs\footnote{Chaque vecteur de cette base vérifie $\delta_{k,i} = 1$ si $i = k$ et 0 sinon.} $T = \{\delta_k\}_{0 \leq k \leq N-1}$.
+	On étudie les signaux dans $\mathbb{R}^N$ et on choisi un dictionnaire constitué de la concaténation de la base de Fourier $ W = \{e_k(t) = \frac{1}{\sqrt{N}} e^{\frac{i 2\pi k t}{N}}\}_{0 \leq k \leq N -1}$ et de la base canonique de Dirac\footnote{Chaque vecteur de cette base vérifie $\delta_{k,i} = 1$ si $i = k$ et 0 sinon.} $T = \{\delta_k\}_{0 \leq k \leq N-1}$.
 	Ainsi, avec ce choix $F_W$ est la matrice de Fourier discrète normalisée et $F_T$ est la matrice identité de taille $N$.
 	Avec le théorème suivant, on va obtenir un principe d'incertitude, qui nous garantira qu'un signal ne peut pas être parcimonieux à la fois dans la base de Dirac, et dans la base de Fourier.
 	\begin{theoreme}\label{th:Incert1}
@@ -99,7 +99,8 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 		\end{equation}
 	et on a déjà montré que le terme de gauche est supérieur ou égal à $\sqrt{N}$.
 	\end{proof}
-	Observons que sans restrictions sur $N$, l'inégalité obtenue ne peut pas être améliorée, comme observé dans \cite{donohostark} \cite{DonohoHuo}, si $N$ est un carré, alors, la fonction avec des 1 seulement aux coefficients multiples de $\sqrt{N}$ et 0 ailleurs est sa propre transformée de Fourier et ainsi elle a $2\sqrt{N}$ coefficients dans le dictionnaire $(T,W)$ et ainsi l'inégalité est atteinte.
+	Mentionnons que sans restrictions sur $N$, l'inégalité obtenue ne peut pas être améliorée, comme observé dans \cite{donohostark} \cite{DonohoHuo}, si $N$ est un carré, alors, la fonction avec des 1 seulement aux coefficients multiples de $\sqrt{N}$ et 0 ailleurs est sa propre transformée de Fourier.
+	Elle a alors 2 écritures avec chacune $\sqrt{N}$ coefficients dans le dictionnaire $(T,W)$ et ainsi l'inégalité est atteinte.
 	Une conséquence de cela est qu'une condition sur la parcimonie de la forme $||F_T f||_0 + ||F_W||_0 < K$ avec $K>\sqrt{N}$ ne pourra pas garantir l'unicité de la solution de (P0).
 	Montrons que si $K = \sqrt{N}$ alors on a l'unicité de la solution de (P0).
 	\begin{theoreme}\label{th:Incert2}
@@ -137,19 +138,19 @@ Afin d'étudier cela commençons par un cadre simple dans lequel résoudre $P_0$
 		\begin{equation}\label{eq:Incert2}
 		||x_T||_0 \leq \frac{p}{2}
 		\end{equation}
-		est l'unique solution de (P0).
+		est l'unique solution de \ref{P0}.
 	\end{theoreme}
-	On a ainsi vu qu'avec un dictionnaire constitué de Fourier et de Dirac la solution de (P0) est unique, on a également vu brièvement, qu'en renforçant le principe d'incertitude sur les deux familles, alors on peut certifier qu'on a bien obtenu \it{la} solution de (P0) pour des signaux avec un support plus grand.
+	On a ainsi vu qu'avec un dictionnaire constitué de Fourier et de Dirac la solution de \ref{P0} est unique, on a également vu brièvement, qu'en renforçant le principe d'incertitude sur les deux familles, alors on peut certifier qu'on a bien obtenu \it{la} solution de \ref{P0} pour des signaux avec un support plus grand.
 \end{exemple}
 
 \section{Résolution de (P1)}
-On a ainsi vu dans la section précedente que le problème (P0) de minimisation de la solution par rapport à la parcimonie admet une solution unique dès qu'une solution existe et que cette solution vérifie une condition de la forme \ref{eq:Incert1} ou \ref{eq:Incert2}.
-Cependant, on a aussi vu au début de la section précédente que le problème (P0) est un problème de nature combinatoire et le nombre de combinaisons possibles augmentant très vite par rapport à $N$, sa résolution n'est pas faisable et ainsi il est nécessaire d'avoir une autre approche à ce problème.
+On a ainsi vu dans la section précedente que le problème \ref{P0} de minimisation de la solution par rapport à la parcimonie admet une solution unique dès qu'une solution existe et que cette solution vérifie une condition de la forme \ref{eq:Incert1} ou \ref{eq:Incert2}.
+Cependant, on a aussi vu au début de la section précédente que le problème \ref{P0} est un problème de nature combinatoire et le nombre de combinaisons possibles augmentant très vite par rapport à $N$, sa résolution n'est pas faisable et ainsi il est nécessaire d'avoir une autre approche à ce problème.
 \newline
-La découverte qui a permis de rendre la résolution faisable, et par là permis par exemples les avancées du compressed sensing qui ont eu de nombreuses applications et dont la théorie sera étudiée dans le prochain chapitre, est que l'on peut résoudre un autre problème pour lequel des méthodes de résolution efficaces existaient déjà.
+La découverte qui a permis de rendre la résolution faisable, et par là permis par exemple les avancées du compressed sensing qui ont eu de nombreuses applications (et dont la théorie sera étudiée dans le prochain chapitre), est que l'on peut résoudre un autre problème pour lequel des méthodes de résolution efficaces existaient déjà.
 En effet nous allons voir que résoudre le problème \ref{P1},
 \begin{equation}\label{P1}\tag{P1}
-	min_x ||x||_1 \text{tel que } f = Fx 
+	min_x ||x||_1 \quad\text{tel que } f = Fx 
 \end{equation}
 permet sous certaines conditions de résoudre \ref{P0}.
 L'intéret de \ref{P1} est que c'est un problème de programmation linéaire et de nombreuses méthodes permettent de le résoudre.
@@ -180,7 +181,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 \begin{proof}
 	La preuve de ce théorème se fait en plusieurs parties.
 	Tout d'abord, remarquons que si $x$ vérifie \ref{eq:cond1}, alors $x$ vérifie \ref{eq:Incert1} et donc d'après le théorème \ref{th:Incert2} $x$ est donc l'unique condition de \ref{P0}.
-	Il nous faut donc vérifier que cette solution est bien la solution de (P1).
+	Il nous faut donc vérifier que cette solution est bien la solution de \ref{P1}.
 	On montre ensuite un lemme qui permet de donner une condition suffisante pour qu'une paire de bases vérifie que la solution obtenue est bien celle de \ref{P1}.
 	On vérifiera ensuite que dans la paire de bases Fourier-Dirac, les conditions du lemme sont vérifiées et cela permettra de conclure la preuve du théorème.
 	Avant d'énoncer le lemme, définissons une quantité $\mu$ qui mesure dans une paire de bases $\Phi=(T,W)$ à quel point un élément dans le noyau de $F_\Phi$ peut être supporté à la fois sur $T$ et sur $W$.
@@ -309,13 +310,13 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 			\langle \psi_N, \varphi_1 \rangle & \cdots 				& \cdots 		&	 \langle \psi_N, \varphi_N \rangle. 
 		\end{bmatrix}
 	\end{equation}
-	En analysant les preuves, on peut voir que la quantité qui est essentielle est :
+	En analysant les preuves, on peut remarquer que la quantité qui est essentielle est :
 	\begin{equation}\label{eq:defM}
 		M = M_{\Phi, \Psi} = M_{\Psi, \Phi} = \sup_{1\leq i,j\leq N} |\langle \psi_i, \varphi_j \rangle|.
 	\end{equation}
 	On peut voir cette quantité comme la corrélation maximale entre les vecteurs de $\Phi$ et $\Psi$.
 	\newline
-	On voit en particulier, que dans les cas du dictionnaire Fourier-Dirac que l'on a considéré dans les théorèmes précédents, on a $M=\frac{1}{\sqrt{N}}$ et on voit que cette quantité peut directement être insérée dans les théorèmeset \ref{th:Incert1}, \ref{th:Incert2} pour le problème \ref{P0} et \ref{th:DiracFourier}, \ref{th:muFD} pour le problème \ref{P1}, ce n'est pas une coincidence et on va généraliser ces résultats ci-dessous.
+	On peut observer en particulier, que dans les cas du dictionnaire Fourier-Dirac que l'on a considéré dans les théorèmes précédents, on a $M=\frac{1}{\sqrt{N}}$ et on remarque que cette quantité peut directement être insérée dans les théorèmes \ref{th:Incert1}, \ref{th:Incert2} pour le problème \ref{P0} et \ref{th:DiracFourier}, \ref{th:muFD} pour le problème \ref{P1}; ce n'est pas une coincidence et on va généraliser ces résultats ci-dessous.
 	\begin{theoreme}\label{th:IncertGen1}
 		Soit un signal $f\in \mathbb{R^N}$ non nul et soit $(\Phi, \Psi)$ une paire de bases orthonormales et $M$ la quantité définie par \ref{eq:defM}, alors
 		\begin{equation}
@@ -345,7 +346,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 		\end{equation}
 	\end{lemme}
 	Là aussi la démonstration est immédiate en faisant les changements adaptés dans la preuve.
-	On a donc de la même façon que précedemment, en appliquant le lemme \ref{th:muP1}:
+	On a donc de la même façon que précédemment, en appliquant le lemme \ref{th:muP1}:
 	\begin{theoreme}\label{th:recovgen}
 		Soit $N$ un entier positif, $(\Phi, \Psi)$ une paire de bases orthonormales, $M$ la quantité définie par \ref{eq:defM} et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_\Phi, x_\Psi)$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et
 	\begin{equation}\label{eq:cond1}
@@ -357,7 +358,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 \section{Extensions du résultat}
 Comme indiqué précedemment, le théorème \ref{th:DiracFourier} obtenu est une généralisation d'un théorème de David Donoho et Xiaoming Huo dans \cite{DonohoHuo}, ainsi, la généralisation du théorème \ref{th:DiracFourier} qu'est le théorème \ref{th:recovgen}, est aussi une généralisation d'un autre théorème de l'article précédent.
 \newline
-Cependant, d'autres généralisations des résultats de David Donoho et Xiaoming Huo ont été proposées, cela tenant notamment de l'importance de l'article par exemple pour le développement du compressed sensing ou l'étude de la cohérence de paires de bases, mais aussi car comme indiqué par les auteurs les bornes ne semblaient pas exactes.
+Cependant, d'autres généralisations des résultats de David Donoho et Xiaoming Huo ont été proposées notamment car comme indiqué par les auteurs les bornes ne semblaient pas exactes.
 \newline
 En effet, les auteurs indiquent que leur résultat devrait pouvoir être amélioré d'un facteur 2 optimal car un contre exemple peut être montré en considérant le peigne de Dirac pour lequel $||x_T||_0 = ||x_W||_0 = \frac{\sqrt{N}}{2}$.
 Le théorème \ref{th:recovgen} prouvé ici montre que ce contre exemple correspond au cas limite à partir duquel les hypothèses du théorème ne sont plus vérifiées.
@@ -379,7 +380,7 @@ On peut résumer la situation avec le graphe suivant :(TODO: ajouter graphe).
 \newline
 Une autre généralisation des résultats de Michael Elad et Alfred Bruckstein a été faite par Arie Feuer et Arkadi Nemirovski \cite{feuer} dans laquelle ils démontrent que la borne de Michael Elad et Alfred Bruckstein est atteinte, et donc optimale.
 Montrer que  la borne est atteinte revient à montrer qu'il y a au moins un signal qui atteint l'égalité du théorème \ref{th:eladbruc}, la construction d'un tel signal est rélativement élaborée. 
-On notera seulement que dans cette construction le nombre de coordonnées dans l'une des composantes vaut $\sqrt{2}\frac{\sqrt{N}}{2}$, ce n'est donc, heureusement, pas un contre exemple aux théorèmes \ref{th:DiracFourier} et \ref{th:recovgen} prouvés ici.
+On notera seulement que dans cette construction le nombre de coordonnées dans l'une des composantes vaut $\sqrt{2}\frac{\sqrt{N}}{2}$, ce n'est donc, heureusement, pas un contre exemple aux théorèmes \ref{th:DiracFourier} et \ref{th:recovgen} prouvés ici\footnote{En effet ces théorèmes ont pour hypothèses que dans chacune des bases il y ait moins de $\frac{\sqrt{N}}{2}$.}.
 
 
 

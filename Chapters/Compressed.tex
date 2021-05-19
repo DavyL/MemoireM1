@@ -2,18 +2,22 @@
 Le chapitre précédent correspond à des résultats publiés entre 1998 et 2003, grâce à eux une classe de problème en apparence impossibles à résoudre (le problème \ref{P0}) devenaient finalement accessibles sous des hypothèses de parcimonie. 
 Cependant, les résultats prouvés donnent des informations quantitatives sur les plus petits signaux qui feront que la résolution de \ref{P0} en résolvant \ref{P1} ne fonctionne pas.
 Mais en fait, il y a très peu de tels contre-exemples et dans la pratique il était déjà observé que la résolution de \ref{P0} par \ref{P1} fonctionnait pour des signaux moins parcimonieux que ceux étudiés.
-C'est ainsi que plutôt que de chercher des résultats toujours vrais comme dans le chapitre précédent la recherche de nouveaux théorèmes s'est tournée vers des questions, demandant une approche probabiliste, du type : Quel $s$ peut on choisir pour reconstruire \emph{presque} tous les signaux $s$-parcimonieux en résolvant \ref{P1} ?
+C'est ainsi que plutôt que de chercher des résultats toujours vrais comme dans le chapitre précédent la recherche de nouveaux théorèmes s'est tournée vers des questions, demandant une approche probabiliste, du type : 
+\newline
+\textit{Quel $s$ peut on choisir pour reconstruire presque tous les signaux $s$-parcimonieux en résolvant \ref{P1} ?}
 \newline 
-La deuxième question qui s'est posée, plus subtile, est la suivante, supposons que l'on sache que le signal est parcimonieux dans une base quelconque : Quel est le nombre minimal $m$ de mesures que l'on peut faire pour être sûr\footnote{On aurait bien sûr pu mettre \emph{presque sûr} au lieu de \emph{sûr}} de reconstruire tous les signaux $s$-parcimonieux de cette base quelconque ?
+La deuxième question qui s'est posée, plus subtile, est la suivante, supposons que l'on sache que le signal est parcimonieux dans une base quelconque : 
+\newline
+\textit{Quel est le nombre minimal $m$ de mesures que l'on doit faire pour être sûr\footnote{On aurait bien sûr pu mettre \emph{presque sûr} au lieu de \emph{sûr}} de reconstruire tous les signaux $s$-parcimonieux de cette base quelconque ?}
 \newline
 A cette deuxième question, la réponse à apporter est plus claire qu'à la première question.
-On cherche à reconstruire un signal à $N$ coefficients qui n'a que $s$ coefficients non nuls, cependant on veut pouvoir le reconstruire avec $m<N$ mesure, ce signal est arbitraire donc on ne sait pas où sont les $s$-coefficients non nuls, il faut donc que la mesure se fasse sur un grand nombre de coefficients à la fois.
-Donc, dans la base dans laquelle on mesure le signal, il ne doit pas être parcimonieux.
+On cherche à reconstruire un signal à $N$ coefficients qui n'a que $s$ coefficients non nuls, cependant on veut pouvoir le reconstruire avec $m<N$ mesures, ce signal est arbitraire donc on ne sait pas où sont les $s$-coefficients non nuls, il faut donc que la mesure se fasse sur un grand nombre de coefficients à la fois.
+Donc, dans la base dans laquelle on le mesure, il ne doit pas être parcimonieux.
 Il nous faut donc une base qui vérifie un principe d'incertitude avec la base dans laquelle le signal est parcimonieux.
 C'est le contenu de la condition \textbf{Uniform Uncertainty Principle} (\textbf{UUP}).
 \newline
 A partir de là il semble qu'il y ait une possibiité pour reconstruire le signal car n'importe quel coefficient peut être mesuré avec un nombre assez faible de mesures. 
-Cependant une difficulté apparait directement, chaque mesure va mesurer plusieurs coefficients à la fois et il  nous faut donc suffisament de mesures pour être certain de distinguer chaque coefficient non nul.
+Cependant une difficulté apparait directement, chaque mesure va mesurer plusieurs coefficients à la fois : il  nous faut donc suffisament de mesures pour être certain de distinguer chaque coefficient non nul.
 Il nous faudra donc des garanties sur la famille utilisée pour la mesure pour qu'elle puisse nous permettre de distinguer les coefficients non nuls des coefficients nuls des signaux $s$-parcimonieux.
 C'est le contenu de la condition \textbf{Exact reconstruction principle} (\textbf{ERP}).
 \newline
@@ -130,10 +134,10 @@ On aurait aussi pu définir le principe uniforme d'incertitude à l'aide des val
 	en appliquant le principe d'incertitude.
 	On déduit donc que 
 	\begin{equation}
-		\frac{ ||\hat{f}||_{\ell^2(\Omega)}}{||\hat{f}||_{\ell^2}} \longrightarrow 0
+		\frac{ ||\hat{f}||_{\ell^2(\Omega)}}{||f||_{\ell^2}} \longrightarrow 0
 	\end{equation}
-	si $K=o(N)$, c'est à dire que si $f$ est à support compact, il est nécessaire d'avoir un nombre de mesures $K$ qui est au moins de l'ordre de $f$.
-	Donc $f$ ne peut pas être localisé à la fois en temps et en fréquence, ce qui justifie l'appélation "principe d'incertitude". 
+	si $K=o(N)$, c'est à dire que si $f$ est à support compact, il est nécessaire d'avoir un nombre de mesures $K$ qui est au moins de l'ordre de la taille du support de $f$.
+	Donc $f$ ne peut pas être localisé à la fois en temps et en fréquence, ce qui justifie l'appellation "principe d'incertitude". 
 \end{remarque}
 \begin{remarque}
 Justifions maintenant le fait que c'est un principe uniforme. 
@@ -141,16 +145,8 @@ Justifions maintenant le fait que c'est un principe uniforme.
 	\newline
 	Ainsi, le principe est uniforme car la propriété \textbf{UUP} est telle que l'on a une probabilité au moins $1- \mathcal{O}(N^{-\rho / \alpha})$ que \ref{eq:UUP2} soit vrai pour tous les $f$ possibles vérifiant \ref{eq:UUP1}. Ce qui justifie l'appélation uniforme.
 \end{remarque}
-\begin{remarque}
-	Remarquons que l'on peut réécrire \ref{eq:UUP2} peut se réécrire
-	\begin{equation*}
-		(1-\delta_K)||f||_2^2 \leq ||F_\Omega f||_2^2 \leq ||f||_2^2(1 + \delta_K)
-	\end{equation*}
-	avec $\delta = 1 - \frac{K}{2N}$ ce qui rappelle la définition d'un frame avec des bornes $m = M = \frac{1}{2}$ dans le meilleur des cas.
-	Cela justifie que certaines fois le principe uniforme d'incertitude est aussi appelé propriété d'isométrie restreinte (\textbf{RIP}) (Restricted Isometry Property).
-\end{remarque}
 \begin{proposition}\footnote{Pour certains résultats concernant ERP et UUP : \url{https://www.math.ucla.edu/~tao/preprints/sparse.html}}
-	\newline 
+	 
 	\begin{itemize}
 		\item Les ensembles Gaussiens et binaires vérifient $\log(N)-\textbf{UUP}$
 		\item L'ensemble de Fourier vérifie $\log(N)-\textbf{UUP}$.
@@ -263,7 +259,7 @@ Passons à la preuve du théorème, on discutera ensuite de certaines conséquen
 		\sum_{j\in B_J} (f-f^\#)(n_j) g(n_j) \leq ||f-f^\#||_{\ell^2(B_J)} ||g||_{\ell^2(B_J)}.
 	\end{equation}
 	Or d'après \ref{eq:ineqgf}, $||g||_{\ell^2(B_J)} \leq C||f-f^\#||_{\ell^2(T)}$, donc l'inégalité précédente devient:
-	\begin{equation}
+	\begin{equation}\label{eq:ineqbj}
 		\sum_{j\in B_J} (f-f^\#)(n_j) g(n_j) \leq C ||f-f^\#||_{\ell^2(T)} ||f-f^\#||_{\ell^2(B_J)} \leq C ||f-f^\#||_{\ell^2(T)} I_J
 	\end{equation}
 	en notant
@@ -310,17 +306,18 @@ Passons à la preuve du théorème, on discutera ensuite de certaines conséquen
 	\end{equation}
 	On a donc bien démontré le théorème.	
 \end{proof}
-Dans la preuve, deux résultats intermédiaires ont été admis. Le premier utilise \emph{UUP} et est une conséquence d'un théorème d'extension, avec des mots, on a construit un vecteur dans l'espace engendré par $F_\Omega^*$ qui coincide avec un autre vecteur arbitraire sur un support fini et qui vérifie une forme de stabilité $\ell^2$. On pourra trouver une démonstration de ce résultat en annexe \ref{th:tao3}.
+Dans la preuve, deux résultats intermédiaires ont été admis. Le premier utilise \emph{UUP} et est une conséquence d'un théorème d'extension.
+Grâce à ce théorème on a construit un vecteur dans l'espace engendré par $F_\Omega^*$ qui coincide avec un autre vecteur arbitraire sur un support fini et qui vérifie une forme de stabilité $\ell^2$. On pourra trouver une démonstration de ce résultat en annexe \ref{th:tao3}.
 \newline
 Le second résultat utilise \emph{ERP} et permet de démontrer un autre résultat sur la concentration en dehors d'un support fixé, mais pour la norme $\ell^1$. On pourra en trouver un résultat formel en annexe également \ref{th:tao1}.
 \newline
 Cependant il aurait été possible d'utiliser d'autres conditions, la condition \textbf{UUP} n'étant pas très difficile à vérifier contrairement à la condition \textbf{ERP} qui doit être vérifiée pour n'importe quelle suite de signes. 
-Il est ainsi possible d'affaiblir cette condition en \textbf{Weak Exact Reconstruction Principle} (\textbf{WERP}) dans laquelle plutôt que d'avoir \textbf{ERP} pour n'importe quelle suite de signe, on souhaite pour presque n'importe quelle suite de signes \textbf{ERP}. 
+Il est ainsi possible d'affaiblir cette condition en \textbf{Weak Exact Reconstruction Principle} (\textbf{WERP}) dans laquelle plutôt que d'avoir \textbf{ERP} pour n'importe quelle suite de signe, on souhaite avoir \textbf{ERP} pour presque n'importe quelle suite de signes. 
 En fait, Terence Tao et Emmanuel Candes prouvent dans \cite{CT} que \textbf{WERP} et \textbf{UUP} impliquent \textbf{ERP} pour presque n'importe quel signal.
-\section{Théorème de Donoho}
-Etudions maintenant un autre théorème fondamental du Compressed Sensing, et en fait très similaire à celui de Emmanuel Candes et Terence Tao, avec le théorème de David Donoho.
+\section{Théorème de Candes-Romberg}
+Etudions maintenant un autre théorème fondamental du Compressed Sensing, et en fait très similaire à celui de Emmanuel Candes et Terence Tao, avec le théorème d'Emmanuel Candes et Justin Romberg.
 Ce théorème est présenté ici car il est plus facile à exprimer que le théorème précédent, il n'y a pas besoin d'autant de notations et définitions, aussi, on va voir que ce résultat est assez proche de l'esprit des résultats du chapitre 3.
-Cependant on ne fera pas la preuve de ce résultat pour plusieurs raisons, premièrement, après le théorème précédent et le chapitre 3 il devrait être clair qu'un tel résultat soit démontrables, deuxièmement, les techniques de preuves utilisées par David Donoho sont assez élaborées et reposent sur l'usage d'inégalités sur des lois de probabilités, finalement, il aurait été difficile d'introduire de façon raisonnable ces résultats sans ajouter trop de pages supplémentaires à ce mémoire (qui est peut-être déjà trop long).
+Cependant on ne fera pas la preuve de ce résultat pour plusieurs raisons, premièrement, après le théorème précédent et le chapitre 3 il devrait être clair qu'un tel résultat soit démontrables, deuxièmement, les techniques de preuves utilisées dans l'article d'Emmanuel Candes et Justin Romberg \cite{CR} sont assez élaborées et reposent sur l'usage d'inégalités sur des lois de probabilités, finalement, il aurait été difficile d'introduire de façon raisonnable ces résultats sans ajouter trop de pages supplémentaires à ce mémoire.
 \newline
 Cela étant dit, le résultat de David Donoho n'a besoin que de d'un rappel de définitions utilisée dans les chapitres précédents.
 Soit $(\Phi, \Psi)$ une paires de matrices et $(\psi_1, \cdots, \psi_N)$ les colonnes de $\Psi$ et $(\varphi_1, \cdots, \varphi_N)$ les colonnes de $\Phi$.
@@ -330,11 +327,11 @@ On note la cohérence entre $\Phi$ et $\Psi$:
 \end{equation}
 On notera en particulier $M_\Phi = \sup_{i,j} |\varphi_{i,j}|$.
 
-On peut alors énoncer le théorème de David Donoho:
+On peut alors énoncer le théorème :
 \begin{theoreme}
 	Soit $\Phi$ une base orthonormale de $\mathbb{R}^N$. 
 	Soit $T \subset \{0, \cdots, N\}$ un sous-ensemble fixé et soit $z \in \{\pm 1\}^T$ une suite de signes tirée uniformément au hasard ($\mathbb{P}(z(t) = 1) = \mathbb{P}(z(t) = -1) = \frac{1}{2}$ pour tout $t\in T$).
-	Si le nombre de mesures $m$ vérifie:
+	Supposons que le nombre de mesures $m$ vérifie :
 	\begin{equation}
 		m\geq C_0 |T| N M_{\Phi}^2 \log(\frac{N}{\delta})
 	\end{equation}
@@ -349,13 +346,15 @@ On peut alors énoncer le théorème de David Donoho:
 	\end{equation}
 	en résolvant \ref{P1}.
 \end{theoreme}
-On ne démontre pas ce théorème mais discutons de son lien avec le théorème de Emmanuel Candes et Terence Tao, dans celui ci on choisit d'abord une suite de signes, qui n'est pas arbitraire et qui a été obtenue par un processus aléatoire et on peut ensuite conclure sur la reconstruction, on n'est donc pas dans le cas de l'\textbf{Exact Reconstruction Principle} mais plutôt du \textbf{Weak Exact Reconstruction Principle}.
+Sans démontrer ce théorème discutons de son lien avec le théorème de Emmanuel Candes et Terence Tao. 
+Dans celui ci on choisit d'abord une suite de signes, qui n'est pas arbitraire et qui a été obtenue par un processus aléatoire et on peut ensuite conclure sur la reconstruction, on n'est donc pas dans le cas de l'\textbf{Exact Reconstruction Principle} mais plutôt du \textbf{Weak Exact Reconstruction Principle}.
 \newline
-Ensuite, ici, le lien entre la cohérence de la matrice utilisée pour mesurer et le nombre de mesures à réaliser est explicite, en fait ce nombre de mesures est choisi car il permet de vérifier (théorème 1.2 \cite{CR}), que les valeurs singulières de $F_{\Phi, \Omega T}$ sont toutes proches de $\frac{m}{N}$, c'est bien le contenu de l'\textbf{Uniform Uncertainty Principle}.
+Ensuite, ici, le lien entre la cohérence de la matrice utilisée pour mesurer et le nombre de mesures à réaliser est explicite.
+En fait ce nombre de mesures est choisi car il permet de vérifier (théorème 1.2 \cite{CR}), que les valeurs singulières de $F_{\Phi, \Omega T}$ sont toutes proches de $\frac{m}{N}$ : c'est bien le contenu de l'\textbf{Uniform Uncertainty Principle}.
 \newline
-Aussi, il est possible de relier les $\lambda_1$ et $\lambda_2$ du théorème de Emmanuel Candes et Terence Tao aux deux inégalités du théorème de Donoho. 
+Aussi, il est possible de relier les $\lambda_1$ et $\lambda_2$ du théorème de Candes-Tao aux deux inégalités du théorème de Candes-Romberg. 
 On remarquera juste que dans le cas où $F_\Phi$ est la matrice de Fourier, alors $M_\Phi= \frac{1}{\sqrt{N}}$, on utilise donc la seconde inégalité si $|T|$ est petit.
-De même pour une matrice dont les coefficients suivent une loi normale centrée de variance égale à 1, alors\footnote{Pour montrer cela il faut montrer que l'espérance de la valeur maximale de $n$ tirages de loi normale centrée réduite est majoré par $C\sqrt{\log(n)}$, la démonstration étant hors du sujet du mémoire n'est pas faite ici, on pourr consulter \cite{foucartbook} pour de nombreux résultats et démonstrations sur les matrices aléatoires dans le cadre du compressed sensing.} $M_\Phi \leq C\frac{1}{N}\sqrt{\log(N)}$, on est donc également dans le cas de la seconde inégalité du théorème, si $|T|$ est petit.
+De même pour une matrice dont les coefficients suivent une loi normale centrée de variance égale à 1, alors\footnote{Pour montrer cela il faut montrer que l'espérance de la valeur maximale de $n$ tirages de loi normale centrée réduite est majoré par $C\sqrt{\log(n)}$, on pourra consulter \cite{foucartbook} pour de nombreux résultats et démonstrations sur les matrices aléatoires dans le cadre du compressed sensing.} $M_\Phi \leq C\frac{1}{N}\sqrt{\log(N)}$, on est donc également dans le cas de la seconde inégalité du théorème, si $|T|$ est petit.
 Cependant, on peut revenir au cas de la première inégalité en supposant $C_0> C_1\log(\frac{N}{\delta})$. 
 \newline
 On a donc le corollaire suivant :
@@ -367,15 +366,15 @@ On a donc le corollaire suivant :
 	pour une certaine constante $C$.
 	Soit $f$ un signal $s$-parcimonieux, donc tel qu'il existe $x_0$ avec $s$-composantes vérifiant $f=F_{\Omega}x_0$ alors avec probabilité tendant vers 1 la solution $x$ de \ref{P1} est $x=x_0$.
 \end{theoreme}
-On peut aussi déduire du théorème de Donoho la version asymptotique des théorèmes \ref{th:DiracFourier}, \ref{th:recovgen} et \ref{th:eladbruc} en considérant que l'on fait toutes les mesures $(|\Omega| =N)$:
+On peut aussi déduire du théorème de Candes-Romberg la version asymptotique des théorèmes \ref{th:DiracFourier}, \ref{th:recovgen} et \ref{th:eladbruc} en considérant que l'on fait toutes les mesures $(|\Omega| =N)$:
 \begin{theoreme}\label{th:recovgen}
-		Soit $N$ un entier positif, $(\Phi, \Psi)$ une paire de bases orthonormales, $M$ la quantité définie 
+		Soit $N$ un entier positif, $(\Phi, \Psi)$ une paire de bases orthonormales, $M$ la quantité définie par 
 		\begin{equation}
 			M = \sup_{i,j} |\langle \varphi_i, \psi_j \rangle|
 		\end{equation}
-		et un signal $f\in \mathbb{R}^N$, alors avec probabilité tendant vers 1, n'importe quel $x = (x_\Phi, x_\Psi)$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et
+		et un signal $f\in \mathbb{R}^N$. Alors, avec une probabilité tendant vers 1, n'importe quel $x = (x_\Phi, x_\Psi)$ vérifiant $f = F_\Phi x_\Phi + F_\Psi x_\Psi$ et
 	\begin{equation}\label{eq:cond1}
-		||x_\Phi||_0 +  ||x_\Psi||_0 < C \frac{N}{M^2\log(N)}
+		||x_\Phi||_0 +  ||x_\Psi||_0 < \frac{C}{M^2\log(N)}
 	\end{equation}
 	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
 \end{theoreme}
