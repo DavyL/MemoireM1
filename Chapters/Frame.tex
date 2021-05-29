@@ -322,7 +322,7 @@ Mentionnons tout de même la construction d'ondelettes avec des moments nuls à 
 \begin{figure}
 	\centering
 	\includegraphics{Figs/haar}
-	\label{fig:haar}	
+	\caption{}\label{fig:haar}
 \end{figure}	
 
 Etudions donc ces ondelettes :
@@ -336,16 +336,16 @@ Etudions donc ces ondelettes :
 \end{definition}
 \begin{figure}
 	\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=4cm}}]{figure}[\FBwidth]
-	{\caption{L'ondelette $\psi(t) = 2sinc(2t) - sinc(t)$ dite de Shannon avec différentes dilatations dyadiques $\psi_j$. Lorsque $j$ augmente, la fonction est parcourue plus rapidement d'un facteur $2^j$.}}
+	{\caption{L'ondelette $\psi(t)=2sinc(2t)-sinc(t)$ dite de Shannon avec différentes dilatations dyadiques $\psi_j$. Lorsque $j$ augmente, la fonction est parcourue plus rapidement d'un facteur $2^j$.}\label{fig:shannon}}
 	{\includegraphics{Figs/shannon}}
-	\label{fig:shannon}
 	\floatbox[{\capbeside\thisfloatsetup{capbesideposition={right,bottom},capbesidewidth=4cm}}]{figure}[\FBwidth]
 		{\caption{Des versions translatées $\psi_{j,k}$ des ondelettes $\psi_j$ du graphe précédent. Lorsque $j$ augmente, la fonction est parcourue plus rapidement d'un facteur $2^j$.}}
 	{\includegraphics{Figs/shannonspat}}
 \end{figure}
 \begin{figure}
+	\centering
 	\includegraphics[width=17cm]{Figs/shannonfreq}
-	\caption{La transformée de Fourier $\hat{\psi}$ de l'ondelette de Shannon $\Psi$. L'ondelette d'échelle $\phi_0$ est un filtre passe-bande $[-\frac{\pi}{2}, \frac{\pi}{2}]$, les ondelettes $ \psi_j$ sont des filtres passe bande qui recouvrent le reste de l'intervalle avec des supports disjoints de taille $2^{-j}$. On peut ainsi vérifier toutes les propriétés de l'analyse multi-résolution pour l'ondelette de Shannon sur les fonctions à bande limitée (c'est à dire, dont le support de la transformée de Fourier est borné).
+	\caption{La transformée de Fourier $\hat{\psi}$ de l'ondelette de Shannon $\Psi$. L'ondelette d'échelle $\phi_0$ est un filtre passe-bande $[-\pi, \pi]$, les ondelettes $ \psi_j$ sont des filtres passe bande qui recouvrent le reste de l'intervalle avec des supports disjoints de taille $2^{j}$. Les espaces correspondant de l'analyse multi-échelle sont aussi indiqués.
 	}
 \end{figure}
 \begin{remarque}
@@ -662,3 +662,12 @@ On peut combiner le théorème de Jaffard avec une analyse multi-échelle d'onde
 	ce qui prouve la proposition.
 \end{proof}
 
+
+\begin{figure}[h]
+	\includegraphics[width=\columnwidth]{Figs/mallatcont}
+	\caption{Un signal et sa transformée en ondelettes continue. Les coefficients en blanc sont négatifs et ceux en noir sont positifs. On identifie clairement les zones de discontinuité et les zones régulières à partir de la représentation en ondelettes. \footnote{L'image provient du livre de Stéphane Mallat \cite{mallatbook} donc il faut prendre l'opposé des indices en ordonnée du graphe de la transformée en ondelettes afin qu'il soit consistant avec les résultats de ce mémoire.}\label{fig:deccont}} 
+\end{figure}
+\begin{figure}[h]
+	\includegraphics[height=15cm, width=10cm ]{Figs/mallatdisc}
+	\caption{Un signal et sa transformée en ondelettes continue et discrète. On voit qu'assez peu de coefficients sont non négligeables.\footnote{L'image est tirée du livre de Stéphane Mallat \cite{mallatbook}.}\label{fig:decdisc}} 
+\end{figure}

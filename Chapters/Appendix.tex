@@ -1,5 +1,5 @@
 \section{Algorithmes}
-Présentons ici quelques algorithmes qui peuvent être utilisés pour mettre en oeuvre les résultats de ce mémoire. On peut mentionner l'article \cite{ChenDonoho} pour une courte introduction à plusieurs technique en norme 2 et en norme 1, et on pourra consulter \ref{foucartbook} pour des algorithmes plus récents et avancés qui tirent notamment parti du compressed sensing
+Présentons ici quelques algorithmes qui peuvent être utilisés pour mettre en oeuvre les résultats de ce mémoire. On peut mentionner l'article \cite{ChenDonoho} pour une courte introduction à plusieurs technique en norme 2 et en norme 1, et on pourra consulter \cite{foucartbook} pour des algorithmes plus récents et avancés qui tirent notamment parti du compressed sensing
 \subsection{Frames}\label{recframe}
 Tout d'abord montrons que la reconstruction avec les coefficients de frame minimise la norme $\ell^2$.
 Considérons qu'un dictionnaire $\Phi=(\varphi_i)_{i\in I}$ est un frame, on note $F_\Phi$ l'opérateur d'analyse avec pour lignes les colonnes de $\Phi$ et $F_\Phi^*$ l'opérateur de synthèse vérifiant $F_\Phi^* \circ F_\Phi =Id$ sur $Vect(\Phi)$.
@@ -14,8 +14,8 @@ Alors on a la proposition suivante, d'après \cite{daubbook}
 	\end{equation}
 \end{proposition}
 \begin{proof}
-	On a donc $f=F_\Phi^* c$ pour un certain $c\in\ell^2(I)$.
-	On décompose maintenant $c$ entre sa partie $a$ dans l'espace vectoriel engendré par $F_\Phi$, et celle $b$ dans l'orthogonal de cet espace, on a donc $c=a+b$ et par le théorème de Pythagore $||c||^2 = ||a||^2 + ||b||^2$.
+	On a $f=F_\Phi^* c$ pour un certain $c\in\ell^2(I)$.
+	On décompose $c$ entre sa partie $a$ dans l'espace vectoriel engendré par $F_\Phi$, et celle $b$ dans l'orthogonal de cet espace, on a donc $c=a+b$ et par le théorème de Pythagore $||c||^2 = ||a||^2 + ||b||^2$.
 	Donc il existe aussi $x\in \mathcal{H}$ (où $\mathcal{H}$ est l'espace de Hilbert sur lequel on suppose que le frame est défini) tel que $a=F_\Phi x$, donc $c = F_\Phi x + b$.
 	Ainsi $f = F_\Phi ^* c = F_\Phi^* F_\Phi x + F_\Phi^* b$, le dernier terme valant 0 par construction on a $x=f$, donc $c = F_\Phi f + b$. On obtient donc:
 	\begin{equation}
@@ -25,9 +25,9 @@ Alors on a la proposition suivante, d'après \cite{daubbook}
 \end{proof}
 Voyons maintenant comment obtenir une formule de reconstruction lorsque le frame n'est pas serré. Dans le cas où le frame est serré on a vu que l'on a la formule de reconstruction
 \begin{equation}
-	f= \frac{1}{M}\sum_I \langle f, \varphi_i \rangle \varphi_i = \frac{1}{M}Id
+	f= \frac{1}{M}\sum_I \langle f, \varphi_i \rangle \varphi_i.
 \end{equation}
-cependant si le frame n'est pas serré on a $m\neq M$ et donc la formule de reconstruction n'est plus valide.
+Cependant si le frame n'est pas serré on a $m\neq M$ et donc la formule de reconstruction n'est plus valide.
 Il nous faudrait donc plutôt une formule de reconstruction du type:
 \begin{equation}
 	f= \sum_I \langle f, \tilde{\varphi_i} \rangle \varphi_i
@@ -37,11 +37,14 @@ On peut montrer que ces vecteurs correspondent au frame dual de $F$ et qu'ils so
 \begin{equation}
 	\tilde{\varphi}_i = (F_\Phi^*F_\Phi)^{-1} \varphi_i.
 \end{equation}
-Maintenant on considère que les constantes $m,M$ sont proches l'unes de l'autre, c'est à dire $r=M/m - 1 <<1$, alors la formule de reconstruction obtenue avec $\frac{1}{M} Id$ dans le cas d'un frame serré devrait, dans l'autre cas être que $F_\Phi^* F_\Phi$ est proche de $\frac{m+M}{2}Id$.
-Ainsi $(F_\Phi^*F_\Phi)^{-1}$ devrait être proche de $\frac{2}{m+M}Id$ et de même on devrait avoir que $\tilde{\varphi}_i$ doit être proche de $\frac{2}{m+M}Id$.
-On peut préciser cela avec
+Tout d'abord si on suppose que les constantes $m,M$ sont proches l'unes de l'autre, c'est à dire $r=M/m - 1 <<1$.
+Alors la formule de reconstruction que l'on cherche devrait être assez similaire à celle que l'on obtient dans le cas d'un frame serré.
+C'est à dire que $F_\Phi^* F_\Phi$ devrait être proche de $\frac{m+M}{2}Id$.
+Ainsi $(F_\Phi^*F_\Phi)^{-1}$ devrait être proche de $\frac{2}{m+M}Id$, de même, on devrait avoir $\tilde{\varphi}_i$ proche de $\frac{2}{m+M}Id$.
+On va utiliser ce raisonnement dans le cas où $m$ et $M$ sont arbitraires, donc sans restrictions sur $r$. 
+On peut ainsi poser
 \begin{equation}
-	f = \frac{2}{m+M}Id \sum_I \langle f, \varphi_i \rangle \varphi_i + Rf 
+	f = \frac{2}{m+M}\sum_I \langle f, \varphi_i \rangle \varphi_i + Rf 
 \end{equation}
 avec $R = Id - \frac{2}{m+M}F^*F$ et il suffit de remplacer $R$ dans la précédente équation pour vérifier qu'elle est correcte.
 Or, en notant $||\cdot||$ la norme d'opérateur, on a par contruction $m \leq ||F_\Phi^*F_\Phi|| \leq  M$ et donc:
@@ -58,7 +61,8 @@ Avec la définition que l'on a de $R$ on a
 \begin{equation}
 	F_\Phi^*F_\Phi = \frac{m+M}{2} (Id - R)
 \end{equation}
-et on a aussi montré $||R||< 1$, on cherche $(F_\Phi^*F_\Phi)^{-1}$ pour connaitre les $\tilde{\varphi_i}$, donc il suffit d'inverser le terme de droite.
+et on a aussi montré $||R||< 1$.
+On cherche $(F_\Phi^*F_\Phi)^{-1}$ pour connaitre les $\tilde{\varphi_i}$, donc il suffit d'inverser le terme de droite.
 Pour cela il suffit de développer la série de $(Id-R)^{-1}$ qui converge en norme.
 On a donc:
 \begin{equation}
@@ -72,19 +76,20 @@ En utilisant le fait que l'on peut réécrire l'égalité précédente sous la f
 \begin{equation}	
 	\tilde{\varphi}_i^n = Id - \frac{2}{m+M} \sum_{k=n+1}^\infty R^k \varphi_i = (Id -R^{n+1})\tilde{\varphi}_i. 
 \end{equation}
-on peut montrer que l'erreur d'une approximation de $f$ avec $N$ itérations est inférieure ou égale à $(\frac{r}{2+r})^{n+1}||f||$, on a ainsi une décroissance exponentielle en $N$.
-
+On peut montrer que l'erreur d'une approximation de $f$ avec $n$ itérations est inférieure ou égale à $(\frac{r}{2+r})^{n+1}||f||$ et qu'on a ainsi une décroissance exponentielle en $n$.
+De plus, on voit que l'approximation converge particulièrement vite si $r<<1$.
 \subsection{Matching Pursuit}\label{MP}
 Présentons maintenant l'algorithme Matching Pursuit introduit par Stéphane Mallat \cite{mpmallat}.
 Cet algorithme de la plus grande simplicité permet de faire une minimisation en norme 1 et peut notamment être utilisé pour la résolution de \ref{P1}. 
 \newline
 On dispose d'un dictionnaire $\Phi =(\varphi_1, \cdots, \varphi_N)$ et on cherche à minimiser la reconstruction en norme 1 d'un signal $f$. 
-L'idée est très simple, à l'étape $k$ on utilise deux vecteurs, le premier, $f^{(k)}$ représente l'approximation de $f$, le second, $r^{(k)}$ représente le résidu de l'approximation.
+L'idée est très simple : à l'étape $k$ on utilise deux vecteurs, le premier, $f^{(k)}$ représente l'approximation de $f$, le second, $r^{(k)}$ représente le résidu de l'approximation.
 \newline
 Initialement, $f^{(0)} = 0$ et $r^{(0)} = f$.
 \newline
 Pour passer de l'étape $k$ à l'étape $k+1$, on ajoute à $f^{(k)}$ le vecteur de $\Phi$ qui est maximalement corrélé avec $r^{(k)}$ (multiplié par le coefficient de corrélation), et on définit $s^{(k+1)} = f - f^{(k+1)}$.
 \newline
+On peut fixer différentes conditions d'arrêt en fonction du problème à résoudre, soit on attend que le résidu devienne nul, soit on attend qu'il devienne plus petit qu'un seuil fixé (par exemple dans le cas où un bruit est présent).
 De nombreuses extensions de cet algorithme sont possible telles que l'Orthogonal Matching Pursuit ou le Robust Orthogonal Matching Pursuit. Un autre algorithme similaire est l'algorithme Basis Pursuit de Scott Chen, David Donoho et Michael Saunders \cite{basispursuit} qui exploite notamment les résultats des chapitres 3 et 4.
 
 \section{Lemmes du théorème de Candes-Tao}

@@ -28,7 +28,7 @@ C'est ainsi qu'ont été publiés par Emmanuel Candes, Justin Romberg et Terence
 On suivra dans un premier temps l'article de Emmanuel Candes et Terence Tao pour prouver un théorème de compressed sensing, ensuite, on verra sans preuve des théorèmes de Emmanuel Candes et Justin Romberg dont l'énoncé sera plus simple à comprendre et qui mettra en valeur l'incohérence, quantité clé du chapitre précédent.
 Dans ce chapitre, on verra \textbf{UUP} et \textbf{ERP} comme des axiomes, on ne démontrera pas que de telles familles existent, de la même façon que dans le chapitre 2 nous n'avons pas démontré que les ondelettes de Daubechies existent.
 On verra cependant des exemples de familles qui vérifient ces conditions et des preuves de ces résultats, avec des bornes plus ou moins optimales peuvent être trouvées dns les articles précedemment cités ou bien dans \cite{foucartbook}. 
-\section{Axiomatisation, \textbf{UUP} et \textbf{RIP}}
+\section{Axiomatisation, \textbf{UUP} et \textbf{ERP}}
 \subsection{Notations}
 Tout d'abord réintroduisons certaines choses déjà vues dans ce mémoire et les notations qui seront utilisées.
 Dans ce chapitre on considère $\mathcal{F} \subset \mathbb{R}^N$ un classe de signaux.
@@ -378,7 +378,10 @@ On peut aussi déduire du théorème de Candes-Romberg la version asymptotique d
 	\end{equation}
 	est l'unique solution de \ref{P1}, et c'est la solution de \ref{P0}.
 \end{theoreme}
-
-
+\begin{figure}
+	\includegraphics[width=\columnwidth]{Figs/mallatphantom}
+	\caption{(a) Image originale (b) Restriction de la transformée de Fourier de l'image aux fréquences mesurées (c) Reconstruction avec une transformée de Fourier inverse (d) Reconstruction en minimisant en norme $\ell^1$ les coefficients d'ondelette de Haar (e) Reconstruction en minimisant la variation totale. On voit que la reconstruction par la résolution d'un problème de type \ref{P1} est presque exacte.\footnote{Image issue de \cite{mallatbook}.}} 
+\end{figure}
+	
 
 

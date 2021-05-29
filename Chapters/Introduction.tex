@@ -16,8 +16,6 @@ que l'on appelle \emph{opérateur d'analyse}.
 Des opérateurs d'analyse que l'on rencontrera seront par exemples la transformée de Fourier, qui a une application associe ses coefficients de Fourier, ou bien la transformée en ondelette, qui a une application associe ses coefficients d'ondelette.
 Un autre exemple d'opérateur que l'on étudiera est celui qui à un élément de $\mathbb{R}^N$ lui associe ses coefficients dans deux bases, donc un élément de $\mathbb{R}^{2N}$.
 Pour donner un dernier exemple d'opérateur que l'on considérera consistera à associer à un élément de $\mathbb{R}^N$ les valeurs de ses projection sur $M$ vecteurs aléatoires de $\mathbb{R}^N$, donc un élément de $\mathbb{R}^M$.
-\newline 
-TODO : ajouter des figures avec un signal et sa transformée de Fourier.
 
 \begin{figure}[h]%%Wikicommons
 \centering
@@ -111,17 +109,11 @@ Cependant ce problème est de nature combinatoire et très difficile à résoudr
 On verra dans la suite du chapitre 3 que sous certaines conditions plutôt que de résoudre directement le problème \ref{P0}, on pourra passer par un problème beaucoup plus simple \ref{P1} et trouver la décomposition atomique.
 Les conditions à vérifier étant que le dictionnaire vérifie un principe d'incertitude et qu'une décomposition suffisamment parcimonieuse existe.
 \newline 
-La dernière approche et la plus récente est celle du compressed sensing \cite{DonohoCS}, \cite{CandesTaoUniv}, \cite{CandesSparsityIncoherence}. 
+La dernière approche et la plus récente est celle du compressed sensing qui est apparue avec les articles d'Emmanuel Candes, Justin Romberg, Terence Tao \cite{CT}, \cite{CR}, \cite{CRT} et indépendamment par David Donoho \cite{DonohoCS}. 
 Dans ce cadre, on souhaite reconstruire un signal $x_0 \in \mathbb{R}^N$ avec $k << N$ composantes non nulles, dans une certaine base, on se demande alors si il est possible de reconstruire ce signal en faisant $m<N$, ou même $m\sim k$, mesures de $x_0$.
 On verra qu'il est possible de répondre à cette question par l'affirmative.
 Une partie des arguments provient de l'approche précédente, la mesure devra vérifier un principe d'incertitude avec la base dans laquelle le signal est parcimonieux, une fois que l'on a un tel opérateur d'analyse, en résolvant le problème de décomposition atomique on devrait pouvoir retrouver $x_0$.
 Cependant, on ne connait pas à l'avance dans quelle base le signal est parcimonieux, l'approche prend alors un tournant probabiliste et on va chercher à faire une mesure qui va presque sûrement vérifier un principe d'incertitude avec la base inconnue.
-\newline
-Donnons un exemple du type de résultat auquel on peut arriver à partir du compressed sensing, supposons que l'on souhaite reconstruire une image $x_0$ en niveux de gris de taille $1000\times1000$, donc un vecteur dans $\mathbb{R}^d$ avec $d=10^6$. 
-Supposons que ce vecteur a $20 000$ coefficients d'ondelette non nuls, alors avec $10^5$ mesures, en cherchant une décomposition atomique qui coincide avec ces mesures, on devrait pouvoir reconstruire exactement $x_0$.
-Le mécanisme (d'après \cite{DonohoForMost}) qui fait que l'on peut reconstruire ce signal est similaire au fait que si l'on tire $10 000$ points au hasard dans $\mathbb{R}^{10^6}$ (l'espace de l'image) et que l'on forme un cône partant de l'origine avec ces points, alors faire coincider le signal avec les $10^5$ mesures revient à choisir comment passer d'un plan à $10^5$ dimensions à ce cône.
-Le compressed sensing est alors rendu possible par le fait que la plupart des plans à $900 000$ dimensions ne coupent pas le cône, donc le signal reconstruit avec $10^5$ mesures devrait effectivement être le signal original.
-
 \section{Exemples d'applications}
 Maintenant que l'on a vu l'approche que nous allons utiliser pour la reconstruction de signaux, voyons quelques exemples de problèmes de traitement du signal sur lesquels les techniques développées dans ce mémoire donnent des méthodes de résolution.
 Afin de formaliser ces problèmes nous aurons besoin de $||\cdot||_1$ et $||\cdot||_2$ les normes sur $\ell^1$ et $\ell^2$, ainsi que la "norme" 0 $||\cdot||_0$ définie pour $x:=(c_I)_{i\in I}$ par  $||x||_0 = |\{i: c_i \neq 0\}|$. 

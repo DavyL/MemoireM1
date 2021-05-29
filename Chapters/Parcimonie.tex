@@ -4,11 +4,11 @@ Nous avons vu différentes bases (Fourier et ondelettes) et nous avons vu que ce
 \newline
 On a par exemple vu que l'on pouvait reconstruire les fonctions Lipschitziennes avec une bonne précision en utilisant une base d'ondelettes orthonormale avec un certain nombre de moments nuls.
 De plus, on a remarqué que si la fonction se comporte comme un polynôme d'un degré inférieur au nombre de moments nuls au voisinage d'un point, alors les coefficients d'ondelettes dans ce voisinage seront nuls.
-De même, les seuls coefficients d'ondelette qui seront grands seront ceux au voisinage d'un point où aucune approximation par un polynôme de petit degré n'est efficace\footnote{Une analyse du théorème de Jaffard \ref{th:Jaffard} montre que les coefficients affectés par une discontinuité forment un cône dans les coefficients d'ondelette autour du point de discontinuité. Ce cône se visualise dans la représentation temps-fréquence des coefficients d'ondelette, il part du point de discontinuité et s'élargit en diminuant le coefficient d'échelle $j$. La largeur de ce cône dépend de la régularité $\alpha$ de la fonction.}.
+De même, les seuls coefficients d'ondelette qui seront grands seront ceux au voisinage d'un point où aucune approximation par un polynôme de petit degré n'est efficace\footnote{Une analyse du théorème de Jaffard \ref{th:Jaffard} montre que les coefficients affectés par une discontinuité forment un cône dans les coefficients d'ondelette autour du point de discontinuité. Ce cône se visualise dans la représentation temps-fréquence des coefficients d'ondelette, il part du point de discontinuité et s'élargit en diminuant le coefficient d'échelle $j$. La largeur de ce cône dépend de la régularité $\alpha$ de la fonction. On peut visualiser cela avec les figures \ref{fig:deccont} et \ref{fig:decdisc}.}.
 Ainsi, la représentation avec ces ondelettes d'une fonction ne possédant que quelques points où elle est irrégulière sera approximée avec peu de coefficients.
 L'intérêt de cela est que de façon naive, afin de déterminer une fonction, il faut connaitre sa valeur en chaque point (sa valuation), ainsi, si l'on souhaite faire un traitement par ordinateur de cette fonction, il faut stocker chacun des points de la fonction.
 Avec ce que l'on a fait, on sait qu'en fait on peut reconstruire la fonction avec un plus petit nombre de coefficients que la fonction n'a de points.
-En ce sens, la représentation en ondelettes d'une fonction Lipschitzienne est parcimonieuse (peu de coefficients non nuls), alors que la représentation par la valuation d'une fonction Hölderienne n'est pas parcimonieuse.
+En ce sens, la représentation en ondelettes d'une fonction Lipschitzienne est parcimonieuse (peu de coefficients non nuls), alors que la représentation par la valuation d'une fonction Lipschitzienne n'est pas parcimonieuse.
 \newline
 Nous allons maintenant nous intéresser à l'autre direction de ce problème, c'est à dire que nous allons supposer que l'on dispose d'une famille de vecteurs et que la fonction que l'on cherche à reconstruire est une somme parcimonieuse de vecteurs de cette famille.
 Cependant on connait seulement la valuation de cette fonction et pas les vecteurs sous-jacents qui permettent de représenter la fonction de façon parcimonieuse.
@@ -23,13 +23,13 @@ On verra que ce que l'on cherche à résoudre est une équation du type $y=Fx$, 
 
 On peut donc représenter cela avec la figure \ref{fig:compball}, la boule unité pour la norme $||\cdot||_0$ correspondant aux axes (privés de l'origine), il est clair que la plupart des équation du type $y=Fx$ auront leur solution en norme 1 qui coincide avec celle en norme 0.
 Par contre, un tel phénomène n'est pas vérifié pour la norme euclidienne.
-	\begin{figure}[h]\label{fig:compball}
+	\begin{figure}[h]
 		\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=4cm}}]{figure}[\FBwidth]
-		{\caption{Minimisation de $y=Fx$ pour la norme $\ell^1$. La solution de \ref{P1} est généralement celle de \ref{P0} sauf si les solutions sont parallèles à l'une des faces de la boule de $\ell^1$.}}
+		{\caption{Minimisation de $y=Fx$ pour la norme $\ell^1$. La solution de \ref{P1} est généralement celle de \ref{P0} sauf si les solutions sont parallèles à l'une des faces de la boule de $\ell^1$.}\label{fig:compball}}
 		{\includegraphics{Figs/l1vs1}}
 
 		\floatbox[{\capbeside\thisfloatsetup{capbesideposition={right,bottom},capbesidewidth=4cm}}]{figure}[\FBwidth]
-		{\caption{Minimisation de $y=Fx$ pour la norme $\ell^2$. La solution de \ref{P2} n'est généralement pas celle de \ref{P0} sauf si les solutions sont parallèles à l'un des axes.}}
+		{\caption{Minimisation de $y=Fx$ pour la norme $\ell^2$. La solution minimale en norme $\ell^2$ n'est généralement pas celle de \ref{P0} sauf si les solutions sont parallèles à l'un des axes.}}
 		{\includegraphics{Figs/l1vs2}}
 	
 	\end{figure}
@@ -166,7 +166,7 @@ Précisons donc ce que nous avons affirmé, dans le même cadre que précedemmen
 \begin{remarque}
 	Le théorème précédent a été obtenu en cherchant une preuve alternative à la preuve qui est faite par David Donoho et Xiaoming Huo \cite{DonohoHuo}, leur preuve utilise le même schéma que celle qui est faite ici.
 	Leur théorème est le suivant :
-\begin{theoreme}
+\begin{theoreme}\label{th:donohohuo}
 	Soit $N$ un entier positif, $\Phi = (T, W)$ est la concaténation des bases de Dirac et de Fourier et un signal $f\in \mathbb{R}^N$, alors n'importe quel $x = (x_T, x_W)$ vérifiant $f = F_T x_T + F_W x_W$ et
 	\begin{equation}
 		||x_T||_0 +  ||x_W||_0 < \frac{\sqrt{N}}{2}
@@ -376,11 +376,14 @@ La différence essentielle entre la preuve présentée ici et celle de \cite{ela
 C'est d'ailleurs la même différence entre la preuve présentée ici de \ref{th:DiracFourier} et celle de David Donoho et Xiaoming Huo \cite{DonohoHuo}.
 \newline
 On a ainsi que le théorème de Michael Elad et Alfred Bruckstein et le théorème \ref{th:recovgen} présenté ici sont les deux vrais sur un domaine qui couvre celui sur lequel celui de David Donoho et Xiaoming Huo est vrai, ce sont donc bien des généralisations.
-On peut résumer la situation avec le graphe suivant :(TODO: ajouter graphe).
+On peut résumer la situation avec le graphe \ref{fig:result}.
 \newline
 Une autre généralisation des résultats de Michael Elad et Alfred Bruckstein a été faite par Arie Feuer et Arkadi Nemirovski \cite{feuer} dans laquelle ils démontrent que la borne de Michael Elad et Alfred Bruckstein est atteinte, et donc optimale.
 Montrer que  la borne est atteinte revient à montrer qu'il y a au moins un signal qui atteint l'égalité du théorème \ref{th:eladbruc}, la construction d'un tel signal est rélativement élaborée. 
-On notera seulement que dans cette construction le nombre de coordonnées dans l'une des composantes vaut $\sqrt{2}\frac{\sqrt{N}}{2}$, ce n'est donc, heureusement, pas un contre exemple aux théorèmes \ref{th:DiracFourier} et \ref{th:recovgen} prouvés ici\footnote{En effet ces théorèmes ont pour hypothèses que dans chacune des bases il y ait moins de $\frac{\sqrt{N}}{2}$.}.
+On notera seulement que dans cette construction le nombre de coordonnées dans l'une des composantes vaut $\sqrt{2}\frac{\sqrt{N}}{2}$, ce n'est donc, heureusement, pas un contre exemple aux théorèmes \ref{th:DiracFourier} et \ref{th:recovgen} prouvés ici\footnote{En effet ces théorèmes ont pour hypothèses que dans chacune des bases la solution ait moins de $\frac{\sqrt{N}}{2}$ coefficients.}.
 
-
+\begin{figure}
+	\includegraphics{Figs/result}
+	\caption{Comparaison des conditions pour l'équivalence de la résolution \ref{P0}-\ref{P1} avec, en gris le théorème de Donoho-Huo \ref{th:donohohuo}, hachuré en rouge le théorème de Elad-Bruckstein \ref{th:eladbruc} et hachuré en bleu le théorème de ce mémoire \ref{th:recovgen}.\label{fig:result}}
+\end{figure}
 

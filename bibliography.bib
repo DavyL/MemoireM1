@@ -143,6 +143,7 @@ publisher = {Birkh\"{a}user Basel},
 abstract = {At the intersection of mathematics, engineering, and computer science sits the thriving field of compressive sensing. Based on the premise that data acquisition and compression can be performed simultaneously, compressive sensing finds applications in imaging, signal processing, and many other domains. In the areas of applied mathematics, electrical engineering, and theoretical computer science, an explosion of research activity has already followed the theoretical results that highlighted the efficiency of the basic principles. The elegant ideas behind these principles are also of independent interest to pure mathematicians.A Mathematical Introduction to Compressive Sensing gives a detailed account of the core theory upon which the field is build. With only moderate prerequisites, it is an excellent textbook for graduate courses in mathematics, engineering, and computer science. It also serves as a reliable resource for practitioners and researchers in these disciplines who want to acquire a careful understanding of the subject. A Mathematical Introduction to Compressive Sensing uses a mathematical perspective to present the core of the theory underlying compressive sensing.}
 }
 @article{CR,
+	IDS={CandesSparsityIncoherence},
    title={Sparsity and incoherence in compressive sampling},
    volume={23},
    ISSN={1361-6420},
@@ -158,7 +159,7 @@ abstract = {At the intersection of mathematics, engineering, and computer scienc
 }
 
 @ARTICLE{CT,
-
+	IDS={CandesTaoUniv},
   author={Candes, Emmanuel J. and Tao, Terence},
 
   journal={IEEE Transactions on Information Theory}, 
@@ -497,41 +498,6 @@ eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/cpa.20132},
 abstract = {Abstract We consider linear equations y = Φx where y is a given vector in ℝn and Φ is a given n × m matrix with n < m ≤ τn, and we wish to solve for x ∈ ℝm. We suppose that the columns of Φ are normalized to the unit 𝓁2-norm, and we place uniform measure on such Φ. We prove the existence of ρ = ρ(τ) > 0 so that for large n and for all Φ's except a negligible fraction, the following property holds: For every y having a representation y = Φx0 by a coefficient vector x0 ∈ ℝm with fewer than ρ · n nonzeros, the solution x1 of the 𝓁1-minimization problem \$\${\rm min} \|x\|\_{1} \;\;{subject \; to}\;\; \Phi x = y\$\$ is unique and equal to x0. In contrast, heuristic attempts to sparsely solve such systems—greedy algorithms and thresholding—perform poorly in this challenging setting. The techniques include the use of random proportional embeddings and almost-spherical sections in Banach space theory, and deviation bounds for the eigenvalues of random Wishart matrices. © 2006 Wiley Periodicals, Inc.},
 year = {2006}
 }
-
-
-@article{CandesSparsityIncoherence,
-	doi = {10.1088/0266-5611/23/3/008},
-	url = {https://doi.org/10.1088/0266-5611/23/3/008},
-	year = 2007,
-	month = {apr},
-	publisher = {{IOP} Publishing},
-	volume = {23},
-	number = {3},
-	pages = {969--985},
-	author = {Emmanuel Cand{\`{e}}s and Justin Romberg},
-	title = {Sparsity and incoherence in compressive sampling},
-	journal = {Inverse Problems},
-
-	abstract = {We consider the problem of reconstructing a sparse signal from a limited number of linear measurements. Given m randomly selected samples of Ux0, where U is an orthonormal matrix, we show that ℓ1 minimization recovers x0 exactly when the number of measurements exceeds where S is the number of nonzero components in x0 and μ is the largest entry in U properly normalized: . The smaller μ is, the fewer samples needed. The result holds for ‘most’ sparse signals x0 supported on a fixed (but arbitrary) set T. Given T, if the sign of x0 for each nonzero entry on T and the observed values of Ux0 are drawn at random, the signal is recovered with overwhelming probability. Moreover, there is a sense in which this is nearly optimal since any method succeeding with the same probability would require just about as many samples.}
-
-}
-@ARTICLE{CandesTaoUniv,
-
-  author={Candes, Emmanuel J. and Tao, Terence},
-
-  journal={IEEE Transactions on Information Theory}, 
-
-  title={Near-Optimal Signal Recovery From Random Projections: Universal Encoding Strategies?}, 
-
-  year={2006},
-
-  volume={52},
-
-  number={12},
-
-  pages={5406-5425},
-
-  doi={10.1109/TIT.2006.885507}}
 
 @ARTICLE{DonohoCS,
 

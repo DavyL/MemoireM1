@@ -1,5 +1,6 @@
-\documentclass[12pt]{report}
+\documentclass[french, 12pt]{report}
 \usepackage[utf8]{inputenc}
+\usepackage{babel}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{geometry}
 \usepackage{caption}
@@ -12,7 +13,7 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{floatrow}
-
+\usepackage{appendix}
 \usepackage[backend = bibtex, style=numeric]{biblatex}
 \DeclareNameAlias{default}{last-first}
 \addbibresource{bibliography.bib}
@@ -45,16 +46,16 @@
 \usepgfplotslibrary{external}
 \theoremstyle{plain}
 \newtheorem{theoreme}{Theorème}[subsection]
-\newtheorem{proposition}[subsection]{Proposition}
-\newtheorem{lemme}[subsection]{Lemme}
+\newtheorem{proposition}[theoreme]{Proposition}
+\newtheorem{lemme}[theoreme]{Lemme}
 
 \theoremstyle{remark}
-\newtheorem{remarque}[subsection]{Remarque}
-\newtheorem{exemple}[subsection]{Exemple}
-\newtheorem{preuve}[subsection]{Preuve}
+\newtheorem{remarque}[theoreme]{Remarque}
+\newtheorem{exemple}[theoreme]{Exemple}
+\newtheorem{preuve}[theoreme]{Preuve}
 
 \theoremstyle{definition}
-\newtheorem{definition}[subsection]{Définition}
+\newtheorem{definition}[theoreme]{Définition}
 
 
 
@@ -75,25 +76,35 @@
 		\textbf{Reconstruction parcimonieuse des signaux\\}
 		\vspace*{0.5cm}
 	        \LARGE
-		Introduction à la reconstruction des signaux et au compressed sensing\\ 
+		Frames, décomposition atomique et introduction au compressed sensing\\ 
 		\vspace{1.5cm}
-		\textbf{Leo Davy}
-		\vfill				      
+		\textbf{Leo Davy}\\
+		\vspace{1.5cm}			      
 	        supervisé par\par
 		\textbf{Jean-François \textsc{Crouzet}}
-							    
-		\vspace{0.8cm}
+
+		\vfill
+		\noindent
 		%\begin{wrapfigure}{r}{0.1\textwidth}
 		%	\centering
 		%	\includegraphics[width=0.4\textwidth]{logo_uob}
 		%\end{wrapfigure}
-		
-		\Large					  
-		Institut de Mathématiques Alexander Grothendieck\\
-		Université de Montpellier\\
-	        Faculté des sciences\\
-	        Février-Mai
-				      
+		\begin{minipage}[b]{0.2\textwidth}
+			\hspace*{-1.5cm}
+			\includegraphics[width=\linewidth]{Figs/logo_fds}	
+		\end{minipage}%
+		\begin{minipage}[b][2cm]{0.6\textwidth}
+			\centering	
+			\Large					  
+			Institut Montpeliiérain Alexander Grothendieck\vfill 
+			Université de Montpellier\vfill 
+			Faculté des sciences\vfill 
+			Février-Mai
+		\end{minipage}%
+		\begin{minipage}[b]{0.2\textwidth}
+			\hspace*{0.5cm}
+			\includegraphics[width=1.5\linewidth]{Figs/logo_imag}
+		\end{minipage}	
 	\end{center}
 \end{titlepage}
 
@@ -121,7 +132,6 @@
 %\input{Chapters/ConfigurationModel.tex}
 
 \appendix
-
 \chapter{Annexe}
 \input{Chapters/Appendix.tex}
 
