@@ -1,6 +1,8 @@
-\documentclass{beamer}
+\documentclass[french]{beamer}
 \usepackage{amsmath, amssymb, amsthm, bbm}
-
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
 \usepackage{tikz}
 \usepackage{tkz-berge}
 \usetikzlibrary{positioning}
@@ -65,8 +67,8 @@
 				\end{itemize}
 			\end{column}
 			\begin{column}{.6\textwidth}
-				\includegraphics[width=.7\textwidth]{Figs/castle_wavelet}
-				TODO: ajouter image fourier-dirac+fourier sous-échantilloné
+				\vspace*{-3.0cm}\includegraphics[width=.6\textwidth]{Figs/castle_wavelet}
+				\vspace*{-5.0cm}\hspace*{1.0cm}\includegraphics[height=.6\textheight]{Figs/mp_gabor}
 			\end{column}
 		\end{columns}
 	\end{frame}
@@ -135,18 +137,22 @@
 		\begin{columns}[T]
 			\begin{column}{.3\textwidth}
 				\includegraphics[width=\textwidth]{Figs/shannonspat}
+				\uncover<2->{
 				\begin{align*}
 					f =&\sum_{k=-\infty}^{+\infty} \langle f, \varphi_k \rangle\varphi_k \\
 					&+ \sum_{j=1}^{+\infty} \left(\sum_{k=-\infty}^{+\infty} \langle f, \psi_{j,k} \rangle \psi_{j,k}\right)
 				\end{align*}
+				}
 			\end{column}
 			\begin{column}{.6\textwidth}
 				\begin{equation*}
 					\psi_{j,k} := 2^{j/2}\psi(2^j\cdot -k).
 				\end{equation*}
 				$j$ : échelle (fréquence), $k$ : localisation
+				\uncover<2->{
 				\includegraphics[height=.20\textheight]{Figs/mallatdisctop}
 				\includegraphics[height=.46\textheight]{Figs/mallatdiscbot}
+				}
 			\end{column}
 		\end{columns}
 	\end{frame}
@@ -176,7 +182,7 @@
 		\begin{enumerate}
 			\item Reconstruction : Quels $(c_i)_J$ pour que $f=\sum_{J} c_i \varphi_i$ ?
 			\uncover<2->{
-				\item Reconstruction parcimonieuse : Quels $(c_i)_I$ minimise le nombre de coefficients non nuls et reconstruit $f$?
+				\item Reconstruction parcimonieuse : Quel $(c_i)_J$ minimise le nombre de coefficients non nuls et reconstruit $f$?
 				}
 		\end{enumerate}
 		\uncover<3->{
@@ -184,7 +190,7 @@
 			\begin{equation*}
 				\min ||x||_0 : f = F_D x
 			\end{equation*}
-			avec $x=(c_i)_J$ et $F_D$ matrice dont les colonnes sont les $\varphi_i$.
+			avec $x=(c_i)_J$ et $F_D$ matrice dont les colonnes sont les $\varphi_i$.\newline
 			}
 		\uncover<4->{
 			Est-ce bien posé ? Est-ce calculable ?
@@ -197,9 +203,9 @@
 		\end{example}
 		\begin{theorem}[Donoho-Stark 89]
 			Soit $f\in\mathbb{R}^N$ un signal non nul, alors
-			\begin{equation}
+			\begin{equation*}
 				||F_T f||_0 + ||F_W f||_0 \geq 2\sqrt{N}
-			\end{equation}
+			\end{equation*}
 		\end{theorem}
 		\begin{theorem}[Donoho-Stark 89]
 			Soit $f\in\mathbb{R}^N$ et $x=(x_T, x_W)$ tel que $f = F_T x_T + F_W x_W$ et $||x||_0<\sqrt{N}$.
@@ -209,7 +215,7 @@
 
 	\begin{frame}
 		Principe d'incertitude $\rightarrow$ Unicité de la décomposition atomique\newline
-		Cas particulier du dictionnaire Fourier-Dirac ?
+		Cas particulier du dictionnaire Fourier-Dirac ?\newline
 		\uncover<2->{
 			Non, la matrice clef dans la preuve est  :
 			\begin{equation*}
@@ -254,7 +260,7 @@
 				Avantages :
 				\begin{enumerate}
 					\item Sous des hypothèses de parcimonie, la solution de P1 coincide avec celle de P0.
-					\item Beaucoup d'algorithmes efficaces de résolution (Programmation linéaire) 		
+					\uncover<2->{		\item Beaucoup d'algorithmes efficaces de résolution (Programmation linéaire)} 		
 				\end{enumerate}	
 			\end{column}
 			\begin{column}{.4\textwidth}
@@ -291,9 +297,9 @@
 		\uncover<2->{
 			\newline 
 			$\mathcal{N} = \{\delta : F_D \delta = 0\}$. On pose 
-			\begin{equation}
+			\begin{equation*}
 				\mu(\Gamma_\Phi, \Gamma_\Psi) = \sup_{\delta \in \mathcal{N}} \frac{ \sum_{i\in \Gamma_\Phi} |\delta_{\Phi, i}| + \sum_{i\in\Gamma_\Psi}|\delta_{\Psi, i}|}{||\delta_\Phi||_1 + ||\delta_\Psi||_1}
-			\end{equation}
+			\end{equation*}
 			}
 		\uncover<3->{
 			\begin{lemma}[Donoho-Huo 98]
@@ -306,20 +312,20 @@
 		On sait :
 		\begin{itemize}
 			\item Trouver la décomposition atomique d'un signal parcimonieux 
-			\uncover<5->{\item Représenter un signal régulier avec peu de coefficients (ondelettes)}
+			\uncover<4->{\item Représenter un signal régulier avec peu de coefficients (ondelettes)}
 		\end{itemize}
-		\uncover<3->{
+		\uncover<2->{
 			Difficultés :
 			\begin{itemize}
 				\item Hypothèses de parcimonie fortes
-				\uncover<6->{\item Il faut faire toutes les mesures puis enlever la plupart des coefficients} 
+				\uncover<5->{\item Il faut faire toutes les mesures puis enlever la plupart des coefficients} 
 			\end{itemize}
 			}
-		\uncover<4->{
+		\uncover<3->{
 			Solutions :
 			\begin{itemize}
 				\item \underline{Candes-Romberg 06:} Pour l'équivalence P0-P1, avec probabilité tendant vers 1, il suffit d'avoir $||x||_0 < \frac{C}{M^2\log(N)}$.
-				\uncover<7->{\item \underline{Candes-Romberg 06:} Pour reconstruire un signal avec $S$ coefficients non nuls, avec probabilité tendant vers 1, il suffit de faire $S\log(N)$ mesures et résoudre P1.}  
+				\uncover<6->{\item \underline{Candes-Romberg 06:} Pour reconstruire un signal avec $S$ coefficients non nuls, avec probabilité tendant vers 1, il suffit de faire $S\log(N)$ mesures et résoudre P1.}  
 			\end{itemize}
 		}
 	\end{frame}
@@ -334,7 +340,7 @@
 					On mesure $y_\Omega = F_{\Phi, \Omega} s$, on veut retrouver $s$.\newline 
 				\end{column}
 				\begin{column}{.5\textwidth}
-					\includegraphics[width=.9\textwidth]{Figs/mesure_gauss}
+					\includegraphics[width=.9\textwidth]{Figs/phantomfourier}
 				\end{column}
 			\end{columns}
 		}
@@ -344,11 +350,17 @@
 	\end{frame}
 
 	\begin{frame}
-		P1 (Compressed Sensing):
-		\begin{equation*}
-			\min_{x\in\mathbb{R}^N} ||x||_1 : F_{\Phi,\Omega} x = F_{\Phi,\Omega}s
-		\end{equation*}
-
+		\begin{columns}[T]
+			\begin{column}{.5\textwidth}
+				P1 (Compressed Sensing):
+				\begin{equation*}
+					\min_{x\in\mathbb{R}^N} ||x||_1 : F_{\Phi,\Omega} x = F_{\Phi,\Omega}s
+				\end{equation*}
+			\end{column}
+			\begin{column}{.5\textwidth}
+				\includegraphics[width=.9\textwidth]{Figs/mesure_gauss}
+			\end{column}
+		\end{columns}
 		\begin{itemize} 
 			\item Matrice gaussienne $F_{G, \Omega} = (c_{i,j})_{(i,j)\in\Omega\times \{0,\cdots, N-1\}}$ avec $c_{i,j}\sim N(0, \frac{1}{\sqrt{N}})$
 			\item Matrice de Fourier $F_{F, \Omega}$ restriction aux lignes indexées par $\Omega$ de la matrice de Fourier.
@@ -356,7 +368,7 @@
 	\end{frame}
 
 	\begin{frame}
-		\frametitle{Axiomes}
+		\frametitle{Propriétés à vérifier pour la matrice d'analyse}
 		\begin{definition}
 			On dit que $F_\Omega$ vérifie 
 			\begin{itemize}
@@ -364,17 +376,14 @@
 					\begin{equation*}
 						\frac{K}{2N}||x||_2^2 \leq ||F_\Omega x||_2^2 \leq \frac{3K}{2N}||x||_2^2
 					\end{equation*}
-				\uncover<2->{	\item $\lambda$-ERP si, en notant $\sigma = sign(x)$, il existe $P\in\mathbb{R}^N$ tel que 
+				\uncover<2->{\item $\lambda$-ERP si, en notant $\sigma = sign(x)$, il existe $P\in\mathbb{R}^N$ tel que 
 				\begin{enumerate}
 					\item $P(t) = \sigma(t), \forall t \in supp(x)$
 					\item $\exists Q\in\mathbb{R}^\Omega$ tel que $P=F_\Omega^*Q$
 					\item $P(t) < \frac{1}{2}, \forall t \notin supp(x)$} 
 				\end{enumerate}
 			\end{itemize}
-			est vrai avec probabilité au moins  $1-\mathcal{O}(N^{-\rho/\alpha})$ pour tout signal $x\in\mathbb{R}^N$ $S$-parcimonieux qui vérifie
-			\begin{equation*}
-				S \leq \alpha \frac{K}{\lambda}.
-			\end{equation*}
+			est vrai avec probabilité au moins  $1-\mathcal{O}(N^{-\rho/\alpha})$ pour tout signal $x\in\mathbb{R}^N$ avec moins de $\alpha \frac{K}{\lambda}$ coefficients non nuls.
 		\end{definition}	
 	\end{frame}
 
@@ -408,103 +417,35 @@
 
 	\begin{frame}
 		\frametitle{Conséquences des théorèmes}
-		TODO : ajouter image des reconstructions CS 
+		\begin{columns}[T]
+			\begin{column}{.7\textwidth}
+				\includegraphics[width=\textwidth]{Figs/result_cs_leg} 
+				\includegraphics[width=\textwidth]{Figs/result_cs_brain} 
+			\end{column}
+			\begin{column}{.3\textwidth}
+				\vspace*{-1.5cm}
+				\includegraphics[height=.45\textheight]{Figs/slider-confidence-nocsense_resize}
+				\vspace*{-0.5cm}
+				\includegraphics[height=.45\textheight]{Figs/slider-confidence-csense_resize}
+			\end{column}
+		\end{columns}
 	\end{frame}
 
 	\begin{frame}
 		\frametitle{Conclusion}
-		\begin{itemize}
-			\item On peut représenter de façon parcimonieuse des signaux réguliers (ondelettes)
-			\item On peut résoudre le problème de décomposition atomique (P1)	
-			\item Pour reconstruire un signal $S$-parcimonieux, $S\log(N)$ mesures suffisent (Compressed sensing)
-		\end{itemize}
+		\begin{columns}[T]
+			\begin{column}{.7\textwidth}
+				\begin{itemize}
+					\item On peut représenter de façon parcimonieuse des signaux réguliers (ondelettes)
+					\item On peut résoudre le problème de décomposition atomique (P1)	
+					\item Pour reconstruire un signal $S$-parcimonieux, $S\log(N)$ mesures suffisent (Compressed sensing)
+				\end{itemize}
+			\end{column}
+			\begin{column}{.3\textwidth}
+				\vspace*{-2.0cm}\hspace*{-1.0cm}\includegraphics[height=\textheight]{Figs/lustig_process}
+			\end{column}
+		\end{columns}
 	\end{frame}
-
-
-	\begin{frame}
-		\frametitle{Les ondelettes par l'analyse multi-échelle TODO:enlever}
-		Si on a des sous espaces emboités
-		\begin{equation*}
-			\raggedleft
-			\{0\} = \lim_{N\to-\infty} \bigcap_{-\infty}^N V_j \subset \cdots \subset V_{-1} \subset V_0 \subset V_1 \subset \cdots \subset \lim_{N\to\infty}\bigcup_{-\infty}^{+\infty} V_j = L^2(\mathbb{R})
-		\end{equation*}
-		avec $V_j = V_{j-1}\oplus W_j$,
-		alors on a la formule de reconstruction :
-		\begin{equation}
-			f = \pi_{V_0}(f) + \sum_{k\geq 1} \pi_{W_k}(f)\quad, \forall f \in L^2(\mathbb{R}). 
-		\end{equation}
-
-	\end{frame}
-
-	\begin{frame}
-		\frametitle{TODO:enlever}
-		Deux propriétés supplémentaires pour que l'analyse soit multi-échelle :
-		\begin{itemize}
-			\item $f \in V_0 \iff f(\cdot -k) \in V_0 \forall k \in \mathbb{Z}$.
-			\item $f \in V_0 \iff f(2^j \cdot) \in V_j \forall j \in \mathbb{Z}$
-		\end{itemize}
-		Et les ondelettes ?
-		\begin{definition}
-			On note 
-			\begin{equation}
-				\psi_{j,k} := 2^{j/2}\psi(2^j\cdot -k).
-			\end{equation}
-			On appelle $\psi$ une ondelette si $(\psi_{j,k})_{j,k\in\mathbb{Z}\times\mathbb{Z}}$ est une base de $L^2(\mathbb{R})$. 
-		\end{definition}
-		$j$ : échelle (fréquence), $k$ : localisation
-
-	\end{frame}
-
-	\begin{frame}
-		\frametitle{TODO:enlever}
-		La famille $(\psi_{j,k})_{k\in\mathbb{Z}}$ est une base de $W_j$. De plus, on peut associer à $\psi$ une application $\varphi$ appelée ondelette d'échelle et telle que 
-		$(\varphi_k)_{k\in\mathbb{Z}} = (\varphi(\cdot -k))_{k\in\mathbb{Z}}$ soit une base de $V_0$.
-		\newline
-		Formule de reconstruction valable sur $L^2(\mathbb{R})$.
-		\begin{equation}
-			f =\sum_{k=-\infty}^{+\infty} \langle f, \varphi_k \rangle\varphi_k + \sum_{j=1}^{+\infty} \left(\sum_{k=-\infty}^{+\infty} \langle f, \psi_{j,k} \rangle \psi_{j,k}\right)
-		\end{equation}
-	\end{frame}
-	\begin{frame}
-		\frametitle{Approximation rapide ?TODO:enlever}
-		Mallat : $\sum_{k=0}^{+\infty} k^{2r}|\langle f, g_k \rangle|^2 \iff \varepsilon_{(g_k)}(N, f) = o(N^{-2r})$\newline
-		Jaffard (91) : $f$ $\alpha$-Lipschitzienne en $t_0$ et $\psi$ a $m>\alpha$ moments nuls $\implies |\langle f, \psi_{j,k} \rangle| \leq C_\alpha 2^{-j(\alpha + \frac{1}{2})}(1+|2^{-j}k -t_0|2^{j\alpha})$
-		TODO : ajouter images décroissance coeffs ondelette discret et continue
-		Conséquences : JPEG2000, une représentation parcimonieuse des signaux ?
-	\end{frame}
-
-
-	\begin{frame}
-		TODO:enlever 
-		\underline{Premier cas :} On connait une base $\Psi$ telle que $s=\Psi x_0$ avec $x_0$ parcimonieux. \newline
-		On prend une mesure $\Phi$ incohérente avec $\Psi$ et on cherche la solution P1 de $y=F_\Phi F_\Psi x$ (c'est $x_0$ sous des hypothèses fortes).
-		\newline
-		\uncover<2->{Compressed sensing : on ne fait que les mesures indéxées par $\Omega$. Quelle est la probabilité pour que la solution de P1 de $y_\Omega = F_{\Phi, \Omega} F_\Psi x$ soit différente de $x_0$ ?} 
-		\uncover<3->{Faible.\newline}
-
-		
-		\underline{Second cas:} On ne sait pas dans quelle base le signal est parcimonieux. \newline
-		On prend les vecteurs de $\Phi$ tirés uniformément au hasard sur $S^{N-1}$, alors la distribution de $F_\Phi$ est invariante par changement de base, donc $F_{\Phi, \Omega}$ est presque sûrement incohérente avec une base $\Psi$ arbitraire.
-		\uncover<2->{\newline
-		Donc pour une matrice $F_\Phi$ de ce type, la probabilité de succès ou d'échec de la reconstruction ne dépend pas de la base $\Psi$.
-		}
-	\end{frame}
-
-	\begin{frame}
-		\frametitle{Résoudre P0 ?}
-		On sait que dans le cas d'une paire de bases incohérentes, la solution est unique si suffisamment parcimonieuse.
-		\newline
-		Comment obtenir une telle solution ? 
-		\uncover<2->{
-			En général : très difficile 
-			}
-		\uncover<3->{\newline
-		Solution : résoudre un autre problème et exploiter la parcimonie.
-		}
-	\end{frame}
-
-
-
 
 \end{document}	
 
